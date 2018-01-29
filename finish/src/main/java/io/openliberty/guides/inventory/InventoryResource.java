@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.inventory;
 
 // CDI
@@ -30,18 +30,20 @@ import javax.ws.rs.core.MediaType;
 @Path("hosts")
 public class InventoryResource {
 
-    @Inject InventoryManager manager;
-    
-    @GET
-    @Path("{hostname}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
-        return manager.get(hostname);
-    }
+  @Inject
+  InventoryManager manager;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject listContents() {
-        return manager.list();
-    }
+  @GET
+  @Path("{hostname}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public JsonObject getPropertiesForHost(
+      @PathParam("hostname") String hostname) {
+    return manager.get(hostname);
+  }
+
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public JsonObject listContents() {
+    return manager.list();
+  }
 }

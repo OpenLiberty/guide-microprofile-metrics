@@ -9,7 +9,8 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
+// tag::InventoryManager[]
 package io.openliberty.guides.inventory;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,38 +34,41 @@ import io.openliberty.guides.inventory.util.InventoryUtil;
 @ApplicationScoped
 public class InventoryManager {
 
-    private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
+  private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
-    @Timed(unit="nanoseconds", name="GetPropertiesTime", 
-        description="Time needed to get the properties of a hostname")
-    public JsonObject get(String hostname) {
-        if (InventoryUtil.responseOk(hostname)) {
-            JsonObject properties = InventoryUtil.getProperties(hostname);
-            inv.putIfAbsent(hostname, properties);
-            return properties;
-        } else {
-            return JsonMessages.SERVICE_UNREACHABLE.getJson();
-        }
+  @Timed(unit = "nanoseconds", name = "GetPropertiesTime",
+    description = "Time needed to get the properties of a hostname")
+  public JsonObject get(String hostname) {
+    if (InventoryUtil.responseOk(hostname)) {
+      JsonObject properties = InventoryUtil.getProperties(hostname);
+      inv.putIfAbsent(hostname, properties);
+      return properties;
+    } else {
+      return JsonMessages.SERVICE_UNREACHABLE.getJson();
     }
+  }
 
-    @Counted(name="ListCount", monotonic=true, absolute=true, 
-        description="Number of times the list of hosts is requested")
-    public JsonObject list() {
-        JsonObjectBuilder systems = Json.createObjectBuilder();
-        inv.forEach((host, props) -> {
-            JsonObject systemProps = Json.createObjectBuilder()
-                                         .add("os.name", props.getString("os.name"))
-                                         .add("user.name", props.getString("user.name"))
-                                         .build();
-            systems.add(host, systemProps);
-        });
-        systems.add("hosts", systems);
-        systems.add("total", inv.size());
-        return systems.build();
-    }
+  @Counted(name = "ListCount", monotonic = true, absolute = true,
+    description = "Number of times the list of hosts is requested")
+  public JsonObject list() {
+    JsonObjectBuilder systems = Json.createObjectBuilder();
+    inv.forEach((host, props) -> {
+      JsonObject systemProps = Json.createObjectBuilder()
+                                   .add("os.name", props.getString("os.name"))
+                                   .add("user.name",
+                                        props.getString("user.name"))
+                                   .build();
+      systems.add(host, systemProps);
+    });
+    systems.add("hosts", systems);
+    systems.add("total", inv.size());
+    return systems.build();
+  }
 
-    @Gauge(unit="hosts", displayName="HostsNumber", description="Number of hosts in the inventory")
-    public int getHostCount(){
-        return inv.size();
-    }
+  @Gauge(unit = "hosts", displayName = "HostsNumber",
+    description = "Number of hosts in the inventory")
+  public int getHostCount() {
+    return inv.size();
+  }
 }
+// end::InventoryManager[]
