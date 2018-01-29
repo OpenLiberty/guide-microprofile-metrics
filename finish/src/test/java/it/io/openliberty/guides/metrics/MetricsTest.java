@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::testClass[]
+// tag::MetricsTest[]
 package it.io.openliberty.guides.metrics;
 
 import static org.junit.Assert.*;
@@ -123,4 +123,4 @@ public class MetricsTest {
                  response.getStatus());
   }
 }
-// end::testClass[]
+// end::MetricsTest[]
