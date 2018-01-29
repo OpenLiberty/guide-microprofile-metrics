@@ -91,6 +91,11 @@
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.9</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -207,6 +212,7 @@
                             <!-- tag::system-props[] -->
                             <systemPropertyVariables>
                                 <liberty.test.port>${testServerHttpPort}</liberty.test.port>
+                                <javax.net.ssl.trustStore>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/resources/security/key.jks</javax.net.ssl.trustStore>
                             </systemPropertyVariables>
                             <!-- end::system-props[] -->
                         </configuration>

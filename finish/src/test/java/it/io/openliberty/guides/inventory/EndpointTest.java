@@ -15,17 +15,29 @@ package it.io.openliberty.guides.inventory;
 
 import static org.junit.Assert.*;
 
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.cert.Certificate;
+
+import javax.enterprise.context.Conversation;
 import javax.json.JsonObject;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
+import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import java.io.*;
+
 
 public class EndpointTest {
     
@@ -36,6 +48,9 @@ public class EndpointTest {
 
     private final String SYSTEM_PROPERTIES = "system/properties";
     private final String INVENTORY_HOSTS = "inventory/hosts";
+    private final String INVENTORY_LOCALHOST = "inventory/hosts/localhost";
+    private final String INVENTORY_IP_ADDRESS = "inventory/hosts/127.0.0.1";
+    private final String INVENTORY_HOSTNAME = "inventory/hosts/DESKTOP-8GIHP0V";
     
     @BeforeClass
     public static void oneTimeSetup() {
@@ -58,10 +73,10 @@ public class EndpointTest {
     // tag::testSuite[]
     @Test
     public void testSuite() {
-        this.testEmptyInventory();
-        this.testHostRegistration();
-        this.testSystemPropertiesMatch();
-        this.testUnknownHost();
+        //this.testEmptyInventory();
+        //this.testHostRegistration();
+        //this.testSystemPropertiesMatch();
+        //this.testUnknownHost();
     }
     // end::testSuite[]
 
@@ -144,7 +159,9 @@ public class EndpointTest {
         badResponse.close();
     }
     // end::testUnknownHost[]
+        
     // end::tests[]
+
     // tag::helpers[]
     // tag::javadoc[]
     /**

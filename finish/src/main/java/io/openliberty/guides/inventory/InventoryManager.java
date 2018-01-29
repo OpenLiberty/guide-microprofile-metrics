@@ -35,7 +35,8 @@ public class InventoryManager {
 
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
-    @Timed(unit = "nanoseconds", name = "Hostname properties", description = "Time needed to get the properties of a hostname")
+    @Timed(unit="nanoseconds", name="GetPropertiesTime", 
+        description="Time needed to get the properties of a hostname")
     public JsonObject get(String hostname) {
         if (InventoryUtil.responseOk(hostname)) {
             JsonObject properties = InventoryUtil.getProperties(hostname);
@@ -46,7 +47,8 @@ public class InventoryManager {
         }
     }
 
-    @Counted(name = "List of hosts", monotonic = true, absolute = true, description = "Number of times the list of hosts is requested")
+    @Counted(name="ListCount", monotonic=true, absolute=true, 
+        description="Number of times the list of hosts is requested")
     public JsonObject list() {
         JsonObjectBuilder systems = Json.createObjectBuilder();
         inv.forEach((host, props) -> {
@@ -61,8 +63,8 @@ public class InventoryManager {
         return systems.build();
     }
 
-    @Gauge(unit = "hosts", displayName = "Number of hosts", description = "Number of hosts in the inventory.")
+    @Gauge(unit="hosts", displayName="HostsNumber", description="Number of hosts in the inventory")
     public int getHostCount(){
-    return inv.size();
+        return inv.size();
     }
 }
