@@ -59,6 +59,7 @@ mvn install liberty:start-server
 
 (... continue)
 
+```
 mvn liberty:stop-server
 ```
 
