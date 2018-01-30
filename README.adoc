@@ -1,1 +1,170 @@
-This is a guide for metrics.
+// Copyright (c) 2018 IBM Corporation and others.
+// Licensed under Creative Commons Attribution-NoDerivatives
+// 4.0 International (CC BY-ND 4.0)
+//   https://creativecommons.org/licenses/by-nd/4.0/
+//
+// Contributors:
+//   IBM Corporation
+:projectid: mp-metrics
+:page-layout: guide
+:page-duration: 20 minutes
+:page-description: Learn how to use MicroProfile Metrics in an application
+:page-tags: ['Metrics' , 'MicroProfile' , 'REST']
+:page-permalink: /guides/{projectid}
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:source-highlighter: prettify
+= Providing metrics from a microservice
+
+Learn how to provide system and application metrics from a microservice using MicroProfile Metrics.
+
+// =================================================================================================
+//  What you'll learn
+// =================================================================================================
+
+== What you'll learn
+
+
+// =================================================================================================
+// Getting Started
+// =================================================================================================
+
+// include::{common-includes}/gitclone.adoc[]
+
+== Getting started
+
+The fastest way to work through this guide is to clone the git repository and use the starting project
+that is provided in the `start` directory. To do this, run the following commands:
+
+[subs="attributes"]
+----
+git clone https://github.com/openliberty/guide-mp-metrics.git
+cd guide-mp-metrics/start
+----
+
+// =================================================================================================
+// Try what you'll build
+// =================================================================================================
+
+=== Try what you'll build
+
+The `finish` directory in the root of this guide contains the finished
+health check implementation for the services in the application. Feel free to give it a try before you proceed with building your own.
+
+To try out the application, first navigate to the `finish` directory and then execute the following
+Maven goals to build the application and run it inside Open Liberty:
+
+```
+mvn install liberty:start-server
+```
+
+(... continue)
+
+```
+mvn liberty:stop-server
+```
+
+Now, navigate back to the `start` directory to begin.
+
+// =================================================================================================
+// Adding Microprofile Metrics to inventory application
+// =================================================================================================
+
+== Adding Microprofile Metrics to inventory application
+
+
+// =================================================================================================
+// Adding metrics to InventoryManager bean
+// =================================================================================================
+
+=== Adding metrics to InventoryManager bean
+
+// =================================================================================================
+// Building and running the application
+// =================================================================================================
+
+== Building and running the application
+
+To build the application, run the Maven install goal from the command line:
+
+  mvn install
+
+This goal builds the application and creates a .war file in the target directory. The goal also
+configures and installs Open Liberty into the target/liberty/wlp directory.
+
+Next, run the Maven liberty:start-server goal:
+
+  mvn liberty:start-server
+
+This goal starts an Open Liberty server instance. Your Maven pom.xml is already configured to
+start the application in this server instance.
+
+Once the server is running, you can find the metrics endpoint
+showing the details at the following URL:
+
+* `\http://localhost:9080/metrics/application`
+
+If you make changes to the code, use the Maven package goal to rebuild the application and have
+the running Open Liberty server pick them up automatically:
+
+  mvn package
+
+To stop the Open Liberty server, run the Maven liberty:stop-server goal:
+
+  mvn liberty:stop-server
+
+// =================================================================================================
+// Testing Services States
+// =================================================================================================
+
+== Testing Services States
+
+... (what you will do here, quick intro)
+
+Begin by creating a test class `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
+
+[source, java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
+----
+
+The @Before and @After annotations are placed on methods that execute before and after every test
+case. These methods are generally used to perform any setup and teardown tasks.
+In this case, the `setup()` method ... . `The teardown()` ...
+
+There are few test case methods annotated with `@Test` to test the functionality of the inventory
+application after adding Microprofile Metrics.
+
+* The `testListCount()` method ...
+
+* The `testHostsNumber()` method  ...
+
+* The `testGetPropertiesTime()` method ...
+
+(using validateAMetric() method)
+
+=== Running the tests
+
+Go to `start` directory and run `mvn clean install`. You should see two tests pass with the following
+results:
+
+```
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.metrics.MetricsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.778 sec - in it.io.openliberty.guides.metrics.MetricsTest
+Running it.io.openliberty.guides.inventory.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.128 sec - in it.io.openliberty.guides.inventory.EndpointTest
+
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+```
+
+// =================================================================================================
+// Great work! You're done!
+// =================================================================================================
+
+== Great work! You're done!
+
+include::{common-includes}/finish.adoc[]
