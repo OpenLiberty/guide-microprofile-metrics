@@ -23,6 +23,15 @@ Learn how to provide system and application metrics from a microservice using Mi
 
 == What you'll learn
 
+Metrics serve to pinpoint issues, provide long term trend data for capacity planning and pro-active 
+discovery of issues (e.g. disk usage growing without bounds). They can also help those scheduling 
+systems decide when to scale the application to run on more or fewer machines.
+
+The MicroProfile Metrics feature helps to create and register metrics by using Contexts and Dependency 
+Injection (CDI).  
+
+You will access useful JVM/server base metrics and also registries that contain all registered metrics
+and metadata.
 
 // =================================================================================================
 // Getting Started
@@ -99,7 +108,11 @@ This goal starts an Open Liberty server instance. Your Maven pom.xml is already 
 start the application in this server instance.
 
 Once the server is running, you can find the metrics endpoint
-showing the details at the following URL:
+showing useful JVM/server base details at the following URL:
+
+* `\http://localhost:9080/metrics`
+
+You can find specific metrics about your application at the following URL:
 
 * `\http://localhost:9080/metrics/application`
 
