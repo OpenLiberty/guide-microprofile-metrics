@@ -27,11 +27,17 @@ Metrics serve to pinpoint issues, provide long term trend data for capacity plan
 discovery of issues (e.g. disk usage growing without bounds). They can also help those scheduling 
 systems decide when to scale the application to run on more or fewer machines.
 
-The MicroProfile Metrics feature helps to create and register metrics by using Contexts and Dependency 
-Injection (CDI).  
+You will learn to create and register metrics by using Contexts and Dependency Injection (CDI).  
 
-You will access useful JVM/server base metrics and also registries that contain all registered metrics
-and metadata.
+You will also learn to access useful JVM/server base metrics and also registries that contain all 
+registered metrics and metadata.
+
+After starting the application, you will be able to access two microservices to test their availability:
+
+* `http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously 
+registered hosts.
+
+* `http://localhost:9080/metrics` exposes required JVM/server base and application specific metrics.
 
 // =================================================================================================
 // Getting Started
@@ -56,17 +62,24 @@ cd guide-mp-metrics/start
 
 === Try what you'll build
 
-The `finish` directory in the root of this guide contains the finished
-health check implementation for the services in the application. Feel free to give it a try before you proceed with building your own.
+The `finish` directory in the root of this guide contains the finished metrics implementation 
+for the application. Feel free to give it a try before you proceed with building your own.
 
-To try out the application, first navigate to the `finish` directory and then execute the following
-Maven goals to build the application and run it inside Open Liberty:
+To try out the application, first navigate to the `finish` directory and then execute the following.
+Maven aims to build the application and run it inside Open Liberty:
 
 ```
 mvn install liberty:start-server
 ```
+First, point your browser to `http://localhost:9080/inventory/hosts` to get the list of all previously 
+registered hosts.
+Next, go to the MicroProfile Metrics endpoint: `http://localhost:9080/metrics`. From here, you
+can see the required base metrics which describe a set of metrics that all MicroProfile-compliant 
+servers have to provide. For specific application metrics go to `http://localhost:9080/metrics/application`.
+This endpoint will not expose metrics if you don't point your browser first to 
+`http://localhost:9080/inventory/hosts`.
 
-(... continue)
+Once you are done checking out the application, stop the Open Liberty server:
 
 ```
 mvn liberty:stop-server
@@ -80,6 +93,16 @@ Now, navigate back to the `start` directory to begin.
 
 == Adding Microprofile Metrics to inventory application
 
+Begin by enabling the MicroProfile Metrics feature in your pom.xml file. This feature allows you to use the 
+MicroProfile Metrics API to provide the metrics from your RESTful services.
+
+Navigate to the start/pom.xml file and add the required dependency:
+
+```
+link:finish/pom.xml[]
+```
+
+Proceed with the section below to add metrics to InventoryManager.
 
 // =================================================================================================
 // Adding metrics to InventoryManager bean
@@ -95,65 +118,86 @@ Now, navigate back to the `start` directory to begin.
 
 To build the application, run the Maven install goal from the command line:
 
+```
   mvn install
+```
 
-This goal builds the application and creates a .war file in the target directory. The goal also
+This goal builds the application and creates a .war file in the target directory and also
 configures and installs Open Liberty into the target/liberty/wlp directory.
 
 Next, run the Maven liberty:start-server goal:
 
+```
   mvn liberty:start-server
+```
 
 This goal starts an Open Liberty server instance. Your Maven pom.xml is already configured to
 start the application in this server instance.
 
-Once the server is running, you can find the metrics endpoint
-showing useful JVM/server base details at the following URL:
+Once the server is running, you can find the metrics endpoint showing useful JVM/server base 
+details at the following URL:
 
 * `\http://localhost:9080/metrics`
 
-You can find specific metrics about your application at the following URL:
+After you point your browser to `http://localhost:9080/inventory/hosts` you can also find specific
+metrics about your application at the following URL:
 
 * `\http://localhost:9080/metrics/application`
 
-If you make changes to the code, use the Maven package goal to rebuild the application and have
+If you make changes to the code, use the Maven package command to rebuild the application and have
 the running Open Liberty server pick them up automatically:
 
+```
   mvn package
+```
 
 To stop the Open Liberty server, run the Maven liberty:stop-server goal:
 
+```
   mvn liberty:stop-server
+```
 
 // =================================================================================================
-// Testing Services States
+// Testing the application
 // =================================================================================================
 
-== Testing Services States
+== Testing the application
 
-... (what you will do here, quick intro)
+While you can test your application manually, you should rely on automated tests since they will 
+trigger a failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide 
+a simple environment for you to write tests.
 
 Begin by creating a test class `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
 
 [source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
-----
+```
+link::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[]
+```
+The `@BeforeClass` annotation is placed on a method that executes before any of the test cases. In 
+this case, the oneTimeSetup method retrieves the port number for the Open Liberty server and builds 
+a base URL string that is used throughout the tests.
 
-The @Before and @After annotations are placed on methods that execute before and after every test
+The `@Before` and `@After` annotations are placed on methods that execute before and after every test
 case. These methods are generally used to perform any setup and teardown tasks.
-In this case, the `setup()` method ... . `The teardown()` ...
+In this case, the `setup()` method creates a JAX-RS client which makes HTTP requests to the inventory 
+service. This client must also be registered with a JSON-P provider (JsrJsonpProvider) to process JSON
+resources. `The teardown()` simply destroys this client instance.
 
 There are few test case methods annotated with `@Test` to test the functionality of the inventory
 application after adding Microprofile Metrics.
 
-* The `testListCount()` method ...
+* The `testListCount()` method verifies that the correct number of requests to 
+`\http://localhost:9080/inventory/hosts` is counted. 
 
-* The `testHostsNumber()` method  ...
+* The `testHostsNumber()` method verifies that the correct number of hostnames is being added to
+the `\http://localhost:9080/inventory/hosts`.
 
-* The `testGetPropertiesTime()` method ...
+* The `testGetPropertiesTime()` method Verifies that the time for executing the request is being
+measured.
 
-(using validateAMetric() method)
+All the tests use helper methods. The `testListCount()` and the `testHostsNumber()` use the `connectToEndpoint()`
+which makes a GET request to the given URL. All the tests are calling `validateAMetric()` another helper method 
+which asserts that the given metric's value is correct otherwise it throws an `AssertionError`.
 
 === Running the tests
 
