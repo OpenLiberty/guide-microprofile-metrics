@@ -24,18 +24,18 @@ Learn how to provide system and application metrics from a microservice using Mi
 == What you'll learn
 
 You will learn how to use MicroProfile Metrics feature to provide metrics from a RESTful application.
-The great benefit from having metrics in an application is that it serve to pinpoint issues, provide
-long term trend data for capacity planning and pro-active discovery of issues (e.g. disk u
-sage growing without bounds). They can also help those scheduling systems decide when to scale
-the application to run on more or fewer machines.
+The great benefit from having metrics in an application is that it serves to pinpoint issues, provides
+long term trend data for capacity planning and pro-active discovery of issues (e.g. disk usage growing
+without bounds). They can also help those scheduling systems decide when to scale the application to 
+run on more or fewer machines.
 
 The MicroProfile Metrics feature provides an endpoint that you can get the metrics results as a
 plain text format. This endpoint has three scopes: base, application and vendor. For the purpose
 of this guide, the application scope is used. The metadata of the metrics in any scope has a unit,
 type, description and other things. The type can be a counter, gauge, meter, histogram and timer.
 
-You will make the manager class, `InventoryManager`, in the inventory application provide
-metrics at the application scope. This application is provided for you in this guide.
+You will modify the manager class, `InventoryManager`, in the inventory application in order to 
+provide metrics at the application scope. This application is provided for you in this guide.
 If you want to learn how to create a RESTful application, see
 https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
 
@@ -44,8 +44,7 @@ After starting the application, you will be able to access two microservices to 
 * `\http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously
 registered hosts.
 
-* `\http://localhost:9080/metrics` exposes required JVM/server base and application
-specific metrics. [Why we explaining base scope ? not sure if we are including that]
+* `\http://localhost:9080/metrics` exposes required JVM/server base and application specific metrics. 
 
 // =================================================================================================
 // Getting Started
@@ -79,12 +78,13 @@ Maven aims to build the application and run it inside Open Liberty:
 ```
 mvn install liberty:start-server
 ```
+
 First, point your browser to `\http://localhost:9080/inventory/hosts`. As you can see, there are no
 registered hosts currently since you just started the application. Next, go to the MicroProfile
-Metrics endpoint: `\http://localhost:9080/metrics` [again base?]. From here, you can see the required base metrics
-which describe a set of metrics that all MicroProfile-compliant servers have to provide. For
-specific application metrics go to `\http://localhost:9080/metrics/application`. This endpoint
-will not expose metrics if you don't point your browser first to `\http://localhost:9080/inventory/hosts`.
+Metrics endpoint: `\http://localhost:9080/metrics`. This shows the standard metrics, and also includes
+the application metrics, in Prometheus format. The application metrics can also be accessed at
+`\http://localhost:9080/metrics/application`.  This endpoint will not expose metrics if you do not point
+your browser first to `\http://localhost:9080/inventory/hosts`
 
 Once you are done checking out the application, stop the Open Liberty server:
 
@@ -105,9 +105,10 @@ MicroProfile Metrics API to provide the metrics from your RESTful services.
 
 Navigate to the start/pom.xml file and add the required dependency:
 
-```
-link:finish/pom.xml[]
-```
+[source, xml, indent=0]
+----
+include::finish/pom.xml[tags=metrics]
+----
 
 Proceed with the section below to add metrics to InventoryManager.
 
@@ -124,11 +125,25 @@ Open `InventoryManager.java` class in /start/src/main/java/io/openliberty/guides
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
 ----
 
-As you can see, the `@Timed` annotation for `get()` method does that ...( and also describe each attribute in the annotation)
+As you can see, the `@Timed` annotation for the `get()` method tracks how frequently the method is invoked 
+and also how long it took for the invocations to complete. Most of the annotations are followed by fields 
+that correspond to metadata fields and some of them are provided by default and others are just optional. 
+Timer is a complex metric type comprised of multiple key/values. The `name` field sets the name of the metric. 
+If not explicitly given, the name of the annotated method is used. For the `@Timed` annotation the default 
+value of `unit` is `seconds`. The `description` field is optional and it provides a brief description of the 
+purpose of the metric annotation.
 
-The `@Counted` annotation for `list()` method does that ...( and also describe each attribute in the annotation)
+The `@Counted` annotation for the `list()` method counts how many times the list of hosts is requested. 
+In other words, how many times we display the current contents of the inventory by going to 
+`\http://localhost:9080/inventory/hosts`. Like the `@timed` annotation, this annotation has a `name` and 
+a `description` field too. The `monotonic` field has a default value `false` which means that the counter is 
+incremented before the annotated method returns, counting current invocations of the annotated method. 
+This is not what we want in this case, thus set the value to `true`.
 
-The `@Gauge` annotation for `getHostCount()` method ... same
+The `@Gauge` annotation for the `getHostCount()` method tracks the number of hosts stored in the inventory
+by visiting `\http://localhost:9080/inventory/hosts/localhost`. A value should be provided for the `unit` 
+because there is no default value for this annotation. The `name` and `description` are optional like in 
+the previous two annotations.
 
 These three annotations are registered by default to the singleton object `MetricRegistry`.
 They send their metadata or metrics to the endpoint `metrics/application` through this object.
@@ -161,7 +176,7 @@ start the application in this server instance.
 Once the server is running, you can find the metrics endpoint showing useful JVM/server base
 details at the following URL:
 
-* `\http://localhost:9080/metrics` [[again base?]
+* `\http://localhost:9080/metrics`
 
 After you point your browser to `\http://localhost:9080/inventory/hosts` you can also find specific
 metrics about your application at the following URL:
@@ -195,7 +210,7 @@ Begin by creating a test class `src/test/java/it/io/openliberty/guides/metrics/M
 
 [source, java, indent=0]
 ```
-link::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[]
+include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
 ```
 The `@BeforeClass` annotation is placed on a method that executes before any of the test cases. In
 this case, the oneTimeSetup method retrieves the port number for the Open Liberty server and builds
@@ -211,27 +226,24 @@ There are few test case methods annotated with `@Test` to test the functionality
 application after adding Microprofile Metrics.
 
 * The `testListCount()` method verifies that the correct number of requests to
-`\http://localhost:9080/inventory/hosts` is counted.
+`\http://localhost:9080/inventory/hosts` is counted. First, it calls the `connectToEndpoint()` method 
+which makes a GET request to the given URL, in this case the URL is `\http://localhost:9080/inventory/hosts`.
+Next, it calls the `validateAMetric()` method which gets the content of the metrics and asserts that the
+given metric's value is correct.
 
 * The `testHostsNumber()` method verifies that the correct number of hostnames is being added to
-the `\http://localhost:9080/inventory/hosts`.
+the `\http://localhost:9080/inventory/hosts`. This method calls again the methods `connectToEndpoint()` with
+a different URL this time `\http://localhost:9080/inventory/hosts/localhost` and the `validateMetrics()` method.
 
 * The `testGetPropertiesTime()` method verifies that the time for executing the request is being
-measured.
+measured. This method calls only the `validateAMetric()` method.
 
 These two methods were used in the above :
 
 * `connectToEndpoint()` method which makes a GET request to the given URL
 
 * `validateAMetric()` method which asserts that the given metric's value is correct
-otherwise it throws an `AssertionError`
-
-(please try to combine and explain these methods a bit more in the first test.
-Then u can reference these methods in the other two tests). Explain them briefly and quickly step by step i.e.
-This test case does that first then that using that method ... then it does that and that using that method ...
-up to u.
-
-also if  u wanna call them helper methods , u will need to create a new util class called MetricsTestUti.java
+otherwise it throws an `AssertionError`.
 
 
 == Running the tests
