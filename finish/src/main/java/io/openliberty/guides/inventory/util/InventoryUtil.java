@@ -35,12 +35,12 @@ public class InventoryUtil {
    * <p>
    * Retrieves the JVM system properties of a particular host.
    * </p>
-   * 
+   *
    * <p>
    * NOTE: the host must expose its JVM's system properties via the system
    * service; ie. the system service must be running on that host.
    * </p>
-   * 
+   *
    * @param hostname
    *          - name of host.
    * @return JSON Java object containing the system properties of the host's
@@ -55,12 +55,12 @@ public class InventoryUtil {
    * Retrieves the JVM system properties of a particular host for the given port
    * number.
    * </p>
-   * 
+   *
    * <p>
    * NOTE: the host must expose its JVM's system properties via the system
    * service; ie. the system service must be running on that host.
    * </p>
-   * 
+   *
    * @param hostname
    *          - name of host.
    * @param port
@@ -90,7 +90,7 @@ public class InventoryUtil {
    * properties. In other words, returns whether or not the system service is
    * running on a particular host.
    * </p>
-   * 
+   *
    * @param hostname
    *          - name of host.
    * @return true if the host is currently running the system service and false
@@ -107,7 +107,7 @@ public class InventoryUtil {
    * the system service is running on a particular host on the given port
    * number.
    * </p>
-   * 
+   *
    * @param hostname
    *          - name of host.
    * @param port
@@ -142,15 +142,14 @@ public class InventoryUtil {
    * Builds the URI to the system service for a particular host. This is just a
    * helper method.
    * </p>
-   * 
+   *
    * @param hostname
    *          - name of host.
    * @return URI object representation of the URI to the system properties
    *         service.
    */
   private static URI buildUri(String hostname, int port) {
-    return UriBuilder.fromUri(SYSTEM_PROPERTIES).host(hostname).port(port)
-                     .scheme(PROTOCOL).build();
+    return UriBuilder.fromUri(SYSTEM_PROPERTIES).host(hostname).port(port).scheme(PROTOCOL).build();
   }
 
 }

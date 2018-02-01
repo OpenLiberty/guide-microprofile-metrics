@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2018 IBM Corporation and others.
+ * Copyright (c) 2017 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,10 +24,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import org.eclipse.microprofile.metrics.annotation.Counted;
-import org.eclipse.microprofile.metrics.annotation.Gauge;
-import org.eclipse.microprofile.metrics.annotation.Timed;
-
 import io.openliberty.guides.common.JsonMessages;
 import io.openliberty.guides.inventory.util.InventoryUtil;
 
@@ -36,8 +32,6 @@ public class InventoryManager {
 
   private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
-  @Timed(name = "GetPropertiesTime",
-    description = "Time needed to get the properties of a hostname")
   public JsonObject get(String hostname) {
     if (InventoryUtil.responseOk(hostname)) {
       JsonObject properties = InventoryUtil.getProperties(hostname);
@@ -48,8 +42,6 @@ public class InventoryManager {
     }
   }
 
-  @Counted(name = "ListCount", monotonic = true,
-    description = "Number of times the list of hosts is requested")
   public JsonObject list() {
     JsonObjectBuilder systems = Json.createObjectBuilder();
     inv.forEach((host, props) -> {
@@ -62,7 +54,6 @@ public class InventoryManager {
     return systems.build();
   }
 
-  @Gauge(unit = "hosts", name = "HostsNumber", description = "Number of hosts in the inventory")
   public int getHostCount() {
     return inv.size();
   }

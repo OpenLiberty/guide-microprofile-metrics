@@ -36,8 +36,7 @@ public class PropertiesResource {
     JsonObjectBuilder builder = Json.createObjectBuilder();
 
     System.getProperties().entrySet().stream()
-          .forEach(entry -> builder.add((String) entry.getKey(),
-                                        (String) entry.getValue()));
+          .forEach(entry -> builder.add((String) entry.getKey(), (String) entry.getValue()));
 
     return builder.build();
   }

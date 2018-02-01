@@ -94,7 +94,8 @@ public class MetricsTest {
   private List<String> getMetrics() {
     Response metricsResponse = client.target("https://localhost:9443/metrics/application")
                                      .request(MediaType.TEXT_PLAIN)
-                                     .header("Authorization", "Basic Y29uZkFkbWluOm1pY3JvcHJvZmlsZQ==")
+                                     .header("Authorization",
+                                             "Basic Y29uZkFkbWluOm1pY3JvcHJvZmlsZQ==")
                                      .get();
 
     BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) metricsResponse.getEntity()));
@@ -119,8 +120,7 @@ public class MetricsTest {
   }
 
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200,
-                 response.getStatus());
+    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
   }
 }
 // end::MetricsTest[]

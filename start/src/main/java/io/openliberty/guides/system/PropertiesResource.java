@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.system;
 
 // JAX-RS
@@ -30,18 +30,15 @@ import javax.enterprise.context.RequestScoped;
 @Path("properties")
 public class PropertiesResource {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getProperties() {
-        JsonObjectBuilder builder = Json.createObjectBuilder();
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public JsonObject getProperties() {
+    JsonObjectBuilder builder = Json.createObjectBuilder();
 
-        System.getProperties()
-              .entrySet()
-              .stream()
-              .forEach(entry -> builder.add((String)entry.getKey(),
-                                            (String)entry.getValue()));
+    System.getProperties().entrySet().stream()
+          .forEach(entry -> builder.add((String) entry.getKey(), (String) entry.getValue()));
 
-        return builder.build();
-    }
-    
+    return builder.build();
+  }
+
 }
