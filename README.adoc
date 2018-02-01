@@ -1,1 +1,283 @@
-This is a guide for metrics.
+// Copyright (c) 2018 IBM Corporation and others.
+// Licensed under Creative Commons Attribution-NoDerivatives
+// 4.0 International (CC BY-ND 4.0)
+//   https://creativecommons.org/licenses/by-nd/4.0/
+//
+// Contributors:
+//   IBM Corporation
+:projectid: mp-metrics
+:page-layout: guide
+:page-duration: 20 minutes
+:page-description: Learn how to use MicroProfile Metrics in an application
+:page-tags: ['Metrics' , 'MicroProfile' , 'REST']
+:page-permalink: /guides/{projectid}
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:source-highlighter: prettify
+= Providing metrics from a microservice
+
+Learn how to provide system and application metrics from a microservice using MicroProfile Metrics.
+
+// =================================================================================================
+//  What you'll learn
+// =================================================================================================
+
+== What you'll learn
+
+You will learn how to use MicroProfile Metrics feature to provide metrics from a RESTful application.
+The great benefit from having metrics in an application is that it serves to pinpoint issues,
+provides long term trend data for capacity planning and pro-active discovery of issues
+such as disk usage growing without bounds. They can also help those scheduling systems decide when
+to scale the application to run on more or fewer machines.
+
+The MicroProfile Metrics is a feature that provides an endpoint where you can get the metrics
+results as a plain text format. This endpoint has three scopes: base, application and vendor.
+For the purpose of this guide, the focus is on the application scope. The metadata of the metrics in
+any scope has a unit, type, description and other things. The type can be a counter, gauge,
+meter, histogram and timer.
+
+You will modify the manager class, `InventoryManager`, in the inventory application in order to
+provide metrics at the application scope. This application is provided for you in this guide.
+If you want to learn how to create a RESTful application, see
+https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
+
+After starting the provided application, you will be able to access this microservice:
+
+* `\http://localhost:9080/inventory/hosts` which retrieves the information for a list of all previously
+registered hosts.
+
+After you complete this guide, you will create the metrics endpoint:
+
+*`\http://localhost:9080/metrics` which exposes required JVM/server base and application specific
+metrics.
+
+// =================================================================================================
+// Getting Started
+// =================================================================================================
+
+// include::{common-includes}/gitclone.adoc[]
+
+== Getting started
+
+The fastest way to work through this guide is to clone the git repository and use the starting
+project that is provided in the `start` directory. To do this, run the following commands:
+
+[subs="attributes"]
+----
+git clone https://github.com/openliberty/guide-mp-metrics.git
+cd guide-mp-metrics/start
+----
+
+// =================================================================================================
+// Try what you'll build
+// =================================================================================================
+
+=== Try what you'll build
+
+The `finish` directory in the root of this guide contains the finished metrics implementation
+for the application. Feel free to give it a try before you proceed with building your own.
+
+To try out the application, first navigate to the `finish` directory and then execute the following.
+Maven aims to build the application and run it inside Open Liberty:
+
+```
+mvn install liberty:start-server
+```
+
+First, point your browser to `/inventory/hosts` endpoint. As you can see, there are no
+hosts registered currently since you have just started the application.
+
+Next, go to the MicroProfile Metrics endpoint:
+
+* `\http://localhost:9080/metrics`
+
+This shows the standard metrics, and also includes the application metrics, in Prometheus format.
+The application metrics can also be accessed at `/metrics/application` endpoint. This endpoint does
+not expose metrics if you do not point your browser first to `/inventory/hosts/` endpoint. This is
+because these metrics are application related.
+
+Once you are done checking out the application, stop the Open Liberty server:
+
+```
+mvn liberty:stop-server
+```
+
+Now, navigate back to the `start` directory to begin.
+
+// =================================================================================================
+// Adding Microprofile Metrics to inventory application
+// =================================================================================================
+
+== Adding Microprofile Metrics to inventory application
+
+Begin by enabling the MicroProfile Metrics feature in your pom.xml file. This feature allows you to
+use the MicroProfile Metrics API to provide the metrics from your RESTful services.
+
+Navigate to the start/pom.xml file and add the required dependency:
+
+[source, xml, indent=0]
+----
+include::finish/pom.xml[tags=metrics]
+----
+
+Proceed with the section below to add metrics to InventoryManager.
+
+// =================================================================================================
+// Adding metrics to InventoryManager bean
+// =================================================================================================
+
+=== Adding metrics to InventoryManager bean
+
+Open `InventoryManager.java` class in /start/src/main/java/io/openliberty/guides/inventory/
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
+----
+
+As you can see, there are three metrics annotations. They are:
+
+* `@Timed` annotation on the `get()` method which tracks how frequently the method is
+invoked and also how long it took for the invocations to complete. Most of the annotations are
+followed by fields that correspond to metadata fields and some of them are provided by default
+and others are just optional. Timer is a complex metric type comprised of multiple key/values.
+The `name` field sets the name of the metric. If not explicitly given, the name of the annotated
+method is used. For the `@Timed` annotation the default value of `unit` is `seconds`. The
+`description` field is optional and it provides a brief description of the purpose of the metric
+annotation.
+
+* `@Counted` annotation on the `list()` method which counts how many times the list of hosts is
+requested. In other words, how many times we display the current contents of the inventory by
+going to `/inventory/hosts` endpoint. Like the `@timed` annotation, this annotation
+has a `name` and a `description` field too. The `monotonic` field has a default value `false` which
+means that the counter is incremented before the annotated method returns, counting current
+invocations of the annotated method. This is not what we want in this case, thus set the value
+to `true`.
+
+* `@Gauge` annotation on the `getHostCount()` method which tracks the number of hosts stored in the
+inventory by visiting `/inventory/hosts/localhost` endpoint. A value should be
+provided for the `unit` because there is no default value for this annotation. The `name` and
+`description` are optional like in the previous two annotations.
+
+These three annotations are registered by default to the singleton object `MetricRegistry`.
+They send their metadata or metrics to the endpoint `/metrics/application` through this object.
+
+// =================================================================================================
+// Building and running the application
+// =================================================================================================
+
+== Building and running the application
+
+To build the application, run the Maven install goal from the command line:
+
+```
+  mvn install
+```
+
+This goal builds the application and creates a .war file in the target directory and also
+configures and installs Open Liberty into the target/liberty/wlp directory.
+
+Next, run the Maven liberty:start-server goal:
+
+```
+  mvn liberty:start-server
+```
+
+This goal starts an Open Liberty server instance. Your Maven pom.xml is already configured to
+start the application in this server instance.
+
+Once the server is running, you can find the metrics endpoint showing useful JVM/server base
+details at the following URL:
+
+* `\http://localhost:9080/metrics`
+
+After you point your browser to `/inventory/hosts` endpoint, you can find specific
+metrics about your application at the following URL:
+
+* `\http://localhost:9080/metrics/application`
+
+If you make changes to the code, use the Maven package command to rebuild the application and have
+the running Open Liberty server pick them up automatically:
+
+```
+  mvn package
+```
+
+To stop the Open Liberty server, run the Maven liberty:stop-server goal:
+
+```
+  mvn liberty:stop-server
+```
+
+// =================================================================================================
+// Testing the metrics
+// =================================================================================================
+
+== Testing the metrics
+
+While you can test your application manually, you should rely on automated tests since they will
+trigger a failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API
+provide a simple environment for you to write tests.
+
+Begin by creating a test class `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
+
+[source, java, indent=0]
+```
+include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
+```
+The `@BeforeClass` annotation is placed on a method that executes before any of the test cases. In
+this case, the oneTimeSetup method retrieves the port number for the Open Liberty server and builds
+a base URL string that is used throughout the tests.
+
+The `@Before` and `@After` annotations are placed on methods that execute before and after every
+test case. These methods are generally used to perform any setup and teardown tasks.
+In this case, the `setup()` method creates a JAX-RS client which makes HTTP requests to the
+inventory service. This client must also be registered with a JSON-P provider (JsrJsonpProvider)
+to process JSON resources. `The teardown()` simply destroys this client instance.
+
+Let’s break down the test cases:
+
+* `testListCount()` sends a request to `/inventory/hosts` endpoint then verifies the
+`200` response code is returned using `connectToEndpoint()` private method. After that, it makes a
+connection to `/metrics/application` endpoint to get the content of the metrics as a plain text
+then it asserts if `list()` method in `InventoryManager` class was invoked once using
+`validateAMetric()` method. This test case tests `@Counted` annotation.
+
+* `testHostsNumber()` sends a request to `/inventory/hosts/localhost` endpoint using
+`connectToEndpoint()` method. because of that request, the inventory grows in size resulting in
+`getHostCount()` method in `InventoryManager` class to return one host which represent the
+localhost. It then asserts that using `validateAMetric()` method. This test case tests `@Gauge`
+annotation.
+
+* `testGetPropertiesTime()` tests the time needed to get the system properties of
+the localhost from the previous GET request. It asserts if the time is less than one second using
+`validateAMetric()` method.
+
+To force these test cases to execute in a particular order, put them in a `testSuite()` method and
+label it with a ``@Test` annotation so that it automatically executes when your test class run.
+
+== Running the tests
+
+Go to `start` directory and run `mvn clean install`. You should see two tests pass with the
+following results:
+
+```
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.metrics.MetricsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.778 sec - in it.io.openliberty.guides.metrics.MetricsTest
+Running it.io.openliberty.guides.inventory.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.128 sec - in it.io.openliberty.guides.inventory.EndpointTest
+
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+```
+
+// =================================================================================================
+// Great work! You're done!
+// =================================================================================================
+
+== Great work! You're done!
+
+include::{common-includes}/finish.adoc[]
