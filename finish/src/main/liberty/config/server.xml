@@ -1,3 +1,4 @@
+<!-- tag::server[] -->
 <server description="Sample Liberty server">
 
   <featureManager>
@@ -15,3 +16,4 @@
 
   <webApplication location="io.openliberty.guides.microprofile.metrics.war" contextRoot="/"/>
 </server>
+<!-- end::server[] -->

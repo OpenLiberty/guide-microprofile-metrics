@@ -24,6 +24,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.metrics.annotation.Timed;
@@ -36,9 +37,9 @@ public class InventoryManager {
 
   private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
-  @Timed(name = "GetPropertiesTime",
-    description = "Time needed to get the properties of a hostname")
-  public JsonObject get(String hostname) {
+  @Timed(name = "getPropertiesTime",
+    description = "Time needed to get the properties of a system from the given hostname")
+  public JsonObject getProperties(String hostname) {
     if (InventoryUtil.responseOk(hostname)) {
       JsonObject properties = InventoryUtil.getProperties(hostname);
       inv.putIfAbsent(hostname, properties);
@@ -48,9 +49,9 @@ public class InventoryManager {
     }
   }
 
-  @Counted(name = "ListCount", monotonic = true,
-    description = "Number of times the list of hosts is requested")
-  public JsonObject list() {
+  @Counted(absolute=true, monotonic = true,
+    description = "Number of times the list of hosts method is requested")
+  public JsonObject listOfHosts() {
     JsonObjectBuilder systems = Json.createObjectBuilder();
     inv.forEach((host, props) -> {
       JsonObject systemProps = Json.createObjectBuilder().add("os.name", props.getString("os.name"))
@@ -62,8 +63,8 @@ public class InventoryManager {
     return systems.build();
   }
 
-  @Gauge(unit = "hosts", name = "HostsNumber", description = "Number of hosts in the inventory")
-  public int getHostCount() {
+  @Gauge(unit = MetricUnits.NONE, name = "inventorySize", description = "Number of hosts in the inventory")
+  public int getTotalHostsNumber() {
     return inv.size();
   }
 }
