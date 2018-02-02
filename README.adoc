@@ -116,7 +116,7 @@ include::finish/pom.xml[tags=metrics]
 
 Adding `mpMetrics-1.0` feature allows the server to add this endpoint:
 
-`\http://localhost:9080/metrics` which exposes required JVM/server base and application specific
+* `\http://localhost:9080/metrics` which exposes required JVM/server base and application specific
 metrics.
 
 This feature also requires you to secure the `/metrics` endpoint. Open `server.xml` in
