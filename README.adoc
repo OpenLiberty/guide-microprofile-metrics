@@ -131,6 +131,13 @@ The `keyStore` and `quickStartSecurity` configurations elements allow you to add
 basic security setup for the purpose of this guide. Use these credentials to be able
 to view the metrics endpoint when you browse it.
 
+You also need to set the system property `javax.net.ssl.trustStore` in `pom.xml` to point to
+the SSL certificate:
+
+```
+<javax.net.ssl.trustStore>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/resources/security/key.jks</javax.net.ssl.trustStore>
+```
+
 Proceed with the section below to add metrics to InventoryManager.
 
 // =================================================================================================
