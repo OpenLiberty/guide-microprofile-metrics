@@ -45,11 +45,6 @@ After starting the provided application, you will be able to access this microse
 * `\http://localhost:9080/inventory/hosts` which retrieves the information for a list of all previously
 registered hosts.
 
-After you complete this guide, you will create the metrics endpoint:
-
-*`\http://localhost:9080/metrics` which exposes required JVM/server base and application specific
-metrics.
-
 // =================================================================================================
 // Getting Started
 // =================================================================================================
@@ -119,6 +114,30 @@ Navigate to the start/pom.xml file and add the required dependency:
 include::finish/pom.xml[tags=metrics]
 ----
 
+Adding `mpMetrics-1.0` feature allows the server to add this endpoint:
+
+* `\http://localhost:9080/metrics` which exposes required JVM/server base and application specific
+metrics.
+
+This feature also requires you to secure the `/metrics` endpoint. Open `server.xml` in
+`start/src/main/liberty/config/server.xml`:
+
+[source, xml, indent=0]
+----
+include::finish/src/main/liberty/config/server.xml[tags=server]
+----
+
+The `keyStore` and `quickStartSecurity` configurations elements allow you to add a
+basic security setup for the purpose of this guide. Use these credentials to be able
+to view the metrics endpoint when you browse it.
+
+You also need to set the system property `javax.net.ssl.trustStore` in `pom.xml` to point to
+the SSL certificate:
+
+```
+<javax.net.ssl.trustStore>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/resources/security/key.jks</javax.net.ssl.trustStore>
+```
+
 Proceed with the section below to add metrics to InventoryManager.
 
 // =================================================================================================
@@ -136,8 +155,8 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.j
 
 As you can see, there are three metrics annotations. They are:
 
-* `@Timed` annotation on the `get()` method which tracks how frequently the method is
-invoked and also how long it took for the invocations to complete. Most of the annotations are
+* `@Timed` annotation on the `getProperties()` method tracks how frequently the method is
+invoked and also how long it took for the invocation to complete. Most of the annotations are
 followed by fields that correspond to metadata fields and some of them are provided by default
 and others are just optional. Timer is a complex metric type comprised of multiple key/values.
 The `name` field sets the name of the metric. If not explicitly given, the name of the annotated
@@ -145,18 +164,20 @@ method is used. For the `@Timed` annotation the default value of `unit` is `seco
 `description` field is optional and it provides a brief description of the purpose of the metric
 annotation.
 
-* `@Counted` annotation on the `list()` method which counts how many times the list of hosts is
-requested. In other words, how many times we display the current contents of the inventory by
-going to `/inventory/hosts` endpoint. Like the `@timed` annotation, this annotation
-has a `name` and a `description` field too. The `monotonic` field has a default value `false` which
-means that the counter is incremented before the annotated method returns, counting current
+* `@Counted` annotation on the `listOfHosts()` method counts how many times the list of hosts
+method is requested. In other words, how many times we display the current contents of the
+inventory by going to `/inventory/hosts` endpoint. The `absolute` field is used to make the name of
+this annotation take the name of the method. Like the previous annotation, this annotation has
+a `description` field too. The `monotonic` field has a default value `false`
+which means that the counter is incremented before the annotated method returns, counting current
 invocations of the annotated method. This is not what we want in this case, thus set the value
 to `true`.
 
-* `@Gauge` annotation on the `getHostCount()` method which tracks the number of hosts stored in the
-inventory by visiting `/inventory/hosts/localhost` endpoint. A value should be
-provided for the `unit` because there is no default value for this annotation. The `name` and
-`description` are optional like in the previous two annotations.
+* `@Gauge` annotation on the `getTotalHostsNumber()` method tracks the number of hosts stored
+in the inventory (or tracks the inventory size). A host is stored in the inventory when you visit
+`/inventory/hosts/localhost` endpoint. A value should be provided for the `unit` field because
+there is no default value for this annotation. The `name` and `description` are optional like in
+the previous two annotations.
 
 These three annotations are registered by default to the singleton object `MetricRegistry`.
 They send their metadata or metrics to the endpoint `/metrics/application` through this object.
@@ -232,7 +253,7 @@ The `@Before` and `@After` annotations are placed on methods that execute before
 test case. These methods are generally used to perform any setup and teardown tasks.
 In this case, the `setup()` method creates a JAX-RS client which makes HTTP requests to the
 inventory service. This client must also be registered with a JSON-P provider (JsrJsonpProvider)
-to process JSON resources. `The teardown()` simply destroys this client instance.
+to process JSON resources. The `teardown()` simply destroys this client instance.
 
 Let’s break down the test cases:
 

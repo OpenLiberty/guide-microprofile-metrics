@@ -64,12 +64,12 @@ public class MetricsTest {
 
   public void testListCount() {
     connectToEndpoint(baseUrl + INVENTORY_HOSTS);
-    validateAMetric("application:list_count");
+    validateAMetric("application:list_of_hosts");
   }
 
   public void testHostsNumber() {
     connectToEndpoint(baseUrl + INVENTORY_HOSTNAME);
-    validateAMetric("application:io_openliberty_guides_inventory_inventory_manager_get_host_count_hosts");
+    validateAMetric("application:io_openliberty_guides_inventory_inventory_manager_inventory_size");
   }
 
   public void testGetPropertiesTime() {

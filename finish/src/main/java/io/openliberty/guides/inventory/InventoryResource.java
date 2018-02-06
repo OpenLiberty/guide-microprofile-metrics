@@ -37,12 +37,12 @@ public class InventoryResource {
   @Path("{hostname}")
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
-    return manager.get(hostname);
+    return manager.getProperties(hostname);
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject listContents() {
-    return manager.list();
+    return manager.listOfHosts();
   }
 }
