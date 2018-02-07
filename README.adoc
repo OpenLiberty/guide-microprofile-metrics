@@ -29,7 +29,7 @@ provides long term trend data for capacity planning and pro-active discovery of 
 such as disk usage growing without bounds. They can also help those scheduling systems decide when
 to scale the application to run on more or fewer machines.
 
-The MicroProfile Metrics is a feature that provides an endpoint where you can get the metrics
+The MicroProfile Metrics feature provides an endpoint where you can get the metrics
 results as a plain text format. This endpoint has three scopes: base, application and vendor.
 For the purpose of this guide, the focus is on the application scope. The metadata of the metrics in
 any scope has a unit, type, description and other things. The type can be a counter, gauge,
