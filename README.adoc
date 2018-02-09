@@ -23,10 +23,10 @@ Learn how to provide system and application metrics from a microservice using Mi
 
 == What you'll learn
 
-You will learn how to use MicroProfile Metrics feature to provide metrics from a RESTful application.
+You will learn how to use the MicroProfile Metrics feature to provide metrics from a RESTful application.
 The great benefit from having metrics in an application is that it serves to pinpoint issues,
 provides long term trend data for capacity planning and pro-active discovery of issues
-such as disk usage growing without bounds. They can also help those scheduling systems decide when
+such as disk usage growing without bounds. They can also help those scheduling systems to decide when
 to scale the application to run on more or fewer machines.
 
 The MicroProfile Metrics feature provides an endpoint where you can get the metrics
@@ -131,7 +131,7 @@ The `keyStore` and `quickStartSecurity` configurations elements allow you to add
 basic security setup for the purpose of this guide. Use these credentials to be able
 to view the metrics endpoint when you browse it.
 
-You also need to set the system property `javax.net.ssl.trustStore` in `pom.xml` to point to
+You also need to set the system property `javax.net.ssl.trustStore` in the `pom.xml` to point to
 the SSL certificate:
 
 ```
