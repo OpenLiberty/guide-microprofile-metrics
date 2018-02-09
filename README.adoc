@@ -42,7 +42,7 @@ https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
 
 After starting the provided application, you will be able to access this microservice:
 
-* `\http://localhost:9080/inventory/hosts` which retrieves the information for a list of all previously
+* `\http://localhost:9080/inventory/systems` which retrieves the information for a list of all previously
 registered hosts.
 
 // =================================================================================================
@@ -78,7 +78,7 @@ Maven aims to build the application and run it inside Open Liberty:
 mvn install liberty:start-server
 ```
 
-First, point your browser to `/inventory/hosts` endpoint. As you can see, there are no
+First, point your browser to `/inventory/systems` endpoint. As you can see, there are no
 hosts registered currently since you have just started the application.
 
 Next, go to the MicroProfile Metrics endpoint:
@@ -87,7 +87,7 @@ Next, go to the MicroProfile Metrics endpoint:
 
 This shows the standard metrics, and also includes the application metrics, in Prometheus format.
 The application metrics can also be accessed at `/metrics/application` endpoint. This endpoint does
-not expose metrics if you do not point your browser first to `/inventory/hosts/` endpoint. This is
+not expose metrics if you do not point your browser first to `/inventory/systems/` endpoint. This is
 because these metrics are application related.
 
 Once you are done checking out the application, stop the Open Liberty server:
@@ -141,21 +141,21 @@ the SSL certificate:
 Proceed with the section below to add metrics to InventoryManager.
 
 // =================================================================================================
-// Adding metrics to InventoryManager bean
+// Adding metrics to InventoryManager & InventoryList beans
 // =================================================================================================
 
-=== Adding metrics to InventoryManager bean
+=== Adding metrics to InventoryManager & InventoryList beans
 
-Open `InventoryManager.java` class in /start/src/main/java/io/openliberty/guides/inventory/
+Open `InventoryManager.java` class in `/start/src/main/java/io/openliberty/guides/inventory/`
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
 ----
 
-As you can see, there are three metrics annotations. They are:
+As you can see, there are two metrics annotations. They are:
 
-* `@Timed` annotation on the `getProperties()` method tracks how frequently the method is
+* `@Timed` annotation on the `get()` method tracks how frequently the method is
 invoked and also how long it took for the invocation to complete. Most of the annotations are
 followed by fields that correspond to metadata fields and some of them are provided by default
 and others are just optional. Timer is a complex metric type comprised of multiple key/values.
@@ -164,18 +164,25 @@ method is used. For the `@Timed` annotation the default value of `unit` is `seco
 `description` field is optional and it provides a brief description of the purpose of the metric
 annotation.
 
-* `@Counted` annotation on the `listOfHosts()` method counts how many times the list of hosts
+* `@Counted` annotation on the `list()` method counts how many times the list of systems
 method is requested. In other words, how many times we display the current contents of the
-inventory by going to `/inventory/hosts` endpoint. The `absolute` field is used to make the name of
+inventory by going to `/inventory/systems` endpoint. The `absolute` field is used to make the name of
 this annotation take the name of the method. Like the previous annotation, this annotation has
 a `description` field too. The `monotonic` field has a default value `false`
 which means that the counter is incremented before the annotated method returns, counting current
 invocations of the annotated method. This is not what we want in this case, thus set the value
 to `true`.
 
-* `@Gauge` annotation on the `getTotalHostsNumber()` method tracks the number of hosts stored
-in the inventory (or tracks the inventory size). A host is stored in the inventory when you visit
-`/inventory/hosts/localhost` endpoint. A value should be provided for the `unit` field because
+Open `InventoryList.java` class in `/start/src/main/java/io/openliberty/guides/inventory/model`
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/model/InventoryList.java[tags=InventoryList]
+----
+
+The `@Gauge` annotation on the `getTotal()` method tracks the number of systems stored
+in the inventory (or tracks the inventory size). A system is stored in the inventory when you visit
+`/inventory/systems/localhost` endpoint. A value should be provided for the `unit` field because
 there is no default value for this annotation. The `name` and `description` are optional like in
 the previous two annotations.
 
@@ -211,7 +218,7 @@ details at the following URL:
 
 * `\http://localhost:9080/metrics`
 
-After you point your browser to `/inventory/hosts` endpoint, you can find specific
+After you point your browser to `/inventory/systems` endpoint, you can find specific
 metrics about your application at the following URL:
 
 * `\http://localhost:9080/metrics/application`
@@ -239,12 +246,12 @@ While you can test your application manually, you should rely on automated tests
 trigger a failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API
 provide a simple environment for you to write tests.
 
-Begin by creating a test class `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
+Begin by creating a test class `start/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
 
 [source, java, indent=0]
-```
+----
 include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
-```
+----
 The `@BeforeClass` annotation is placed on a method that executes before any of the test cases. In
 this case, the oneTimeSetup method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
@@ -257,13 +264,13 @@ to process JSON resources. The `teardown()` simply destroys this client instance
 
 Let’s break down the test cases:
 
-* `testListCount()` sends a request to `/inventory/hosts` endpoint then verifies the
+* `testListCount()` sends a request to `/inventory/systems` endpoint then verifies the
 `200` response code is returned using `connectToEndpoint()` private method. After that, it makes a
 connection to `/metrics/application` endpoint to get the content of the metrics as a plain text
 then it asserts if `list()` method in `InventoryManager` class was invoked once using
 `validateAMetric()` method. This test case tests `@Counted` annotation.
 
-* `testHostsNumber()` sends a request to `/inventory/hosts/localhost` endpoint using
+* `testHostsNumber()` sends a request to `/inventory/systems/localhost` endpoint using
 `connectToEndpoint()` method. because of that request, the inventory grows in size resulting in
 `getHostCount()` method in `InventoryManager` class to return one host which represent the
 localhost. It then asserts that using `validateAMetric()` method. This test case tests `@Gauge`
