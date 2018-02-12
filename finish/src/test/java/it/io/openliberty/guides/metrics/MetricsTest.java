@@ -36,8 +36,8 @@ public class MetricsTest {
   private List<String> metrics;
   private Client client;
 
-  private final String INVENTORY_HOSTS = "inventory/hosts";
-  private final String INVENTORY_HOSTNAME = "inventory/hosts/localhost";
+  private final String INVENTORY_HOSTS = "inventory/systems";
+  private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
 
   @BeforeClass
   public static void oneTimeSetup() {
