@@ -32,7 +32,7 @@ to scale the application to run on more or fewer machines.
 The MicroProfile Metrics feature provides an endpoint where you can get the metrics
 results as a plain text format. This endpoint has three scopes: base, application and vendor.
 For the purpose of this guide, the focus is on the application scope. The metadata of the metrics in
-any scope has a unit, type, description and other things. The type can be a counter, gauge,
+any scope has fields such as unit, type, description and other things. The type can be a counter, gauge,
 meter, histogram and timer.
 
 You will modify the manager class, `InventoryManager`, in the inventory application in order to
@@ -153,7 +153,7 @@ Open `InventoryManager.java` class in `/start/src/main/java/io/openliberty/guide
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
 ----
 
-As you can see, there are two metrics annotations. They are:
+As you can see, there are two metrics annotations:
 
 * `@Timed` annotation on the `get()` method tracks how frequently the method is
 invoked and also how long it took for the invocation to complete. Most of the annotations are
@@ -265,13 +265,13 @@ to process JSON resources. The `teardown()` simply destroys this client instance
 Let’s break down the test cases:
 
 * `testListCount()` sends a request to `/inventory/systems` endpoint then verifies the
-`200` response code is returned using `connectToEndpoint()` private method. After that, it makes a
-connection to `/metrics/application` endpoint to get the content of the metrics as a plain text
-then it asserts if `list()` method in `InventoryManager` class was invoked once using
+`200` response code is returned using `connectToEndpoint()` private method. Next, it makes a
+connection to `/metrics/application` endpoint to get the content of the metrics as a plain text.
+After that, it asserts if `list()` method in `InventoryManager` class was invoked once using
 `validateAMetric()` method. This test case tests `@Counted` annotation.
 
 * `testHostsNumber()` sends a request to `/inventory/systems/localhost` endpoint using
-`connectToEndpoint()` method. because of that request, the inventory grows in size resulting in
+`connectToEndpoint()` method. because of this request, the inventory grows in size resulting in
 `getHostCount()` method in `InventoryManager` class to return one host which represent the
 localhost. It then asserts that using `validateAMetric()` method. This test case tests `@Gauge`
 annotation.
@@ -281,7 +281,7 @@ the localhost from the previous GET request. It asserts if the time is less than
 `validateAMetric()` method.
 
 To force these test cases to execute in a particular order, put them in a `testSuite()` method and
-label it with a ``@Test` annotation so that it automatically executes when your test class run.
+label it with a `@Test` annotation so that it automatically executes when your test class run.
 
 == Running the tests
 
