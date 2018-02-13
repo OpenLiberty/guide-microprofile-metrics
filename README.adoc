@@ -49,18 +49,7 @@ registered hosts.
 // Getting Started
 // =================================================================================================
 
-// include::{common-includes}/gitclone.adoc[]
-
-== Getting started
-
-The fastest way to work through this guide is to clone the git repository and use the starting
-project that is provided in the `start` directory. To do this, run the following commands:
-
-[subs="attributes"]
-----
-git clone https://github.com/openliberty/guide-mp-metrics.git
-cd guide-mp-metrics/start
-----
+https://raw.githubusercontent.com/OpenLiberty/guides-common/master/gitclone.adoc
 
 // =================================================================================================
 // Try what you'll build
