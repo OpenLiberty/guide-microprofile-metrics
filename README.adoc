@@ -297,4 +297,8 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 
 == Great work! You're done!
 
+You have learned how to provide system and application metrics from microservices. Then you wrote tests to validate that.
+
+Feel free to try one of the related MicroProfile guides. They demonstrate new technologies that you can learn and expand on top what you built in this guide.
+
 include::{common-includes}/finish.adoc[]
