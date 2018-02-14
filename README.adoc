@@ -8,7 +8,7 @@
 :projectid: mp-metrics
 :page-layout: guide
 :page-duration: 20 minutes
-:page-description: Learn how to use MicroProfile Metrics in an application
+:page-description: Learn how to provide system and application metrics from a microservice using MicroProfile Metrics.
 :page-tags: ['Metrics' , 'MicroProfile' , 'REST']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -17,49 +17,36 @@
 
 Learn how to provide system and application metrics from a microservice using MicroProfile Metrics.
 
-// =================================================================================================
-//  What you'll learn
-// =================================================================================================
-
 == What you'll learn
 
-You will learn how to use the MicroProfile Metrics feature to provide metrics from a RESTful application.
-The great benefit from having metrics in an application is that it serves to pinpoint issues,
-provides long term trend data for capacity planning and pro-active discovery of issues
-such as disk usage growing without bounds. They can also help those scheduling systems to decide when
-to scale the application to run on more or fewer machines.
+You will learn how to use MicroProfile Metrics to provide metrics from a RESTful application.
+Having metrics in an application serves to pinpoint issues and provides long term trend data for 
+capacity planning and pro-active discovery of issues such as disk usage growing without bounds. They can
+also help those scheduling systems to decide when to scale the application to run on more or fewer machines.
 
-The MicroProfile Metrics feature provides an endpoint where you can get the metrics
+MicroProfile Metrics provides an endpoint where you can get the metrics
 results as a plain text format. This endpoint has three scopes: base, application and vendor.
 For the purpose of this guide, the focus is on the application scope. The metadata of the metrics in
-any scope has a unit, type, description and other things. The type can be a counter, gauge,
-meter, histogram and timer.
+any scope has fields such as unit, type, description, etc. The type can be a counter, gauge,
+meter, histogram and timer. You will use the counter, gauge and timer types in your application.
 
-You will modify the manager class, `InventoryManager`, in the inventory application in order to
-provide metrics at the application scope. This application is provided for you in this guide.
-If you want to learn how to create a RESTful application, see
-https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
+You will apply the 'metrics type annotations' to the inventory application in order to provide metrics 
+at the application scope. 
 
 After starting the provided application, you will be able to access this microservice:
 
 * `\http://localhost:9080/inventory/systems` which retrieves the information for a list of all previously
 registered hosts.
 
-// =================================================================================================
-// Getting Started
-// =================================================================================================
-
-// include::{common-includes}/gitclone.adoc[]
-
 == Getting started
 
-The fastest way to work through this guide is to clone the git repository and use the starting
-project that is provided in the `start` directory. To do this, run the following commands:
+The fastest way to work through this guide is to clone the Git repository and use the starting project
+that is provided in the `start` directory. To do this, run the following commands:
 
 [subs="attributes"]
 ----
-git clone https://github.com/openliberty/guide-mp-metrics.git
-cd guide-mp-metrics/start
+git clone https://github.com/openliberty/guide-metrics-intro.git
+cd guide-metrics-intro/start
 ----
 
 // =================================================================================================
@@ -71,24 +58,24 @@ cd guide-mp-metrics/start
 The `finish` directory in the root of this guide contains the finished metrics implementation
 for the application. Feel free to give it a try before you proceed with building your own.
 
-To try out the application, first navigate to the `finish` directory and then execute the following.
+To try out the application, first navigate to the `finish` directory and then run the following.
 Maven aims to build the application and run it inside Open Liberty:
 
 ```
 mvn install liberty:start-server
 ```
 
-First, point your browser to `/inventory/systems` endpoint. As you can see, there are no
+Point your browser to `/inventory/systems` endpoint. As you can see, there are no
 hosts registered currently since you have just started the application.
 
-Next, go to the MicroProfile Metrics endpoint:
+Go to the MicroProfile Metrics endpoint:
 
 * `\http://localhost:9080/metrics`
 
 This shows the standard metrics, and also includes the application metrics, in Prometheus format.
 The application metrics can also be accessed at `/metrics/application` endpoint. This endpoint does
-not expose metrics if you do not point your browser first to `/inventory/systems/` endpoint. This is
-because these metrics are application related.
+not expose metrics if you do not point your browser first to `/inventory/systems/` endpoint. 
+This is because these metrics are application related.
 
 Once you are done checking out the application, stop the Open Liberty server:
 
@@ -104,7 +91,7 @@ Now, navigate back to the `start` directory to begin.
 
 == Adding Microprofile Metrics to inventory application
 
-Begin by enabling the MicroProfile Metrics feature in your pom.xml file. This feature allows you to
+Begin by enabling the MicroProfile Metrics in your pom.xml file. This feature allows you to
 use the MicroProfile Metrics API to provide the metrics from your RESTful services.
 
 Navigate to the start/pom.xml file and add the required dependency:
@@ -114,13 +101,10 @@ Navigate to the start/pom.xml file and add the required dependency:
 include::finish/pom.xml[tags=metrics]
 ----
 
-Adding `mpMetrics-1.0` feature allows the server to add this endpoint:
+The `mpMetrics-1.0` feature provides `http://localhost:9080/metrics` endpoint.
 
-* `\http://localhost:9080/metrics` which exposes required JVM/server base and application specific
-metrics.
-
-This feature also requires you to secure the `/metrics` endpoint. Open `server.xml` in
-`start/src/main/liberty/config/server.xml`:
+This feature also requires you to secure the `/metrics` endpoint. 
+To do this, open `server.xml` in `start/src/main/liberty/config/server.xml`:
 
 [source, xml, indent=0]
 ----
@@ -144,7 +128,7 @@ Proceed with the section below to add metrics to InventoryManager.
 // Adding metrics to InventoryManager & InventoryList beans
 // =================================================================================================
 
-=== Adding metrics to InventoryManager & InventoryList beans
+=== Adding the @timed and @counted annotations
 
 Open `InventoryManager.java` class in `/start/src/main/java/io/openliberty/guides/inventory/`
 
@@ -153,7 +137,7 @@ Open `InventoryManager.java` class in `/start/src/main/java/io/openliberty/guide
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
 ----
 
-As you can see, there are two metrics annotations. They are:
+As you can see, there are two metrics annotations:
 
 * `@Timed` annotation on the `get()` method tracks how frequently the method is
 invoked and also how long it took for the invocation to complete. Most of the annotations are
@@ -173,6 +157,8 @@ which means that the counter is incremented before the annotated method returns,
 invocations of the annotated method. This is not what we want in this case, thus set the value
 to `true`.
 
+=== Adding the @Gauge annotation
+
 Open `InventoryList.java` class in `/start/src/main/java/io/openliberty/guides/inventory/model`
 
 [source, java, indent=0]
@@ -188,6 +174,11 @@ the previous two annotations.
 
 These three annotations are registered by default to the singleton object `MetricRegistry`.
 They send their metadata or metrics to the endpoint `/metrics/application` through this object.
+
+This application is provided for you in this guide.
+If you want to learn how to create a RESTful application, see
+https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
+
 
 // =================================================================================================
 // Building and running the application
@@ -265,13 +256,13 @@ to process JSON resources. The `teardown()` simply destroys this client instance
 Let’s break down the test cases:
 
 * `testListCount()` sends a request to `/inventory/systems` endpoint then verifies the
-`200` response code is returned using `connectToEndpoint()` private method. After that, it makes a
-connection to `/metrics/application` endpoint to get the content of the metrics as a plain text
-then it asserts if `list()` method in `InventoryManager` class was invoked once using
+`200` response code is returned using `connectToEndpoint()` private method. Next, it makes a
+connection to `/metrics/application` endpoint to get the content of the metrics as a plain text.
+After that, it asserts if `list()` method in `InventoryManager` class was invoked once using
 `validateAMetric()` method. This test case tests `@Counted` annotation.
 
 * `testHostsNumber()` sends a request to `/inventory/systems/localhost` endpoint using
-`connectToEndpoint()` method. because of that request, the inventory grows in size resulting in
+`connectToEndpoint()` method. because of this request, the inventory grows in size resulting in
 `getHostCount()` method in `InventoryManager` class to return one host which represent the
 localhost. It then asserts that using `validateAMetric()` method. This test case tests `@Gauge`
 annotation.
@@ -281,9 +272,9 @@ the localhost from the previous GET request. It asserts if the time is less than
 `validateAMetric()` method.
 
 To force these test cases to execute in a particular order, put them in a `testSuite()` method and
-label it with a ``@Test` annotation so that it automatically executes when your test class run.
+label it with a `@Test` annotation so that it automatically executes when your test class run.
 
-== Running the tests
+=== Running the tests
 
 Go to `start` directory and run `mvn clean install`. You should see two tests pass with the
 following results:
@@ -307,5 +298,10 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 // =================================================================================================
 
 == Great work! You're done!
+
+You have learned how to provide system and application metrics from microservices. Then you wrote tests to validate that.
+
+You can continue to try one of the related guides, which demonstrate new technologies that you can learn and
+expand on top what you built in this guide.
 
 include::{common-includes}/finish.adoc[]
