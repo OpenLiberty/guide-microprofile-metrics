@@ -58,29 +58,37 @@ public class MetricsTest {
 
   @Test
   public void testSuite() {
+    this.testGetPropertiesTime();
     this.testListCount();
-    this.testHostsNumber();
+    this.testInventorySize();
+  }
+
+  public void testGetPropertiesTime() {
+    connectToEndpoint(baseUrl + INVENTORY_HOSTNAME);
+    validateMetric("@Timed",
+                   "application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second");
   }
 
   public void testListCount() {
     connectToEndpoint(baseUrl + INVENTORY_HOSTS);
-    validateAMetric("application:list_of_hosts");
+    validateMetric("@Counted", "application:list_of_hosts");
   }
 
-  public void testHostsNumber() {
-    connectToEndpoint(baseUrl + INVENTORY_HOSTNAME);
-    validateAMetric("application:io_openliberty_guides_inventory_inventory_manager_inventory_size");
+  public void testInventorySize() {
+    validateMetric("@Gauge",
+                   "application:io_openliberty_guides_inventory_inventory_manager_inventory_size");
   }
 
-  public void testGetPropertiesTime() {
-    validateAMetric("application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second");
-  }
-
-  public void validateAMetric(String givenMetric) {
+  public void validateMetric(String metricType, String givenMetric) {
     metrics = getMetrics();
     for (String metric : metrics) {
       if (metric.startsWith(givenMetric)) {
-        assertTrue(1 >= Character.getNumericValue(metric.charAt(metric.length() - 1)));
+        if (metricType.equals("@Gauge") || metricType.equals("@Counted")) {
+          assertTrue(1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
+        } else if (metricType.equals("@Timed")) {
+          float seconds = Float.parseFloat(metric.split(" ")[1]);
+          assertTrue(2 > seconds);
+        }
       }
     }
   }
