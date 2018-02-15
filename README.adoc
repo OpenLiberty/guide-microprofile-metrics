@@ -93,36 +93,22 @@ Now, navigate back to the `start` directory to begin.
 
 == Adding Microprofile Metrics to inventory application
 
-Begin by enabling the MicroProfile Metrics in your `pom.xml` file. This feature allows you to
-use the MicroProfile Metrics API to provide the metrics from your RESTful services.
+Begin by navigating to the `pom.xml` file to check the required dependency. The `microprofile-health-api` 
+dependency has been added for you in the `start/pom.xml` file. This dependency allows you to
+use the MicroProfile Metrics API to provide the metrics from your RESTful services. Also, the system property `javax.net.ssl.trustStore` was set for you to point to the SSL certificate.
 
-Navigate to the `/start/pom.xml` file and add the required dependency:
-
-[source, xml, indent=0]
-----
-include::finish/pom.xml[tags=metrics]
-----
-
-You also need to set the system property `javax.net.ssl.trustStore` in the `pom.xml` to point to
-the SSL certificate:
-
-[source, xml, indent=0]
-----
-include::finish/pom.xml[tags=system-props]
-----
-
-The `mpMetrics-1.0` feature provides `http://localhost:9080/metrics` endpoint.
-
-This feature also requires you to secure this endpoint.
-To do this, open `start/src/main/liberty/config/server.xml`:
+Create `start/src/main/liberty/config/server.xml`:
 
 [source, xml, indent=0]
 ----
 include::finish/src/main/liberty/config/server.xml[tags=server]
 ----
 
-The `quickStartSecurity` and `keyStore` configurations elements allow you to add a basic security
-to this application. Use these credentials to view the metrics endpoint when you browse it.
+The `mpMetrics-1.0` feature provides `http://localhost:9080/metrics` endpoint.
+
+This feature also requires you to secure this endpoint. The `quickStartSecurity` and `keyStore` 
+configurations elements allow you to add a basic security to this application. Use these 
+credentials to view the metrics endpoint when you browse it.
 
 Proceed with the section below to add the metrics using the annotations.
 
