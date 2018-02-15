@@ -72,8 +72,9 @@ mvn install liberty:start-server
 
 Point your browser to `http://localhost:9080/inventory/systems`. As you can see, there are no
 hosts registered currently since you have just started the application. Point to
-`http://localhost:9080/metrics` MicroProfile Metrics endpoint. From here, you can see
-the standard metrics, and also includes the application metrics, in Prometheus format.
+`http://localhost:9080/metrics` MicroProfile Metrics endpoint. Use `confAdmin` and `microprofile` as 
+the credentials to log in. From here, you can see the standard metrics, and also includes 
+the application metrics, in Prometheus format.
 Point to `http://localhost:9080/metrics/application` to see application metrics only. The
 application metrics will not show up if you do not point your browser first to
 `http://localhost:9080/inventory/systems`. This is because these metrics are application related.
@@ -260,7 +261,7 @@ Let’s break down the test cases:
 then verifies the `200` response code is returned using `connectToEndpoint()` private method. Next,
 it makes a connection to `http://localhost:9080/metrics/application` to get the content of the
 metrics as a plain text. After that, it asserts if the time needed to get the system properties for
-`localhost` is less than two seconds, using `validateMetric()` method. This test case tests
+`localhost` is less than four seconds, using `validateMetric()` method. This test case tests
 `@Timed` annotation.
 
 * `testListCount()` sends a request to `http://localhost:9080/inventory/systems` using
