@@ -84,6 +84,14 @@
       <version>1</version>
       <scope>provided</scope>
     </dependency>
+    <!-- tag::metrics[] -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.metrics</groupId>
+      <artifactId>microprofile-metrics-api</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- end::metrics[] -->
   </dependencies>
 
   <build>
