@@ -87,7 +87,7 @@ public class MetricsTest {
           assertTrue(1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
         } else if (metricType.equals("@Timed")) {
           float seconds = Float.parseFloat(metric.split(" ")[1]);
-          assertTrue(2 > seconds);
+          assertTrue(4 > seconds);
         }
       }
     }
