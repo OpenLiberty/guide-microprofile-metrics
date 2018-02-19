@@ -26,13 +26,13 @@ also help you schedule systems and decide when to scale the application to run o
 
 Use the MicroProfile Metrics endpoint to get metrics
 results in a plain text format. The endpoint has three scopes: base, application, and vendor.
-This guide focuses on the application scope. The metrics metadata in
+The application scope is the focus here. The metrics metadata in
 any scope has fields, such as unit, type, and description. The type can be a counter, gauge,
 meter, histogram, or timer. You will use the counter, gauge, and timer types in your application.
 
 The application that you will be working with is an `inventory` service, which stores the information
-about various JVMs that run on different systems. Whenever a request is made to the `inventory`
-service to retrieve the JVM system properties of a particular host, the `inventory` service
+about various JVMs that run on different systems. First, a request is made to the `inventory`
+service to retrieve the JVM system properties of a particular host. Next, the `inventory` service
 communicates with the `system` service on that host to get these system properties.
 The system properties are then stored and returned.
 
@@ -94,7 +94,7 @@ Now, navigate back to the `start` directory to begin.
 == Adding Microprofile Metrics to inventory applications
 
 Navigate to the `pom.xml` file to check the required dependency. The `microprofile-health-api` 
-dependency is added for you in the `start/pom.xml` file. This dependency allows you to
+dependency is added for you in the `start/pom.xml` file. Select this dependency to
 use the MicroProfile Metrics API to provide the metrics from your RESTful services. Also, the `javax.net.ssl.trustStore` system property  is set for you to point to the SSL certificate.
 
 Create a `start/src/main/liberty/config/server.xml` file:
@@ -130,7 +130,7 @@ You have two metrics annotations:
 `@Timed` is a metric annotation that applies to the `get()` method to track how frequently the method is
 invoked and also how long it took for the invocation to complete. Most of the annotations are
 followed by fields that correspond to metadata fields. Some of the annotations are provided by default,
-and others are optional. Timer is a complex metric type comprised of multiple keys and values.
+and others are optional. Timer is a complex metric type that is composed of multiple keys and values.
 The `name` field sets the name of the metric. If not explicitly given, the name of the annotated
 method is used. For the `@Timed` annotation, the default value of `unit` is `seconds`. The
 `description` field is optional, and it provides a brief description of the metric
@@ -142,7 +142,7 @@ inventory by visiting `http://localhost:9080/inventory/systems`. The `absolute` 
 this annotation take the name of the method. Like the previous annotation, this annotation has
 a `description` field. The `monotonic` field has a default value of `false`,
 which means that the counter is incremented before the annotated method returns, counting current
-invocations of the annotated method. In this case, however, set the value
+invocations of the annotated method. However, in this case, set the value
 to `true` instead.
 
 === Adding the @Gauge annotation
@@ -154,15 +154,15 @@ Create the `/start/src/main/java/io/openliberty/guides/inventory/model/Inventory
 include::finish/src/main/java/io/openliberty/guides/inventory/model/InventoryList.java[tags=InventoryList]
 ----
 
-The `@Gauge` annotation on the `getTotal()` method tracks the number of systems stored
+The `@Gauge` annotation on the `getTotal()` method tracks the number of systems that are stored
 in the inventory or tracks the inventory size. A system is stored in the inventory when you visit
 `http://localhost:9080/inventory/systems/localhost`. Specify the `unit` field because this
 annotation has no default value. The `name` and `description` fields are optional.
 
 These three annotations are registered by default to the `MetricRegistry` singleton object.
-Through this object, they send their metadata or metrics to `http://localhost:9080/metrics/application`.
+Through this object, they send metadata or metrics to `http://localhost:9080/metrics/application`.
 
-This application is provided for you in this guide.
+This application is provided for you.
 If you want to learn how to create a RESTful application, see
 https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
 
@@ -172,7 +172,7 @@ https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
 
 == Building and running the application
 
-To build the application, run the Maven install goal from the command line:
+To build the application, run the Maven `install` goal from the command line:
 
 ```
   mvn install
@@ -181,7 +181,7 @@ To build the application, run the Maven install goal from the command line:
 This goal builds the application, creates a .war file in the target directory, and 
 configures and installs Open Liberty into the target/liberty/wlp directory.
 
-Next, run the Maven liberty:start-server goal:
+Next, run the Maven `liberty:start-server` goal:
 
 ```
   mvn liberty:start-server
@@ -200,7 +200,7 @@ metrics about your application at the following URL:
 
 * `http://localhost:9080/metrics/application`
 
-If you make changes to the code, use the Maven package command to rebuild the application:
+If you change the code, use the Maven package command to rebuild the application:
 
 ```
   mvn package
@@ -243,7 +243,7 @@ to process JSON resources. The `teardown()` simply destroys this client instance
 * The `testGetPropertiesTime()` test case sends a request to the `http://localhost:9080/inventory/systems/localhost`
 URL and then verifies the `200` response code, which is returned with the `connectToEndpoint()` private method. Next,
 the test case makes a connection to `http://localhost:9080/metrics/application` to get the content of the
-metrics as plain text. After that, it uses the `validateMetric()` method to assert if the time that is needed to get the system properties for `localhost` is less than four seconds. This test case tests the
+metrics as plain text. After that, it uses the `validateMetric()` method to assert if the time that is needed to get the system properties for `localhost` is less than 4 seconds. This test case tests the
 `@Timed` annotation.
 
 * The `testListCount()` test case sends a request to the `http://localhost:9080/inventory/systems` URL with the
@@ -277,7 +277,7 @@ Results :
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ```
 
-To see if the tests detect a failure, change the assertion values in the `validateMetric()` method in the
+To see whether the tests detect a failure, change the assertion values in the `validateMetric()` method in the
 `MetricsTest.java` file. Rerun the Maven build. A test failure occurs.
 
 // =================================================================================================
@@ -286,8 +286,8 @@ To see if the tests detect a failure, change the assertion values in the `valida
 
 == Great work! You're done!
 
-You have learned how to provide system and application metrics from microservices and then wrote tests to validate them.
+You learned how to provide system and application metrics from microservices and then wrote tests to validate them.
 
-Expand on what you just built by trying a related guide that demonstrates other technologies.
+Expand on what you built by trying a related guide that demonstrates other technologies.
 
 include::{common-includes}/finish.adoc[]
