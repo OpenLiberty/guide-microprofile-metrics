@@ -88,10 +88,10 @@ mvn liberty:stop-server
 Now, navigate back to the `start` directory to begin.
 
 // =================================================================================================
-// Adding Microprofile Metrics to inventory applications
+// Adding Microprofile Metrics to the inventory application
 // =================================================================================================
 
-== Adding Microprofile Metrics to inventory applications
+== Adding Microprofile Metrics to the inventory application
 
 Navigate to the `pom.xml` file to check the required dependency. The `microprofile-health-api` 
 dependency is added for you in the `start/pom.xml` file. Select this dependency to
