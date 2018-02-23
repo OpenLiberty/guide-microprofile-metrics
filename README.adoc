@@ -68,7 +68,7 @@ Maven builds the application and runs it inside of Open Liberty.
 Point your browser to the `http://localhost:9080/inventory/systems` URL. Because you recently started the application,
 hosts are not currently registered. Point to the
 `http://localhost:9080/metrics` MicroProfile Metrics endpoint. Use the `confAdmin` and `microprofile` credentials 
-to log in. From this page, you can see both the standard metrics and 
+to log in. You can see both the standard metrics and 
 the application metrics in Prometheus format.
 To see only the application metrics, first point your browser to
 `http://localhost:9080/inventory/systems` and then to `http://localhost:9080/metrics/application` because these metrics are application-related.
@@ -127,7 +127,7 @@ followed by fields that correspond to metadata fields.
 *The `description` field is optional and describes the purpose of the metric
 annotation.
 
-The `@Counted` annotation applies to the `list()` method. This annotations counts how many times you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to view the current contents of the
+The `@Counted` annotation applies to the `list()` method. This annotation counts how many times you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to view the current contents of the
 inventory.
 * The `absolute` field makes the name of this annotation take the name of the method.
 * The `description` field is optional and describes the purpose of the metric annotation.
