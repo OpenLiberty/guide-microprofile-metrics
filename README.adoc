@@ -21,17 +21,27 @@ You'll explore how to provide system and application metrics from a microservice
 
 You will learn how to use MicroProfile Metrics to provide metrics from a RESTful application.
 Include metrics in an application to pinpoint issues, provide long-term trend data for
-capacity planning, and provide proactive discovery of issues, such as disk usage growth without bounds. Metrics can
-also help you schedule systems and decide when to scale the application to run on more or fewer machines.
+capacity planning, and provide proactive discovery of issues, such as disk usage growth without
+bounds. Metrics can also help you schedule systems and decide when to scale the application to
+run on more or fewer machines.
 
-Use the MicroProfile Metrics endpoint to get metrics
-results in a plain text format. The endpoint of an application scope includes a type field with counter, gauge, and timer types.
+The application that you will work with is an `inventory` service
+that stores information about various JVMs that run on different systems.
+Whenever a request is made to the `inventory` service to retrieve the JVM
+system properties of a particular host, the `inventory` service communicates with the `system`
+service on that host to get the system properties. The system properties are then stored and returned.
 
-You will work with an `inventory` service, which stores information
-about various JVMs that run on different systems.
+Use MicroProfile Metrics to provide endpoints where you can get the metrics
+results in a plain text format or JSON format. These endpoints have three scopes: `base`,
+`application`, and `vendor`. The `application` scope is the focus for `inventory` application.
 
-You will apply the 'metrics type annotations' to the inventory application to provide metrics
-at the application scope.
+The metadata of the metrics in any scope has fields, such as unit, type, description, and more.
+The type can be a counter, gauge, meter, histogram, or timer. You will use the counter, gauge, and
+timer types in your application.
+
+You can instrument an application in different ways, such as with injection, annotations, or by using
+the `MetricRegistry` directly. You will learn how to use annotations to register metrics to the
+`inventory` application.
 
 // =================================================================================================
 // Getting Started
@@ -67,11 +77,11 @@ Maven builds the application and runs it inside of Open Liberty.
 
 Point your browser to the `http://localhost:9080/inventory/systems` URL. Because you recently started the application,
 hosts are not currently registered. Point to the
-`http://localhost:9080/metrics` MicroProfile Metrics endpoint. Use the `confAdmin` and `microprofile` credentials 
-to log in. You can see both the standard metrics and 
-the application metrics in Prometheus format.
-To see only the application metrics, first point your browser to
-`http://localhost:9080/inventory/systems` and then to `http://localhost:9080/metrics/application` because these metrics are application-related.
+`https://localhost:9443/metrics` MicroProfile Metrics endpoint. Click the `Advanced` button to
+proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can see both the standard metrics and
+the application metrics in Prometheus format. To see only the application metrics, first point your browser to
+`http://localhost:9080/inventory/systems` and then to `https://localhost:9443/metrics/application`
+because these metrics are application-related.
 
 When you're done with the application, stop the Open Liberty server with the following command:
 
@@ -87,7 +97,7 @@ Now, navigate back to the `start` directory to begin.
 
 == Adding Microprofile Metrics to the inventory application
 
-Navigate to the `pom.xml` file. In the `start/pom.xml` file, you can find the `microprofile-health-api` 
+Navigate to the `pom.xml` file. In the `start/pom.xml` file, you can find the `microprofile-health-api`
 dependency. Select this dependency to
 use the MicroProfile Metrics API to provide metrics from your RESTful services. Also, the `javax.net.ssl.trustStore` system property is set to point to the SSL certificate.
 
@@ -98,17 +108,16 @@ Create a `start/src/main/liberty/config/server.xml` file:
 include::finish/src/main/liberty/config/server.xml[tags=server]
 ----
 
-The `mpMetrics-1.0` feature provides the `http://localhost:9080/metrics` endpoint.
+The `mpMetrics-1.0` feature provides the `https://localhost:9443/metrics` endpoint.
 
-To secure the endpoint, add basic security with the `quickStartSecurity` and `keyStore` 
-configuration elements. Use these 
-credentials to view the metrics endpoint.
+To secure the endpoint, add basic security with the `quickStartSecurity` and `keyStore`
+configuration elements. Use these credentials to view the metrics endpoint.
 
 // =================================================================================================
-// Adding metrics to the @timed and @counted annotations
+// Adding metrics to the @Timed and @Counted annotations
 // =================================================================================================
 
-=== Adding the @timed and @counted annotations
+=== Adding the @Timed and @Counted annotations
 
 Create the `/start/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` class:
 
@@ -131,8 +140,11 @@ The `@Counted` annotation applies to the `list()` method. This annotation counts
 inventory.
 * The `absolute` field makes the name of this annotation take the name of the method.
 * The `description` field is optional and describes the purpose of the metric annotation.
-* The default value of the `monotonic` field is `false`. When `false`,
-the annotation counts the current invocations of the annotated method, and the counter is incremented before the annotated method returns. However, set the value to `true` instead.
+* The default value of the `monotonic` field is `false` which means that the counter is incremented
+ while the annotated method is invoked and decremented after the annotated method returns. However, set the value to `true` to only increment the counter.
+
+ Note, the `@Counted` and `@Timed` annotations can be also placed in the Resource as
+ well, such as `InventoryResource`.
 
 === Adding the @Gauge annotation
 
@@ -149,8 +161,12 @@ in the inventory. A system is stored in the inventory when you visit the
 * Specify the `unit` field. This annotation has no default value.
 * The `name` and `description` fields are optional.
 
+Note, when the value of the gauge is retrieved, the underlying annotated method `getTotal()` is
+called to return the value.
+
 These annotations are registered by default to the `MetricRegistry` singleton object.
-Through this object, they send metadata and metrics to the `http://localhost:9080/metrics/application` application, which is provided for you.
+Through this object, they send metadata and metrics to the
+`https://localhost:9443/metrics/application` endpoint, which is provided for you.
 
 To create a RESTful application, see
 https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
@@ -164,16 +180,16 @@ https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
 To build the application, run the Maven `install` goal from the command line:
 
 ```
-  mvn install
+mvn install
 ```
 
-This goal builds the application, creates a `.war` file in the target directory, and 
+This goal builds the application, creates a `.war` file in the target directory, and
 configures and installs Open Liberty into the `target/liberty/wlp` directory.
 
 Next, run the Maven `liberty:start-server` goal:
 
 ```
-  mvn liberty:start-server
+mvn liberty:start-server
 ```
 
 This goal starts an Open Liberty server instance. Your Maven `pom.xml` file is already configured to
@@ -182,22 +198,22 @@ start the application in this server instance.
 When the server runs, navigate to the following URL to find the metrics endpoint that shows JVM and server base
 details:
 
-* `http://localhost:9080/metrics`
+* `https://localhost:9443/metrics`
 
 After you point your browser to `http://localhost:9080/inventory/systems`, you can find specific
-metrics about your application at the `http://localhost:9080/metrics/application` URL.
+metrics about your application at the `https://localhost:9443/metrics/application` URL.
 
 If you change the code, use the Maven package command to rebuild the application:
 
 ```
-  mvn package
+mvn package
 ```
 The Open Liberty server that is running automatically picks up the changes.
 
 To stop the server, run the Maven `liberty:stop-server` goal:
 
 ```
-  mvn liberty:stop-server
+mvn liberty:stop-server
 ```
 
 // =================================================================================================
@@ -228,7 +244,7 @@ inventory service. Register this client with a `JsrJsonpProvider` JSON-P provide
 to process JSON resources. The `teardown()` method destroys this client instance.
 
 The following list describes the test cases that you can run:
-* Use the `testGetPropertiesTime()` test case to test the `@Timed` annotation. This test case sends a request to the `http://localhost:9080/inventory/systems/localhost` URL. The test verifies the `200` response code, which is returned with the `connectToEndpoint()` private method. Next, the test case makes a connection to the `http://localhost:9080/metrics/application` URL to get the content of the
+* Use the `testGetPropertiesTime()` test case to test the `@Timed` annotation. This test case sends a request to the `http://localhost:9080/inventory/systems/localhost` URL. The test verifies the `200` response code, which is returned with the `connectToEndpoint()` private method. Next, the test case makes a connection to the `https://localhost:9443/metrics/application` URL to get the content of the
 metrics as plain text. The test case then uses the `validateMetric()` method to assert whether the time that is needed to get the system properties for `localhost` is less than 4 seconds.
 
 * Use the `testListCount()` test case to test the `@Counted` annotation. This test case uses the `connectToEndpoint()` method to send a request to the `http://localhost:9080/inventory/systems` URL. Next, the test case uses the `validateMetric()` method to assert whether the `list()` method in the `InventoryManager` class was invoked once.
