@@ -79,9 +79,13 @@ Point your browser to the `http://localhost:9080/inventory/systems` URL. Because
 hosts are not currently registered. Point to the
 `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Click the `Advanced` button to
 proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can see both the standard metrics and
-the application metrics in Prometheus format. To see only the application metrics, first point your browser to
-`http://localhost:9080/inventory/systems` and then to `https://localhost:9443/metrics/application`
-because these metrics are application-related.
+the application metrics in Prometheus format. To see only the application metrics, point your browser to
+`https://localhost:9443/metrics/application`:
+
+image::resources/outputExample.png[]
+
+Because these metrics are application-related, you had
+to point first to `http://localhost:9080/inventory/systems` URL otherwise they will not appear.
 
 When you're done with the application, stop the Open Liberty server with the following command:
 
@@ -136,12 +140,12 @@ followed by fields that correspond to metadata fields.
 *The `description` field is optional and describes the purpose of the metric
 annotation.
 
-The `@Counted` annotation applies to the `list()` method. This annotation counts how many times you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to view the current contents of the
-inventory.
-* The `absolute` field makes the name of this annotation take the name of the method.
+The `@Counted` annotation applies to the `list()` method. This annotation counts how many times
+you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to
+view the current contents of the inventory.
+* The `absolute` field gives this annotation the name of the method.
 * The `description` field is optional and describes the purpose of the metric annotation.
-* The default value of the `monotonic` field is `false`, which means that the counter is incremented
- while the annotated method is invoked and decremented after the annotated method returns. However, set the value to `true` to increment only the counter.
+* The `monotonic` field is set to `true` so that the counter will only increment.
 
 The `@Counted` and `@Timed` annotations can be also placed in the Resource as
 well, such as `InventoryResource`.
@@ -161,7 +165,7 @@ in the inventory. A system is stored in the inventory when you visit the
 * Specify the `unit` field. This annotation has no default value.
 * The `name` and `description` fields are optional.
 
-When the value of the gauge is retrieved, the underlying annotated method `getTotal()` is
+When the value of the gauge is retrieved, the underlying `getTotal()` annotated method is
 called to return the value.
 
 These annotations are registered by default to the `MetricRegistry` singleton object.

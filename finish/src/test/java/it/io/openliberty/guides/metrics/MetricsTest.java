@@ -71,7 +71,7 @@ public class MetricsTest {
 
   public void testListCount() {
     connectToEndpoint(baseUrl + INVENTORY_HOSTS);
-    validateMetric("@Counted", "application:list_of_hosts");
+    validateMetric("@Counted", "application:list");
   }
 
   public void testInventorySize() {
