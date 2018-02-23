@@ -140,11 +140,11 @@ The `@Counted` annotation applies to the `list()` method. This annotation counts
 inventory.
 * The `absolute` field makes the name of this annotation take the name of the method.
 * The `description` field is optional and describes the purpose of the metric annotation.
-* The default value of the `monotonic` field is `false` which means that the counter is incremented
- while the annotated method is invoked and decremented after the annotated method returns. However, set the value to `true` to only increment the counter.
+* The default value of the `monotonic` field is `false`, which means that the counter is incremented
+ while the annotated method is invoked and decremented after the annotated method returns. However, set the value to `true` to increment only the counter.
 
- Note, the `@Counted` and `@Timed` annotations can be also placed in the Resource as
- well, such as `InventoryResource`.
+The `@Counted` and `@Timed` annotations can be also placed in the Resource as
+well, such as `InventoryResource`.
 
 === Adding the @Gauge annotation
 
@@ -161,7 +161,7 @@ in the inventory. A system is stored in the inventory when you visit the
 * Specify the `unit` field. This annotation has no default value.
 * The `name` and `description` fields are optional.
 
-Note, when the value of the gauge is retrieved, the underlying annotated method `getTotal()` is
+When the value of the gauge is retrieved, the underlying annotated method `getTotal()` is
 called to return the value.
 
 These annotations are registered by default to the `MetricRegistry` singleton object.
