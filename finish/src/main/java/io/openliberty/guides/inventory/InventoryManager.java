@@ -19,6 +19,8 @@ import io.openliberty.guides.inventory.model.InventoryList;
 import javax.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.MetricUnits;
 
 // tag::ApplicationScoped[]
 @ApplicationScoped
@@ -46,5 +48,11 @@ public class InventoryManager {
   public InventoryList list() {
     return invList;
   }
+
+  @Gauge(unit = MetricUnits.NONE, name = "inventorySize", description = "Number of systems in the inventory")
+  public int getTotal() {
+    return invList.getSystems().size();
+  }
+
 }
 // end::InventoryManager[]

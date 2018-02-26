@@ -40,7 +40,7 @@ The type can be a counter, gauge, meter, histogram, or timer. You will use the c
 timer types in your application.
 
 You can instrument an application in different ways, such as with injection, annotations, or by using
-the `MetricRegistry` directly. You will learn how to use annotations to register metrics to the
+the `MetricRegistry` directly. In this guide, you will learn how to use annotations to register metrics to the
 `inventory` application.
 
 // =================================================================================================
@@ -75,17 +75,30 @@ mvn install liberty:start-server
 
 Maven builds the application and runs it inside of Open Liberty.
 
-Point your browser to the `http://localhost:9080/inventory/systems` URL. Because you recently started the application,
-hosts are not currently registered. Point to the
+Point your browser to the `http://localhost:9080/inventory/systems/` URL. Because you recently started the application,
+hosts are not currently registered. Point to `http://localhost:9080/inventory/systems/localhost` URL to add a host. Next, Point to the
 `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Click the `Advanced` button to
 proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can see both the standard metrics and
 the application metrics in Prometheus format. To see only the application metrics, point your browser to
-`https://localhost:9443/metrics/application`:
+`https://localhost:9443/metrics/application`. Because these metrics are application-related, you had
+to point first to `http://localhost:9080/inventory/systems/` URL otherwise they will not appear.
 
-image::resources/outputExample.png[]
-
-Because these metrics are application-related, you had
-to point first to `http://localhost:9080/inventory/systems` URL otherwise they will not appear.
+```
+# TYPE application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second gauge
+application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second 0.08662540922169244
+                                  .
+                                  .
+                                  .
+# HELP application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_seconds Time needed to get the properties of a system from the given hostname
+                                  .
+                                  .
+# TYPE application:io_openliberty_guides_inventory_inventory_manager_inventory_size gauge
+# HELP application:io_openliberty_guides_inventory_inventory_manager_inventory_size Number of systems in the inventory
+application:io_openliberty_guides_inventory_inventory_manager_inventory_size 1
+# TYPE application:list counter
+# HELP application:list Number of times the list of systems method is requested
+application:list 1
+```
 
 When you're done with the application, stop the Open Liberty server with the following command:
 
@@ -118,10 +131,10 @@ To secure the endpoint, add basic security with the `quickStartSecurity` and `ke
 configuration elements. Use these credentials to view the metrics endpoint.
 
 // =================================================================================================
-// Adding metrics to the @Timed and @Counted annotations
+// Adding the annotations
 // =================================================================================================
 
-=== Adding the @Timed and @Counted annotations
+=== Adding the annotations
 
 Create the `/start/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` class:
 
@@ -135,42 +148,35 @@ You added the following metrics annotations:
 The `@Timed` annotation applies to the `get()` method to track how frequently the method is
 invoked and also how long it takes for the invocation to complete. This annotation is
 followed by fields that correspond to metadata fields.
+
 * The `name` field sets the name of the metric, which is the name of the annotated method by default.
 * The default value of the `unit` field is `seconds`.
-*The `description` field is optional and describes the purpose of the metric
+* The `description` field is optional and describes the purpose of the metric
 annotation.
 
 The `@Counted` annotation applies to the `list()` method. This annotation counts how many times
 you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to
 view the current contents of the inventory.
+
 * The `absolute` field gives this annotation the name of the method.
 * The `description` field is optional and describes the purpose of the metric annotation.
 * The `monotonic` field is set to `true` so that the counter will only increment.
 
-The `@Counted` and `@Timed` annotations can be also placed in the Resource as
-well, such as `InventoryResource`.
-
-=== Adding the @Gauge annotation
-
-Create the `/start/src/main/java/io/openliberty/guides/inventory/model/InventoryList.java` class:
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/model/InventoryList.java[tags=InventoryList]
-----
-
 The `@Gauge` annotation on the `getTotal()` method either tracks the inventory size or the number of systems that are stored
 in the inventory. A system is stored in the inventory when you visit the
 `http://localhost:9080/inventory/systems/localhost` URL.
+
 * Specify the `unit` field. This annotation has no default value.
 * The `name` and `description` fields are optional.
 
-When the value of the gauge is retrieved, the underlying `getTotal()` annotated method is
+Note that, when the value of the gauge is retrieved, the underlying `getTotal()` annotated method is
 called to return the value.
 
 These annotations are registered by default to the `MetricRegistry` singleton object.
 Through this object, they send metadata and metrics to the
-`https://localhost:9443/metrics/application` endpoint, which is provided for you.
+`https://localhost:9443/metrics/application` endpoint, which is provided for you. Also, the
+`@Counted`, `@Guage` `@Timed` annotations can be placed in the Resource, such as
+`InventoryResource`.
 
 To create a RESTful application, see
 https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
@@ -248,6 +254,7 @@ inventory service. Register this client with a `JsrJsonpProvider` JSON-P provide
 to process JSON resources. The `teardown()` method destroys this client instance.
 
 The following list describes the test cases that you can run:
+
 * Use the `testGetPropertiesTime()` test case to test the `@Timed` annotation. This test case sends a request to the `http://localhost:9080/inventory/systems/localhost` URL. The test verifies the `200` response code, which is returned with the `connectToEndpoint()` private method. Next, the test case makes a connection to the `https://localhost:9443/metrics/application` URL to get the content of the
 metrics as plain text. The test case then uses the `validateMetric()` method to assert whether the time that is needed to get the system properties for `localhost` is less than 4 seconds.
 
