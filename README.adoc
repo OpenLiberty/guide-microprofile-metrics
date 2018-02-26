@@ -160,7 +160,7 @@ view the current contents of the inventory.
 
 * The `absolute` field gives this annotation the name of the method.
 * The `description` field is optional and describes the purpose of the metric annotation.
-* The `monotonic` field is set to `true` so that the counter will only increment.
+* The `monotonic` field is set to `true` to make the counter increment only.
 
 The `@Gauge` annotation on the `getTotal()` method either tracks the inventory size or the number of systems that are stored
 in the inventory. A system is stored in the inventory when you visit the
@@ -175,7 +175,7 @@ called to return the value.
 These annotations are registered by default to the `MetricRegistry` singleton object.
 Through this object, they send metadata and metrics to the
 `https://localhost:9443/metrics/application` endpoint, which is provided for you. Also, the
-`@Counted`, `@Guage` `@Timed` annotations can be placed in the Resource, such as
+`@Counted`, `@Gauge` `@Timed` annotations can be placed in the Resource, such as
 `InventoryResource`.
 
 To create a RESTful application, see
