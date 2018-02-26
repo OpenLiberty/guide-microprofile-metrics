@@ -76,12 +76,12 @@ mvn install liberty:start-server
 Maven builds the application and runs it inside of Open Liberty.
 
 Point your browser to the `http://localhost:9080/inventory/systems/` URL. Because you recently started the application,
-hosts are not currently registered. Point to `http://localhost:9080/inventory/systems/localhost` URL to add a host. Next, Point to the
+hosts are not currently registered. Point to the `http://localhost:9080/inventory/systems/localhost` URL to add a host. Next, Point to the
 `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Click the `Advanced` button to
 proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can see both the standard metrics and
 the application metrics in Prometheus format. To see only the application metrics, point your browser to
 `https://localhost:9443/metrics/application`. Because these metrics are application-related, you had
-to point first to `http://localhost:9080/inventory/systems/` URL otherwise they will not appear.
+to point first to the `http://localhost:9080/inventory/systems/` URL, otherwise they will not appear.
 
 ```
 # TYPE application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second gauge
@@ -175,7 +175,7 @@ called to return the value.
 These annotations are registered by default to the `MetricRegistry` singleton object.
 Through this object, they send metadata and metrics to the
 `https://localhost:9443/metrics/application` endpoint, which is provided for you. Also, the
-`@Counted`, `@Gauge` `@Timed` annotations can be placed in the Resource, such as
+`@Counted`, `@Gauge`, and `@Timed` annotations can be placed in the Resource, such as
 `InventoryResource`.
 
 To create a RESTful application, see
