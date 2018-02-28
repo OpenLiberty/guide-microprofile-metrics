@@ -5,7 +5,7 @@
 //
 // Contributors:
 //   IBM Corporation
-:projectid: mp-metrics
+:projectid: microprofile-metrics
 :page-layout: guide
 :page-duration: 20 minutes
 :page-description: Learn how to provide system and application metrics from a microservice with MicroProfile Metrics.
