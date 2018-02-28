@@ -147,16 +147,16 @@ You added the following metrics annotations:
 
 The `@Timed` annotation applies to the `get()` method to track how frequently the method is
 invoked and also how long it takes for the invocation to complete. This annotation is
-followed by fields that correspond to metadata fields.
+followed by fields that correspond to metadata fields:
 
 * The `name` field sets the name of the metric, which is the name of the annotated method by default.
-* The default value of the `unit` field is `seconds`.
+* The `unit` field has a default value of `seconds`.
 * The `description` field is optional and describes the purpose of the metric
 annotation.
 
 The `@Counted` annotation applies to the `list()` method. This annotation counts how many times
 you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to
-view the current contents of the inventory.
+view the current contents of the inventory:
 
 * The `absolute` field gives this annotation the name of the method.
 * The `description` field is optional and describes the purpose of the metric annotation.
@@ -164,7 +164,7 @@ view the current contents of the inventory.
 
 The `@Gauge` annotation on the `getTotal()` method either tracks the inventory size or the number of systems that are stored
 in the inventory. A system is stored in the inventory when you visit the
-`http://localhost:9080/inventory/systems/localhost` URL.
+`http://localhost:9080/inventory/systems/localhost` URL to view the current contents of the inventory:
 
 * Specify the `unit` field. This annotation has no default value.
 * The `name` and `description` fields are optional.
