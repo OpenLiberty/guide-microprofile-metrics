@@ -31,7 +31,7 @@ Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service communicates with the `system`
 service on that host to get the system properties. The system properties are then stored and returned.
 
-Use MicroProfile Metrics to provide endpoints where you can get the metrics
+You will use MicroProfile Metrics to provide endpoints where you can get the metrics
 results in a plain text format or JSON format. These endpoints have three scopes: `base`,
 `application`, and `vendor`. The `application` scope is the focus for `inventory` application.
 
