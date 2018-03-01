@@ -149,7 +149,7 @@ The `@Counted` annotation applies to the `list()` method. This annotation counts
 you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to
 view the current contents of the inventory.
 
-* The `absolute` field is set to `true` to give the metric the name of the method ignoring the class and package names.
+* The `absolute` field is set to `true` to give the metric the name of the method (without the class and package names).
 * The `description` field is optional and describes the purpose of the metric annotation.
 * The `monotonic` field is set to `true` to make the counter increment only.
 
