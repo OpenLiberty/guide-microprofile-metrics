@@ -5,7 +5,7 @@
 //
 // Contributors:
 //   IBM Corporation
-:projectid: mp-metrics
+:projectid: microprofile-metrics
 :page-layout: guide
 :page-duration: 20 minutes
 :page-description: Learn how to provide system and application metrics from a microservice with MicroProfile Metrics.
@@ -31,7 +31,7 @@ Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service communicates with the `system`
 service on that host to get the system properties. The system properties are then stored and returned.
 
-Use MicroProfile Metrics to provide endpoints where you can get the metrics
+You will use MicroProfile Metrics to provide endpoints where you can get the metrics
 results in a plain text format or JSON format. These endpoints have three scopes: `base`,
 `application`, and `vendor`. The `application` scope is the focus for `inventory` application.
 
@@ -47,16 +47,7 @@ the `MetricRegistry` directly. In this guide, you will learn how to use annotati
 // Getting Started
 // =================================================================================================
 
-== Getting started
-
-Clone the Git repository. Then, run the following commands to use the starting project
-in the `start` directory:
-
-[subs="attributes"]
-----
-git clone https://github.com/OpenLiberty/draft-guide-microprofile-metrics.git
-cd draft-guide-microprofile-metrics/start
-----
+include::{common-includes}/gitclone.adoc[]
 
 // =================================================================================================
 // Try what you'll build
@@ -149,7 +140,7 @@ The `@Timed` annotation applies to the `get()` method to track how frequently th
 invoked and also how long it takes for the invocation to complete. This annotation is
 followed by fields that correspond to metadata fields.
 
-* The `name` field sets the name of the metric, which is the name of the annotated method by default.
+* The `name` field is optional and sets the name of the metric.
 * The default value of the `unit` field is `seconds`.
 * The `description` field is optional and describes the purpose of the metric
 annotation.
@@ -158,7 +149,7 @@ The `@Counted` annotation applies to the `list()` method. This annotation counts
 you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to
 view the current contents of the inventory.
 
-* The `absolute` field gives this annotation the name of the method.
+* The `absolute` field is set to `true` to give the metric the name of the method (without the class and package names).
 * The `description` field is optional and describes the purpose of the metric annotation.
 * The `monotonic` field is set to `true` to make the counter increment only.
 
@@ -185,25 +176,7 @@ https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
 // Building and running the application
 // =================================================================================================
 
-== Building and running the application
-
-To build the application, run the Maven `install` goal from the command line:
-
-```
-mvn install
-```
-
-This goal builds the application, creates a `.war` file in the target directory, and
-configures and installs Open Liberty into the `target/liberty/wlp` directory.
-
-Next, run the Maven `liberty:start-server` goal:
-
-```
-mvn liberty:start-server
-```
-
-This goal starts an Open Liberty server instance. Your Maven `pom.xml` file is already configured to
-start the application in this server instance.
+include::{common-includes}/mvnbuild.adoc[]
 
 When the server runs, navigate to the following URL to find the metrics endpoint that shows JVM and server base
 details:
@@ -213,17 +186,7 @@ details:
 After you point your browser to `http://localhost:9080/inventory/systems`, you can find specific
 metrics about your application at the `https://localhost:9443/metrics/application` URL.
 
-If you change the code, use the Maven package command to rebuild the application:
-
-```
-mvn package
-```
-The Open Liberty server that is running automatically picks up the changes.
-
-To stop the server, run the Maven `liberty:stop-server` goal:
-
-```
-mvn liberty:stop-server
+include::{common-includes}/mvnpackage.adoc[]
 ```
 
 // =================================================================================================
@@ -267,10 +230,11 @@ localhost. The request then asserts the host with the `validateMetric()` method.
 To execute the test cases in a particular order, put them in a `testSuite()` method.
 Label the method with the `@Test` annotation, which automatically executes when your test class runs.
 
-=== Running the tests
+// =================================================================================================
+// Running the tests
+// =================================================================================================
 
-Go to the `start` directory and run the `mvn clean install` command. Two tests pass with the
-following results:
+include::{common-includes}/mvnverify.adoc[]
 
 ```
 -------------------------------------------------------
