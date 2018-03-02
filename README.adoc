@@ -11,6 +11,7 @@
 :page-description: Learn how to provide system and application metrics from a microservice with MicroProfile Metrics.
 :page-tags: ['Metrics' , 'MicroProfile' , 'CDI', '@Timed', '@Counted', '@Gauge', 'REST']
 :page-permalink: /guides/{projectid}
+:page-related-guides: ['microprofile-health', 'cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 = Providing metrics from a microservice
