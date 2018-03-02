@@ -155,7 +155,7 @@ followed by fields that correspond to metadata fields:
 annotation.
 
 The `@Counted` annotation applies to the `list()` method. This annotation counts how many times
-you request the list of systems methods by visiting `http://localhost:9080/inventory/systems` to
+you request the list of systems methods by visiting the `http://localhost:9080/inventory/systems` URL to
 retrieve the information for a list of all previously registered hosts:
 
 * The `absolute` field gives this annotation the name of the method.
