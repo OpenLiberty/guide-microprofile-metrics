@@ -188,7 +188,6 @@ After you point your browser to `http://localhost:9080/inventory/systems`, you c
 metrics about your application at the `https://localhost:9443/metrics/application` URL.
 
 include::{common-includes}/mvnpackage.adoc[]
-```
 
 // =================================================================================================
 // Testing the metrics
