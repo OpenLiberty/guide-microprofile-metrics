@@ -8,6 +8,7 @@
 :projectid: microprofile-metrics
 :page-layout: guide
 :page-duration: 20 minutes
+:page-releasedate: 2018-03-09
 :page-description: Learn how to provide system and application metrics from a microservice with MicroProfile Metrics.
 :page-tags: ['Metrics' , 'MicroProfile' , 'CDI', '@Timed', '@Counted', '@Gauge', 'REST', 'microservices']
 :page-permalink: /guides/{projectid}
@@ -75,22 +76,24 @@ the application metrics in Prometheus format. To see only the application metric
 `https://localhost:9443/metrics/application`. Because these metrics are application-related, you had
 to point first to the `http://localhost:9080/inventory/systems/` URL, otherwise they will not appear.
 
-```
+[source, role="no_copy"]
+----
 # TYPE application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second gauge
 application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second 0.08662540922169244
-                                  .
-                                  .
-                                  .
+----
+[source, role="no_copy"]
+----
 # HELP application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_seconds Time needed to get the properties of a system from the given hostname
-                                  .
-                                  .
+----
+[source, role="no_copy"]
+----
 # TYPE application:io_openliberty_guides_inventory_inventory_manager_inventory_size gauge
 # HELP application:io_openliberty_guides_inventory_inventory_manager_inventory_size Number of systems in the inventory
 application:io_openliberty_guides_inventory_inventory_manager_inventory_size 1
 # TYPE application:list counter
 # HELP application:list Number of times the list of systems method is requested
 application:list 1
-```
+----
 
 When you're done with the application, stop the Open Liberty server with the following command:
 
