@@ -149,7 +149,7 @@ followed by fields that correspond to metadata fields:
 
 |===
 | *Field* | *Purpose*
-|`name`  | Optional and sets the name of the metric.
+|`name` | Optional and sets the name of the metric.
 |`description` | Optional and describes the purpose of the metric annotation.
 |===
 
@@ -159,7 +159,7 @@ retrieve the information for a list of all previously registered hosts:
 
 |===
 | *Field* | *Purpose*
-| `absolute` | Gives the metric the name of the method (without the class and package names) if it is set to `true`.
+| `absolute` | Gives the metric the name of the method without the class and package names if it is set to `true`.
 | `monotonic` | Makes the counter increment only if it is set to `true`.
 |===
 
