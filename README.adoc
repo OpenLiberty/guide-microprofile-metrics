@@ -43,7 +43,7 @@ timer types in your application.
 
 You can instrument a microservice in different ways, such as with injection, annotations, or by using
 the `MetricRegistry` directly. In this guide, you will learn how to use annotations to register metrics to the
-`inventory` microservice.
+`inventory` service.
 
 // =================================================================================================
 // Getting Started
@@ -73,7 +73,7 @@ hosts are not currently registered. Point to the `http://localhost:9080/inventor
 
 Next, point to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Click the `Advanced` button to
 proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can see both the standard metrics and
-the application metrics in Prometheus format.
+the application metrics in a text format.
 
 To see only the application metrics, point your browser to
 `https://localhost:9443/metrics/application`. Because these metrics are application-related, you had
@@ -148,28 +148,32 @@ invoked and also how long it takes for the invocation to complete. This annotati
 followed by fields that correspond to metadata fields:
 
 |===
-| *Field* | *Purpose*
-|`name` | Optional and sets the name of the metric.
-|`description` | Optional and describes the purpose of the metric annotation.
+|`name` | Optional and sets the name of the metric
+|`description` | Optional and describes the purpose of the metric annotation
 |===
 
 The `@Counted` annotation applies to the `list()` method. This annotation counts how many times
 you request the list of systems methods by visiting the `http://localhost:9080/inventory/systems` URL to
-retrieve the information for a list of all previously registered hosts:
+retrieve the information for a list of all previously registered hosts. Below are the explanation of the fields:
 
 |===
-| *Field* | *Purpose*
-| `absolute` | Gives the metric the name of the method without the class and package names if it is set to `true`.
-| `monotonic` | Makes the counter increment only if it is set to `true`.
+| `absolute` | if `true`, it names the metric the name of the method. If `false`, it attaches the package name and class name
+before the method name
+| `monotonic` | if `true`, it makes the counter counts the total invocation of the annotated method. if `false`,
+it makes the counter counts the current invocation of the annotated method. In another words, it makes the counter increase
+only when the annotated method is called and decrease when it returns
+| `description` | Same as above
 |===
 
 The `@Gauge` annotation on the `getTotal()` method either tracks the inventory size or the number of systems that are stored
 in the inventory. A system is stored in the inventory when you visit the
-`http://localhost:9080/inventory/systems/localhost` URL to retrieve the information for a specific host:
+`http://localhost:9080/inventory/systems/localhost` URL to retrieve the information for a specific host.
+Below are the explanation of the fields:
 
 |===
-| *Field* | *Purpose*
-| `unit` | Sets the unit of the metric.
+| `unit` | Sets the unit of the metric
+| `name` | Same as above
+| `description` | Same as above
 |===
 
 Note that, when the value of the gauge is retrieved, the underlying `getTotal()` annotated method is
