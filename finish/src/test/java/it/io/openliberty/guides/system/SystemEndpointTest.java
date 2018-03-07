@@ -24,25 +24,25 @@ import org.junit.Test;
 
 public class SystemEndpointTest {
 
- @Test
- public void testGetProperties() {
-     String port = System.getProperty("liberty.test.port");
-     String url = "http://localhost:" + port + "/";
+  @Test
+  public void testGetProperties() {
+    String port = System.getProperty("liberty.test.port");
+    String url = "http://localhost:" + port + "/";
 
-     Client client = ClientBuilder.newClient();
-     client.register(JsrJsonpProvider.class);
+    Client client = ClientBuilder.newClient();
+    client.register(JsrJsonpProvider.class);
 
-     WebTarget target = client.target(url + "system/properties");
-     Response response = target.request().get();
+    WebTarget target = client.target(url + "system/properties");
+    Response response = target.request().get();
 
-     assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+    assertEquals("Incorrect response code from " + url, 200,
+                 response.getStatus());
 
-     JsonObject obj = response.readEntity(JsonObject.class);
+    JsonObject obj = response.readEntity(JsonObject.class);
 
-     assertEquals("The system property for the local and remote JVM should match",
-                  System.getProperty("os.name"),
-                  obj.getString("os.name"));
+    assertEquals("The system property for the local and remote JVM should match",
+                 System.getProperty("os.name"), obj.getString("os.name"));
 
-     response.close();
- }
+    response.close();
+  }
 }

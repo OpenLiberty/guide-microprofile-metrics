@@ -59,7 +59,7 @@ public class InventoryEndpointTest {
   // tag::testSuite[]
   @Test
   public void testSuite() {
-    //this.testEmptyInventory();
+    // this.testEmptyInventory();
     this.testHostRegistration();
     this.testSystemPropertiesMatch();
     this.testUnknownHost();

@@ -56,6 +56,7 @@ public class SystemClient {
   // tag::doc[]
   /**
    * Builds the URI string to the system service for a particular host.
+   * 
    * @param protocol
    *          - http or https.
    * @param host
@@ -67,7 +68,8 @@ public class SystemClient {
    * @return String representation of the URI to the system properties service.
    */
   // end::doc[]
-  protected String buildUrl(String protocol, String host, int port, String path) {
+  protected String buildUrl(String protocol, String host, int port,
+      String path) {
     try {
       URI uri = new URI(protocol, null, host, port, path, null, null);
       return uri.toString();
@@ -82,7 +84,8 @@ public class SystemClient {
     try {
       Client client = ClientBuilder.newClient();
       Builder builder = client.target(urlString).request();
-      return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+      return builder.header(HttpHeaders.CONTENT_TYPE,
+                            MediaType.APPLICATION_JSON);
     } catch (Exception e) {
       System.out.println("ClientBuilderException");
       return null;
