@@ -238,6 +238,10 @@ localhost. The request then asserts the host with the `validateMetric()` method.
 To execute the test cases in a particular order, put them in a `testSuite()` method.
 Label the method with the `@Test` annotation, which automatically executes when your test class runs.
 
+In addition, a few endpoint tests, `InventoryEndpointTest.java` and `SystemEndpointTest.java`, have been provided for you to
+test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you must have
+introduced a bug into the code.
+
 // =================================================================================================
 // Running the tests
 // =================================================================================================
