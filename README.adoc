@@ -76,8 +76,7 @@ proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can s
 the application metrics in a text format.
 
 To see only the application metrics, point your browser to
-`https://localhost:9443/metrics/application`. Because these metrics are application-related, you had
-to point first to the `http://localhost:9080/inventory/systems/` URL, otherwise they will not appear.
+`https://localhost:9443/metrics/application`:
 
 [source, role="no_copy"]
 ----
@@ -98,6 +97,9 @@ application:io_openliberty_guides_inventory_inventory_manager_inventory_size 1
 application:list 1
 ----
 
+Because these metrics are application-related, you had
+to point first to the `http://localhost:9080/inventory/systems/` URL, otherwise they will not appear.
+
 When you're done with the application, stop the Open Liberty server with the following command:
 
 ```
@@ -116,7 +118,7 @@ Navigate to the `pom.xml` file. In the `start/pom.xml` file, you can find the `m
 dependency. Select this dependency to
 use the MicroProfile Metrics API to provide metrics from your microservices. Also, the `javax.net.ssl.trustStore` system property is set to point to the SSL certificate.
 
-Create a `start/src/main/liberty/config/server.xml` file:
+Create a `src/main/liberty/config/server.xml` file:
 
 [source, xml, indent=0]
 ----
@@ -134,7 +136,7 @@ configuration elements. Use these credentials to view the metrics endpoint.
 
 === Adding the annotations
 
-Create the `/start/src/main/java/io/openliberty/guides/inventory/InventoryManager.java` class:
+Create the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` class:
 
 [source, java, indent=0]
 ----
@@ -211,7 +213,7 @@ You can test your application manually, but automated tests
 trigger a failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API
 provide a simple environment for you to write tests.
 
-First, create a `start/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java` test class:
+First, create a `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java` test class:
 
 [source, java, indent=0]
 ----
@@ -242,8 +244,8 @@ localhost. The request then asserts the host with the `validateMetric()` method.
 To execute the test cases in a particular order, put them in a `testSuite()` method.
 Label the method with the `@Test` annotation, which automatically executes when your test class runs.
 
-In addition, a few endpoint tests, `start/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
-and `start/src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java`, are provided for you to
+In addition, a few endpoint tests, `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
+and `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java`, are provided for you to
 test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you might have
 introduced a bug into the code.
 
