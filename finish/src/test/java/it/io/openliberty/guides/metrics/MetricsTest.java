@@ -14,15 +14,12 @@
 package it.io.openliberty.guides.metrics;
 
 import static org.junit.Assert.*;
-
 import java.io.*;
 import java.util.*;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -30,19 +27,24 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class MetricsTest {
-  private static String port;
-  private static String baseUrl;
+  private static String httpPort;
+  private static String httpsPort;
+  private static String baseHttpUrl;
+  private static String baseHttpsUrl;
 
   private List<String> metrics;
   private Client client;
 
   private final String INVENTORY_HOSTS = "inventory/systems";
   private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
+  private final String METRICS_APPLICATION = "metrics/application";
 
   @BeforeClass
   public static void oneTimeSetup() {
-    port = System.getProperty("liberty.test.port");
-    baseUrl = "http://localhost:" + port + "/";
+    httpPort = System.getProperty("liberty.test.port");
+    httpsPort = System.getProperty("liberty.https.port");
+    baseHttpUrl = "http://localhost:" + httpPort + "/";
+    baseHttpsUrl = "https://localhost:" + httpsPort + "/";
   }
 
   @Before
@@ -64,13 +66,13 @@ public class MetricsTest {
   }
 
   public void testGetPropertiesTime() {
-    connectToEndpoint(baseUrl + INVENTORY_HOSTNAME);
+    connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     validateMetric("@Timed",
                    "application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second");
   }
 
   public void testListCount() {
-    connectToEndpoint(baseUrl + INVENTORY_HOSTS);
+    connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     validateMetric("@Counted", "application:list");
   }
 
@@ -101,7 +103,7 @@ public class MetricsTest {
   }
 
   private List<String> getMetrics() {
-    Response metricsResponse = client.target("https://localhost:9443/metrics/application")
+    Response metricsResponse = client.target(baseHttpsUrl + METRICS_APPLICATION)
                                      .request(MediaType.TEXT_PLAIN)
                                      .header("Authorization",
                                              "Basic Y29uZkFkbWluOm1pY3JvcHJvZmlsZQ==")
