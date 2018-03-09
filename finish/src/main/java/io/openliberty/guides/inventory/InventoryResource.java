@@ -33,7 +33,8 @@ import io.openliberty.guides.inventory.model.InventoryList;
 public class InventoryResource {
 
   // tag::Inject[]
-  @Inject InventoryManager manager;
+  @Inject
+  InventoryManager manager;
   // end::Inject[]
 
   @GET

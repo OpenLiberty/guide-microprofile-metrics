@@ -84,7 +84,8 @@ public class MetricsTest {
     for (String metric : metrics) {
       if (metric.startsWith(givenMetric)) {
         if (metricType.equals("@Gauge") || metricType.equals("@Counted")) {
-          assertTrue(1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
+          assertTrue(1 == Character.getNumericValue(metric.charAt(metric.length()
+              - 1)));
         } else if (metricType.equals("@Timed")) {
           float seconds = Float.parseFloat(metric.split(" ")[1]);
           assertTrue(4 > seconds);
@@ -128,7 +129,8 @@ public class MetricsTest {
   }
 
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+    assertEquals("Incorrect response code from " + url, 200,
+                 response.getStatus());
   }
 }
 // end::MetricsTest[]

@@ -49,7 +49,8 @@ public class InventoryManager {
     return invList;
   }
 
-  @Gauge(unit = MetricUnits.NONE, name = "inventorySize", description = "Number of systems in the inventory")
+  @Gauge(unit = MetricUnits.NONE, name = "inventorySize",
+    description = "Number of systems in the inventory")
   public int getTotal() {
     return invList.getSystems().size();
   }
