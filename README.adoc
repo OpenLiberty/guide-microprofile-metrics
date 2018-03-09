@@ -33,17 +33,17 @@ Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service communicates with the `system`
 service on that host to get the system properties. The system properties are then stored and returned.
 
-You will use MicroProfile Metrics to provide endpoints where you can get the metrics
+You will use MicroProfile Metrics have endpoints where you can get the metrics
 results in a plain text format or JSON format. These endpoints have three scopes: `base`,
-`application`, and `vendor`. The `application` scope is the focus for `inventory` application.
+`application`, and `vendor`. The `application` scope is the focus for the `inventory` application.
 
 The metadata of the metrics in any scope has fields, such as unit, type, description, and more.
 The type can be a counter, gauge, meter, histogram, or timer. You will use the counter, gauge, and
 timer types in your application.
 
 You can instrument a microservice in different ways, such as with injection, annotations, or by using
-the `MetricRegistry` directly. In this guide, you will learn how to use annotations to register metrics to the
-`inventory` service.
+the `MetricRegistry` directly. In this guide, you will learn how to use annotations to register 
+metrics to the `inventory` service.
 
 // =================================================================================================
 // Getting Started
@@ -66,17 +66,18 @@ To try the application, navigate to the `finish` directory and run the following
 mvn install liberty:start-server
 ```
 
-Maven builds the application and runs it inside of Open Liberty.
+Maven builds the application and runs it inside Open Liberty.
 
-Point your browser to the `http://localhost:9080/inventory/systems/` URL. Because you recently started the application,
-hosts are not currently registered. Point to the `http://localhost:9080/inventory/systems/localhost` URL to add a host.
+Point your browser to the `http://localhost:9080/inventory/systems` URL. 
+Because you just started the application, the inventory is currently empty. Point to the 
+`http://localhost:9080/inventory/systems/localhost` URL to add the localhost host into the inventory.
 
-Next, point to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Click the `Advanced` button to
-proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can see both the standard metrics and
-the application metrics in a text format.
+Next, point to the `https://localhost:9443/metrics` MicroProfile Metrics URL. Click the `Advanced` 
+button to proceed. Use the `confAdmin` and `microprofile` credentials to log in. You can see both
+the standard metrics and the application metrics in a text format.
 
-To see only the application metrics, point your browser to
-`https://localhost:9443/metrics/application`:
+ To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`. 
+ These are some of the metric outputs: 
 
 [source, role="no_copy"]
 ----
@@ -116,9 +117,10 @@ Now, navigate back to the `start` directory to begin.
 
 Navigate to the `pom.xml` file. In the `start/pom.xml` file, you can find the `microprofile-health-api`
 dependency. Select this dependency to
-use the MicroProfile Metrics API to provide metrics from your microservices. Also, the `javax.net.ssl.trustStore` system property is set to point to the SSL certificate.
+use the MicroProfile Metrics API to provide metrics from your microservices. Also, the 
+`javax.net.ssl.trustStore` system property is set to point to the SSL certificate.
 
-Create a `src/main/liberty/config/server.xml` file:
+Next, create a `src/main/liberty/config/server.xml` file:
 
 [source, xml, indent=0]
 ----
@@ -136,27 +138,29 @@ configuration elements. Use these credentials to view the metrics endpoint.
 
 === Adding the annotations
 
-Create the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` class:
+Create the `InventoryManager` class in the 
+`src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file::
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
 ----
 
-You added the following metrics annotations:
+Notice these metrics annotations:
 
 The `@Timed` annotation applies to the `get()` method to track how frequently the method is
-invoked and also how long it takes for the invocation to complete. This annotation is
-followed by fields that correspond to metadata fields:
+invoked and also how long it takes for the invocation to complete. This annotation has these 
+metadata fields:
 
 |===
 |`name` | Optional and sets the name of the metric
 |`description` | Optional and describes the purpose of the metric annotation
 |===
 
-The `@Counted` annotation applies to the `list()` method. This annotation counts how many times
-you request the list of systems methods by visiting the `http://localhost:9080/inventory/systems` URL to
-retrieve the information for a list of all previously registered hosts. Below are the explanation of the fields:
+The `@Counted` annotation applies to the `list()` method. This annotation counts how many times 
+you request the list of systems methods when you visit the `http://localhost:9080/inventory/systems`
+URL that retrieves the information for a list of all previously registered hosts. These are the 
+additional metadata fields: 
 
 |===
 | `absolute` | if `true`, it names the metric the name of the method. If `false`, it attaches the package name and class name
@@ -167,10 +171,10 @@ only when the annotated method is called and decrease when it returns
 | `description` | Same as above
 |===
 
-The `@Gauge` annotation on the `getTotal()` method either tracks the inventory size or the number of systems that are stored
-in the inventory. A system is stored in the inventory when you visit the
+The `@Gauge` annotation on the `getTotal()` method tracks the number of systems that are stored in 
+the inventory. A system is stored in the inventory when you visit the 
 `http://localhost:9080/inventory/systems/localhost` URL to retrieve the information for a specific host.
-Below are the explanation of the fields:
+This is the additional metadata field: 
 
 |===
 | `unit` | Sets the unit of the metric
@@ -182,10 +186,10 @@ Note that, when the value of the gauge is retrieved, the underlying `getTotal()`
 called to return the value.
 
 These annotations are registered by default to the `MetricRegistry` singleton object.
-Through this object, they send metadata and metrics to the
-`https://localhost:9443/metrics/application` endpoint, which is provided for you. Also, the
-`@Counted`, `@Gauge`, and `@Timed` annotations can be placed in the Resource, such as
-`InventoryResource`.
+This object sends the metadata and metrics to the `https://localhost:9443/metrics/application` 
+MicroProfile Metrics endpoint, which is provided for you. Also, the `@Counted`, `@Gauge` and 
+`@Timed` annotations can be placed in a service, such as the `inventory` service in the 
+`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file.
 
 // =================================================================================================
 // Building and running the application
@@ -193,13 +197,11 @@ Through this object, they send metadata and metrics to the
 
 include::{common-includes}/mvnbuild.adoc[]
 
-When the server runs, navigate to the following URL to find the metrics endpoint that shows JVM and server base
-details:
+Point your browser to the `https://localhost:9443/metrics` URL to find the metrics that shows JVM 
+and server base details. 
 
-* `https://localhost:9443/metrics`
-
-After you point your browser to `http://localhost:9080/inventory/systems`, you can find specific
-metrics about your application at the `https://localhost:9443/metrics/application` URL.
+Next, point your browser to `http://localhost:9080/inventory/systems`. After that, you can find 
+specific metrics about your application at the `https://localhost:9443/metrics/application` URL.
 
 include::{common-includes}/mvnpackage.adoc[]
 
@@ -230,16 +232,26 @@ In this case, the `setup()` method creates a JAX-RS client that makes HTTP reque
 inventory service. Register this client with a `JsrJsonpProvider` JSON-P provider
 to process JSON resources. The `teardown()` method destroys this client instance.
 
-The following list describes the test cases that you can run:
+These are the break down of the test cases:
 
-* Use the `testGetPropertiesTime()` test case to test the `@Timed` annotation. This test case sends a request to the `http://localhost:9080/inventory/systems/localhost` URL. The test verifies the `200` response code, which is returned with the `connectToEndpoint()` private method. Next, the test case makes a connection to the `https://localhost:9443/metrics/application` URL to get the content of the
-metrics as plain text. The test case then uses the `validateMetric()` method to assert whether the time that is needed to get the system properties for `localhost` is less than 4 seconds.
+* Use the `testGetPropertiesTime()` test case to test the `@Timed` annotation. This test case
+sends a request to the `http://localhost:9080/inventory/systems/localhost` URL. The test verifies
+the `200` response code, which is returned with the `connectToEndpoint()` private method. Next, the
+test case makes a connection to the `https://localhost:9443/metrics/application` URL to get the 
+content of the metrics as plain text. The test case then uses the `validateMetric()` method to 
+assert whether the time that is needed to get the system properties for `localhost` is less than 4
+seconds.
 
-* Use the `testListCount()` test case to test the `@Counted` annotation. This test case uses the `connectToEndpoint()` method to send a request to the `http://localhost:9080/inventory/systems` URL. Next, the test case uses the `validateMetric()` method to assert whether the `list()` method in the `InventoryManager` class was invoked once.
+* Use the `testListCount()` test case to test the `@Counted` annotation. This test case uses the 
+`connectToEndpoint()` method to send a request to the `http://localhost:9080/inventory/systems` URL. 
+Next, the test case uses the `validateMetric()` method to assert whether the `list()` method in the 
+`InventoryManager` class was invoked once.
 
-* Use the `testInventorySize()` test case to test the `@Gauge` annotation. This test case uses the `connectToEndpoint()` method to send a request to the `http://localhost:9080/inventory/systems/localhost` URL. The inventory grows in size because of the request. The
-`getHostCount()` method in the `InventoryManager` class returns one host, which represents the
-localhost. The request then asserts the host with the `validateMetric()` method.
+* Use the `testInventorySize()` test case to test the `@Gauge` annotation. This test case uses the 
+`connectToEndpoint()` method to send a request to the `http://localhost:9080/inventory/systems/localhost`
+URL. The inventory size increases because of the request. The `getHostCount()` method in the 
+`InventoryManager` class returns one host, which represents the localhost. The request then asserts 
+the host with the `validateMetric()` method.
 
 To execute the test cases in a particular order, put them in a `testSuite()` method.
 Label the method with the `@Test` annotation, which automatically executes when your test class runs.
