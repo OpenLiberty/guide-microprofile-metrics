@@ -226,7 +226,7 @@ In this case, the `setup()` method creates a JAX-RS client that makes HTTP reque
 inventory service. Register this client with a `JsrJsonpProvider` JSON-P provider
 to process JSON resources. The `teardown()` method destroys this client instance.
 
-See the break down of the test cases:
+See the breakdown of the test cases:
 
 * The `testGetPropertiesTime()` test case is used to test the `@Timed` annotation. This test case
 sends a request to the `http://localhost:9080/inventory/systems/localhost` URL. The test verifies
