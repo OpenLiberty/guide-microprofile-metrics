@@ -77,7 +77,7 @@ button to proceed. Use the `confAdmin` and `microprofile` credentials to log in.
 the standard metrics and the application metrics in a text format.
 
 To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
-Because these metrics are application-related, you had to point first to the `\http://localhost:9080/inventory/systems` URL,
+Because these metrics are application-related, you have to point to the `\http://localhost:9080/inventory/systems` URL,
 otherwise they will not appear. See some of the metric outputs:
 
 [source, role="no_copy"]
@@ -262,6 +262,7 @@ introduced a bug into the code.
 include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
+----
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -275,6 +276,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 sec - in i
 Results :
 
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+----
 
 To see whether the tests detect a failure, go to the `MetricsTest.java` file and change the assertion values in the `validateMetric()` method. Rerun the Maven build. A test failure occurs.
 
