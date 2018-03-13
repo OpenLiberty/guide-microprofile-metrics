@@ -77,8 +77,8 @@ button to proceed. Use the `confAdmin` and `microprofile` credentials to log in.
 the standard metrics and the application metrics in a text format.
 
 To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
-Because these metrics are application-related, you have to point to the `\http://localhost:9080/inventory/systems` URL,
-otherwise they will not appear. See some of the metric outputs:
+Because these metrics are application-related, you have to first to point to the http://localhost:9080/inventory/systems
+URL, otherwise they will not appear. See some of the metric outputs:
 
 [source, role="no_copy"]
 ----
@@ -113,10 +113,10 @@ Now, navigate back to the `start` directory to begin.
 
 == Adding Microprofile Metrics to the inventory microservice
 
-Navigate to the `pom.xml` file. In the `pom.xml` file, the MicroProfile Metrics API has been added as a
-dependency to your `pom.xml` file. Look for the dependancy with the `org.eclipse.microprofile.metric` groupId. This
-feature allows you to use the MicroProfile Metrics API to provide metrics from your microservices. Also in the `pom.xml`,
-you will find the `javax.net.ssl.trustStore` system property variable. This variable points to the SSL certificate of the system.
+The MicroProfile Metrics API was added as a dependency to your `pom.xml` file. Look for the dependency with
+the `org.eclipse.microprofile.metric` group ID. This feature allows you to use the MicroProfile Metrics API to provide
+metrics from your microservices. Also in the `pom.xml`, you will find the `javax.net.ssl.trustStore` system
+property variable. This variable points to the SSL certificate of the system.
 
 Next, create a `src/main/liberty/config/server.xml` file:
 
