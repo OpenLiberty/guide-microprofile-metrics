@@ -115,7 +115,7 @@ Now, navigate back to the `start` directory to begin.
 
 The MicroProfile Metrics API was added as a dependency to your `pom.xml` file. Look for the dependency with
 the `org.eclipse.microprofile.metric` group ID. This feature allows you to use the MicroProfile Metrics API to provide
-metrics from your microservices. Also in the `pom.xml`, you will find the `javax.net.ssl.trustStore` system
+metrics from your microservices. Also, in the `pom.xml` file, you will find the `javax.net.ssl.trustStore` system
 property variable. This variable points to the SSL certificate of the system.
 
 Next, create a `src/main/liberty/config/server.xml` file:
@@ -162,9 +162,9 @@ list of all previously registered hosts. See the additional metadata fields:
 |===
 | `absolute` | if `true`, it names the metric the name of the method. If `false`, it attaches the package name and class name
 before the method name
-| `monotonic` | if `true`, it makes the counter counts the total invocation of the annotated method. if `false`,
-it makes the counter counts the current invocation of the annotated method. In another words, it makes the counter increase
-only when the annotated method is called and decrease when it returns
+| `monotonic` | if `true`, the counter counts the number of invocations of the annotated method. If `false`, the counter counts the
+number of currently executing invocations of the annotated method. In other words, it makes the counter increment
+when the annotated method is called and decrement when it returns.
 |===
 
 The `@Gauge` annotation on the `getTotal()` method tracks the number of systems that are stored in
@@ -180,9 +180,9 @@ Note that, when the value of the gauge is retrieved, the underlying `getTotal()`
 called to return the value.
 
 These annotations are registered by default to the `MetricRegistry` singleton object.
-This object sends the metadata and metrics to the `https://localhost:9443/metrics/application`
-MicroProfile Metrics endpoint, which is provided for you. Also, the `@Counted`, `@Gauge`, and
-`@Timed` annotations can be placed in a service, such as the `inventory` service in the
+This object is queried for metadata and metrics when you call the `https://localhost:9443/metrics/application`
+MicroProfile Metrics endpoint, which is provided for you. Also, the `@Counted`, `@Gauge`, and `@Timed` annotations can be
+used in services, such as the `inventory` service in the
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file.
 
 // =================================================================================================
