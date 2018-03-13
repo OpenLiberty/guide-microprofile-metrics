@@ -77,7 +77,7 @@ button to proceed. Use the `confAdmin` and `microprofile` credentials to log in.
 the standard metrics and the application metrics in a text format.
 
 To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
-Because these metrics are application-related, you have to first to point to the http://localhost:9080/inventory/systems
+Because these metrics are application-related, you have to first to point to the `http://localhost:9080/inventory/systems`
 URL, otherwise they will not appear. See some of the metric outputs:
 
 [source, role="no_copy"]
