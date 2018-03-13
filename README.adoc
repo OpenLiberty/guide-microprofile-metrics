@@ -22,7 +22,7 @@ You'll explore how to provide system and application metrics from a microservice
 == What you'll learn
 
 You will learn how to use MicroProfile Metrics to provide metrics from a microservice.
-Include metrics in an application to pinpoint issues, provide long-term trend data for
+You will include metrics in an application to pinpoint issues, provide long-term trend data for
 capacity planning, and provide proactive discovery of issues, such as disk usage growth without
 bounds. Metrics can also help you schedule systems and decide when to scale the application to
 run on more or fewer machines.
