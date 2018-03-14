@@ -78,15 +78,12 @@ the standard metrics and the application metrics in a text format.
 
 To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
 Because these metrics are application-related, you have to first to point to the `http://localhost:9080/inventory/systems`
-URL, otherwise they will not appear. See some of the metric outputs:
+URL, otherwise they will not appear. See sample outputs for the `@Timed`, `@Gauge`, and `@Counted` annotations:
 
 [source, role="no_copy"]
 ----
 # TYPE application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second gauge
 application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second 0.08662540922169244
-----
-[source, role="no_copy"]
-----
 # HELP application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_seconds Time needed to get the properties of a system from the given hostname
 ----
 [source, role="no_copy"]
@@ -94,6 +91,9 @@ application:io_openliberty_guides_inventory_inventory_manager_get_properties_tim
 # TYPE application:io_openliberty_guides_inventory_inventory_manager_inventory_size gauge
 # HELP application:io_openliberty_guides_inventory_inventory_manager_inventory_size Number of systems in the inventory
 application:io_openliberty_guides_inventory_inventory_manager_inventory_size 1
+----
+[source, role="no_copy"]
+----
 # TYPE application:list counter
 # HELP application:list Number of times the list of systems method is requested
 application:list 1
