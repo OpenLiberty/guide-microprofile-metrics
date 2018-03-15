@@ -65,7 +65,7 @@ Maven builds the application and runs it inside Open Liberty.
 
 Point your browser to the `http://localhost:9080/inventory/systems` URL to access the `inventory`
 service. Because you just started the application, the inventory is currently empty. Then, access the
-`http://localhost:9080/inventory/systems/localhost` URL to add the localhost host into the inventory.
+`http://localhost:9080/inventory/systems/localhost` URL to add the localhost into the inventory.
 
 Access the `inventory` service at the `http://localhost:9080/inventory/systems` URL at least once
 for application metrics to be collected. Otherwise, the metrics will not appear.
@@ -148,23 +148,23 @@ invoked and also how long it takes for the invocation to complete. This annotati
 metadata fields:
 
 |===
-|`name` | Optional; Use this to name of the metric
-|`description` | Optional; Use this to describe the purpose of the metric
+|`name` | Optional. Use this field to name of the metric.
+|`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
 Apply the `@Counted` annotation to the `list()` method to count how many times the
 `http://localhost:9080/inventory/systems` URL is accessed. Note the additional metadata field:
 
 |===
-| `monotonic` | Set to `true` to count the total number of invocations of the annotated method i.e.
-the total number of accesses.
+| `monotonic` | Set this annotation to `true` to count the total number of invocations of the
+annotated method, which is the total number of times the inventory is accessed.
 |===
 
 Apply the `@Gauge` annotation to the `getTotal()` method to track the number of systems that are stored in
 the inventory. Note that when the value of the gauge is retrieved, the underlying `getTotal()` method
 is called to return the size of the inventory.
 
-Additional information about these annotations, relevant metadata fields and more is available at
+Additional information about these annotations, relevant metadata fields, and more are available at
 the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile website].
 
 // =================================================================================================
@@ -174,13 +174,13 @@ the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile we
 include::{common-includes}/mvnbuild.adoc[]
 
 Point your browser to the `https://localhost:9443/metrics` URL to review the all available metrics
-that has been enabled through MicroProfile Metrics. Login with `confAdmin` and `microprofile`. You
-see only the system metrics because the server just started and the `inventory` service has not been
-accessed.
+that have been enabled through MicroProfile Metrics. Log in with `confAdmin` as your username and
+`microprofile` as your password. You see only the system metrics because the server just started,
+and the `inventory` service has not been accessed.
 
-Next, point your browser to the `http://localhost:9080/inventory/systems` URL. Reload
-`https://localhost:9443/metrics` or you can access the application metrics only with the URL, 
-`https://localhost:9443/metrics/application`.
+Next, point your browser to the `http://localhost:9080/inventory/systems` URL. Reload the 
+`https://localhost:9443/metrics` URL, or access only the application metrics at the 
+`https://localhost:9443/metrics/application` URL.
 
 include::{common-includes}/mvnpackage.adoc[]
 
@@ -190,7 +190,7 @@ include::{common-includes}/mvnpackage.adoc[]
 
 == Testing the metrics
 
-You can test your application manually, but automated tests ensure code quality as they trigger a
+You can test your application manually, but automated tests ensure code quality because they trigger a
 failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide a simple
 environment for you to write tests.
 
@@ -206,25 +206,26 @@ include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[
 the `localhost` host to the inventory. Next, the test case makes a connection to the 
 `https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
 It then uses the `validateMetric()` method to assert whether the time that is needed to retrieve
-the system properties for `localhost` is less than 4 seconds.
+the system properties for localhost is less than 4 seconds.
 
 * The `testListCount()` test case validates the `@Counted` metric. The test case sends a request to the 
-`http://localhost:9080/inventory/systems` URL to retrieve the whole inventory and then, it asserts
-that this endpoint is only accessed once.
+`http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
+that this endpoint is accessed only once.
 
 * The `testInventorySize()` test case validates the `@Gauge` metric. The test case first ensures
-that the  `localhost` host is in the inventory. It then looks for the `@Gauge` metric and asserts
-that the inventory size is equal to one.
+that the localhost is in the inventory. It then looks for the `@Gauge` metric and asserts
+that the inventory size is equal to 1.
 
 The `oneTimeSetup()` method retrieves the port number for the server and builds a base URL string
-to setup the tests. Apply the `@BeforeClass` annotation to this method to execute it before any of
+to set up the tests. Apply the `@BeforeClass` annotation to this method to execute it before any of
 the test cases.
 
 The `setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service.
 Register this client with a `JsrJsonpProvider` JSON-P provider to process JSON resources. The
-`teardown()` method destroys this client instance. Apply the `@Before` and `@After` annotations to
-these methods respectively so that they execute before and after every test case. Apply these annotations
-to methods generally used to perform any setup and teardown tasks before and after a test.
+`teardown()` method destroys this client instance. Apply the `@Before` annotation so that a method
+executes before a test case, and apply the `@After` annotation so that a method executes after a test
+case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks
+before and after a test.
 
 To execute the test cases in a particular order, put them in a `testSuite()` method.
 Label the method with the `@Test` annotation, which automatically executes when your test class runs.
@@ -257,7 +258,7 @@ Results :
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-To see whether the tests detect a failure, go to the `MetricsTest.java` file and change an assertion
+To see whether the tests detect a failure, go to the `MetricsTest.java` file and change any assertion
 in the `validateMetric()` method. Rerun the Maven build. A test failure occurs.
 
 // =================================================================================================
@@ -266,7 +267,7 @@ in the `validateMetric()` method. Rerun the Maven build. A test failure occurs.
 
 == Great work! You're done!
 
-You learned how to enable system and application metrics for microservices using MicroProfile Metrics
+You learned how to enable system and application metrics for microservices by using MicroProfile Metrics
 and wrote tests to validate them.
 
 include::{common-includes}/finish.adoc[]
