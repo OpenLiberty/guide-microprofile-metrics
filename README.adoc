@@ -35,10 +35,10 @@ systems. The `inventory` service communicates with the `system` service on a par
 its system properties when necessary.
 
 You will use annotations provided by MicroProfile Metrics to instrument the `inventory` service to
-provide application-level metrics data. You will add counter, gauge and timer metrics to the service.
+provide application-level metrics data. You will add counter, gauge, and timer metrics to the service.
 
-You will also check well-known REST endpoints defined by MicroProfile Metrics to review the metrics
-data collected. Monitoring agents can access these endpoints to collect metrics.
+You will also check well-known REST endpoints that are defined by MicroProfile Metrics to review
+the metrics data collected. Monitoring agents can access these endpoints to collect metrics.
 
 // =================================================================================================
 // Getting Started
@@ -67,16 +67,16 @@ Point your browser to the `http://localhost:9080/inventory/systems` URL to acces
 service. Because you just started the application, the inventory is currently empty. Then, access the
 `http://localhost:9080/inventory/systems/localhost` URL to add the localhost host into the inventory.
 
-Access the `inventory` service i.e. the `http://localhost:9080/inventory/systems` URL at least once
+Access the `inventory` service at the `http://localhost:9080/inventory/systems` URL at least once
 for application metrics to be collected. Otherwise, the metrics will not appear.
 
-Next, point your browser to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Login
+Next, point your browser to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Log in
 as the `confAdmin` user with `microprofile` as the password. You can see both the system and application
 metrics in a text format.
 
 To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
 
-Sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
+See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
 
 [source, role="no_copy"]
 ----
@@ -112,8 +112,8 @@ Now, navigate back to the `start` directory to begin.
 == Adding MicroProfile Metrics to the inventory service
 
 The MicroProfile Metrics API was added as a dependency to your `pom.xml` file. Look for the dependency with
-the `org.eclipse.microprofile.metric` group ID. This dependency enables you to use MicroProfile Metrics
-API in your code to provide metrics from your microservices.
+the `org.eclipse.microprofile.metric` group ID. Add this dependency to use MicroProfile Metrics API
+in your code to provide metrics from your microservices.
 
 Next, create a `src/main/liberty/config/server.xml` file:
 
@@ -123,7 +123,7 @@ include::finish/src/main/liberty/config/server.xml[tags=server]
 ----
 
 The `mpMetrics-1.0` feature enables MicroProfile Metrics support in Open Liberty. Note that this
-feature requires SSL and the configuration has been provided to you.
+feature requires SSL and the configuration has been provided for you.
 
 The `quickStartSecurity` and `keyStore` configuration elements provide basic security to secure the
 server. When you visit the `/metrics` endpoint, you use the credentials defined in the server
@@ -202,7 +202,7 @@ include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[
 ----
 
 * The `testGetPropertiesTime()` test case validates the `@Timed` metric. It sends a request to the 
-`http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service and add
+`http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
 the `localhost` host to the inventory. Next, the test case makes a connection to the 
 `https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
 It then uses the `validateMetric()` method to assert whether the time that is needed to retrieve
