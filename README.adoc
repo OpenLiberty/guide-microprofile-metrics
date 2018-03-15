@@ -194,7 +194,7 @@ You can test your application manually, but automated tests ensure code quality 
 failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide a simple
 environment for you to write tests.
 
-First, create a `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java` test class:
+First, create a test class in the `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java` file:
 
 [source, java, indent=0]
 ----
@@ -258,7 +258,7 @@ Results :
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-To see whether the tests detect a failure, go to the `MetricsTest.java` file and change any assertion
+To see whether the tests detect a failure, go to the `MetricsTest.java` file and change any of the assertions
 in the `validateMetric()` method. Rerun the Maven build. A test failure occurs.
 
 // =================================================================================================
