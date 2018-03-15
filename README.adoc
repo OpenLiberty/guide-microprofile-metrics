@@ -126,8 +126,8 @@ The `mpMetrics-1.0` feature enables MicroProfile Metrics support in Open Liberty
 feature requires SSL and the configuration has been provided for you.
 
 The `quickStartSecurity` and `keyStore` configuration elements provide basic security to secure the
-server. When you visit the `/metrics` endpoint, you use the credentials defined in the server
-configuration to login to view the data.
+server. When you visit the `/metrics` endpoint, use the credentials defined in the server
+configuration to log in to view the data.
 
 // =================================================================================================
 // Adding the annotations
