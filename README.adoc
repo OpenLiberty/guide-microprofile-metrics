@@ -25,7 +25,7 @@ You'll explore how to provide system and application metrics from a microservice
 
 == What you'll learn
 
-You will learn how to use MicroProfile Metrics to provide metrics from a microservice. You can monitor 
+You will learn how to use MicroProfile Metrics to provide metrics from a microservice. You can monitor
 metrics to determine the performance and health of a service. You can also use them to pinpoint issues,
 collect data for capacity planning, or to decide when to scale a service to run with more or fewer
 resources.
@@ -71,7 +71,7 @@ Access the `inventory` service at the `http://localhost:9080/inventory/systems` 
 for application metrics to be collected. Otherwise, the metrics will not appear.
 
 Next, point your browser to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Log in
-as the `confAdmin` user with `microprofile` as the password. You can see both the system and application
+as the `admin` user with `adminpwd` as the password. You can see both the system and application
 metrics in a text format.
 
 To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
@@ -174,12 +174,12 @@ the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile we
 include::{common-includes}/mvnbuild.adoc[]
 
 Point your browser to the `https://localhost:9443/metrics` URL to review the all available metrics
-that have been enabled through MicroProfile Metrics. Log in with `confAdmin` as your username and
-`microprofile` as your password. You see only the system metrics because the server just started,
+that have been enabled through MicroProfile Metrics. Log in with `admin` as your username and
+`adminpwd` as your password. You see only the system metrics because the server just started,
 and the `inventory` service has not been accessed.
 
-Next, point your browser to the `http://localhost:9080/inventory/systems` URL. Reload the 
-`https://localhost:9443/metrics` URL, or access only the application metrics at the 
+Next, point your browser to the `http://localhost:9080/inventory/systems` URL. Reload the
+`https://localhost:9443/metrics` URL, or access only the application metrics at the
 `https://localhost:9443/metrics/application` URL.
 
 include::{common-includes}/mvnpackage.adoc[]
@@ -201,14 +201,14 @@ First, create a test class in the `src/test/java/it/io/openliberty/guides/metric
 include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
 ----
 
-* The `testGetPropertiesTime()` test case validates the `@Timed` metric. It sends a request to the 
+* The `testGetPropertiesTime()` test case validates the `@Timed` metric. It sends a request to the
 `http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
-the `localhost` host to the inventory. Next, the test case makes a connection to the 
+the `localhost` host to the inventory. Next, the test case makes a connection to the
 `https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
 It then uses the `validateMetric()` method to assert whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
-* The `testListCount()` test case validates the `@Counted` metric. The test case sends a request to the 
+* The `testListCount()` test case validates the `@Counted` metric. The test case sends a request to the
 `http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
 that this endpoint is accessed only once.
 
