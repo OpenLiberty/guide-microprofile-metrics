@@ -30,7 +30,7 @@ public class InventoryManager {
   private InventoryList invList = new InventoryList();
   private SystemClient systemClient = new SystemClient();
 
-  @Timed(name = "getPropertiesTime",
+  @Timed(name = "getPropertiesTime", absolute = true,
     description = "Time needed to get the properties of a system from the given hostname")
   public Properties get(String hostname) {
     systemClient.init(hostname);
@@ -49,7 +49,7 @@ public class InventoryManager {
     return invList;
   }
 
-  @Gauge(unit = MetricUnits.NONE, name = "inventorySize",
+  @Gauge(unit = MetricUnits.NONE, name = "inventorySize", absolute = true,
     description = "Number of systems in the inventory")
   public int getTotal() {
     return invList.getSystems().size();
