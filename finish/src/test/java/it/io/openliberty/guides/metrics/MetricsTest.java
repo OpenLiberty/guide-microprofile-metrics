@@ -68,17 +68,17 @@ public class MetricsTest {
   public void testGetPropertiesTime() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     validateMetric("@Timed",
-                   "application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second");
+                   "inventory_get_properties_time_rate_per_second");
   }
 
   public void testListCount() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
-    validateMetric("@Counted", "application:list");
+    validateMetric("@Counted", "inventory_list");
   }
 
   public void testInventorySize() {
     validateMetric("@Gauge",
-                   "application:io_openliberty_guides_inventory_inventory_manager_inventory_size");
+                   "inventory_size");
   }
 
   public void validateMetric(String metricType, String givenMetric) {

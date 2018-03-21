@@ -30,7 +30,7 @@ public class InventoryManager {
   private InventoryList invList = new InventoryList();
   private SystemClient systemClient = new SystemClient();
 
-  @Timed(name = "getPropertiesTime", absolute = true,
+  @Timed(name = "inventoryGetPropertiesTime", absolute = true,
     description = "Time needed to get the properties of a system from the given hostname")
   public Properties get(String hostname) {
     systemClient.init(hostname);
@@ -43,7 +43,7 @@ public class InventoryManager {
 
   }
 
-  @Counted(absolute = true, monotonic = true,
+  @Counted(name = "inventory", absolute = true, monotonic = true,
     description = "Number of times the list of systems method is requested")
   public InventoryList list() {
     return invList;
