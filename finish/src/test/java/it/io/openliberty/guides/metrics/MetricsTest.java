@@ -60,25 +60,25 @@ public class MetricsTest {
 
   @Test
   public void testSuite() {
-    this.testGetPropertiesTime();
-    this.testListCount();
-    this.testInventorySize();
+    this.testPropertiesRequestTimeMetric();
+    this.testInventoryAccessCountMetric();
+    this.testInventorySizeGaugeMetric();
   }
 
-  public void testGetPropertiesTime() {
+  public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     validateMetric("@Timed",
-                   "application:io_openliberty_guides_inventory_inventory_manager_get_properties_time_rate_per_second");
+                   "inventory_properties_request_time_rate_per_second");
   }
 
-  public void testListCount() {
+  public void testInventoryAccessCountMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
-    validateMetric("@Counted", "application:list");
+    validateMetric("@Counted", "inventory_access_count");
   }
 
-  public void testInventorySize() {
+  public void testInventorySizeGaugeMetric() {
     validateMetric("@Gauge",
-                   "application:io_openliberty_guides_inventory_inventory_manager_inventory_size");
+                   "inventory_size_gauge");
   }
 
   public void validateMetric(String metricType, String givenMetric) {
