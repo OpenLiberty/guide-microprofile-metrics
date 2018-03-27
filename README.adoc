@@ -162,7 +162,12 @@ annotated method, which is the total number of times the inventory is accessed.
 
 Apply the `@Gauge` annotation to the `getTotal()` method to track the number of systems that are stored in
 the inventory. Note that when the value of the gauge is retrieved, the underlying `getTotal()` method
-is called to return the size of the inventory.
+is called to return the size of the inventory. Note the additional metadata field:
+
+|===
+| `unit` | Use this field to scale the metric, if it is NONE, the metric name is used as is without appending the unit name and no scaling is applied.
+Otherwise, the metric value should be scaled to the base unit of the respective known unit family, for example, unit family `MetricUnits.Percent` with base unit `ratio`.
+|===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
 the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile website].
@@ -201,18 +206,18 @@ First, create a test class in the `src/test/java/it/io/openliberty/guides/metric
 include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
 ----
 
-* The `testGetPropertiesTime()` test case validates the `@Timed` metric. It sends a request to the
+* The `testPropertiesRequestTimeMetric()` test case validates the `@Timed` metric. It sends a request to the
 `http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
 the `localhost` host to the inventory. Next, the test case makes a connection to the
 `https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
-It then uses the `validateMetric()` method to assert whether the time that is needed to retrieve
+Then it asserts whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
-* The `testListCount()` test case validates the `@Counted` metric. The test case sends a request to the
+* The `testInventoryAccessCountMetric()` test case validates the `@Counted` metric. The test case sends a request to the
 `http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
 that this endpoint is accessed only once.
 
-* The `testInventorySize()` test case validates the `@Gauge` metric. The test case first ensures
+* The `testInventorySizeGaugeMetric()` test case validates the `@Gauge` metric. The test case first ensures
 that the localhost is in the inventory. It then looks for the `@Gauge` metric and asserts
 that the inventory size is equal to 1.
 

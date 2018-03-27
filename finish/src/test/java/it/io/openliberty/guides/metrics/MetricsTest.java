@@ -67,33 +67,35 @@ public class MetricsTest {
 
   public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
-    validateMetric("@Timed",
-                   "inventory_properties_request_time_rate_per_second");
+    metrics = getMetrics();
+    for (String metric : metrics) {
+      if (metric.startsWith("inventory_properties_request_time_rate_per_second")) {
+          float seconds = Float.parseFloat(metric.split(" ")[1]);
+          assertTrue(4 > seconds);
+      }
+    }
   }
 
   public void testInventoryAccessCountMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
-    validateMetric("@Counted", "inventory_access_count");
+    metrics = getMetrics();
+    for (String metric : metrics) {
+      if (metric.startsWith("inventory_access_count")) {
+          assertTrue(1 == Character.getNumericValue(metric.charAt(metric.length()
+              - 1)));
+      }
+    }
   }
 
   public void testInventorySizeGaugeMetric() {
-    validateMetric("@Gauge",
-                   "inventory_size_gauge");
-  }
-
-  public void validateMetric(String metricType, String givenMetric) {
     metrics = getMetrics();
     for (String metric : metrics) {
-      if (metric.startsWith(givenMetric)) {
-        if (metricType.equals("@Gauge") || metricType.equals("@Counted")) {
+      if (metric.startsWith("inventory_size_gauge")) {
           assertTrue(1 == Character.getNumericValue(metric.charAt(metric.length()
               - 1)));
-        } else if (metricType.equals("@Timed")) {
-          float seconds = Float.parseFloat(metric.split(" ")[1]);
-          assertTrue(4 > seconds);
-        }
       }
     }
+
   }
 
   public void connectToEndpoint(String url) {
