@@ -166,7 +166,7 @@ the inventory. Note that when the value of the gauge is retrieved, the underlyin
 is called to return the size of the inventory. Note the additional metadata field:
 
 |===
-| `unit` | Use this field to scale the metric, if it is NONE, the metric name is used as is without appending the unit name and no scaling is applied. Otherwise, the metric value should be scaled to the base unit of the respective known unit family, for example, unit family `MetricUnits.Percent` with base unit `ratio`.
+| `unit` | Use this field to scale the metric, if it is NONE, the metric name is used as is without appending the unit name and no scaling is applied. 
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
