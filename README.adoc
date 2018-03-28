@@ -166,7 +166,7 @@ the inventory. Note that when the value of the gauge is retrieved, the underlyin
 is called to return the size of the inventory. Note the additional metadata field:
 
 |===
-| `unit` | Set the unit of the metric, if it is NONE, the metric name is used as is without appending the unit name and no scaling is applied.
+| `unit` | Set the unit of the metric. If it is `MetricUnits.NONE`, the metric name is used as is without appending the unit name, and no scaling is applied.
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
@@ -210,7 +210,7 @@ include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[
 `http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
 the `localhost` host to the inventory. Next, the test case makes a connection to the
 `https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
-Then it asserts whether the time that is needed to retrieve
+Then, it asserts whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
 * The `testInventoryAccessCountMetric()` test case validates the `@Counted` metric. The test case sends a request to the
