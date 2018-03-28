@@ -67,33 +67,36 @@ public class MetricsTest {
 
   public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
-    validateMetric("@Timed",
-                   "inventory_properties_request_time_rate_per_second");
+    metrics = getMetrics();
+    for (String metric : metrics) {
+      if (metric.startsWith(
+          "application:inventory_properties_request_time_rate_per_second")) {
+        float seconds = Float.parseFloat(metric.split(" ")[1]);
+        assertTrue(4 > seconds);
+      }
+    }
   }
 
   public void testInventoryAccessCountMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
-    validateMetric("@Counted", "inventory_access_count");
+    metrics = getMetrics();
+    for (String metric : metrics) {
+      if (metric.startsWith("application:inventory_access_count")) {
+        assertTrue(
+            1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
+      }
+    }
   }
 
   public void testInventorySizeGaugeMetric() {
-    validateMetric("@Gauge",
-                   "inventory_size_gauge");
-  }
-
-  public void validateMetric(String metricType, String givenMetric) {
     metrics = getMetrics();
     for (String metric : metrics) {
-      if (metric.startsWith(givenMetric)) {
-        if (metricType.equals("@Gauge") || metricType.equals("@Counted")) {
-          assertTrue(1 == Character.getNumericValue(metric.charAt(metric.length()
-              - 1)));
-        } else if (metricType.equals("@Timed")) {
-          float seconds = Float.parseFloat(metric.split(" ")[1]);
-          assertTrue(4 > seconds);
-        }
+      if (metric.startsWith("application:inventory_size_guage")) {
+        assertTrue(
+            1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
       }
     }
+
   }
 
   public void connectToEndpoint(String url) {
@@ -103,10 +106,14 @@ public class MetricsTest {
   }
 
   private List<String> getMetrics() {
+    String usernameAndPassword = "admin" + ":" + "adminpwd";
+    String authorizationHeaderValue = "Basic "
+        + java.util.Base64.getEncoder()
+                          .encodeToString(usernameAndPassword.getBytes());
     Response metricsResponse = client.target(baseHttpsUrl + METRICS_APPLICATION)
                                      .request(MediaType.TEXT_PLAIN)
                                      .header("Authorization",
-                                             "Basic Y29uZkFkbWluOm1pY3JvcHJvZmlsZQ==")
+                                         authorizationHeaderValue)
                                      .get();
 
     BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) metricsResponse.getEntity()));
@@ -131,8 +138,7 @@ public class MetricsTest {
   }
 
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200,
-                 response.getStatus());
+    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
   }
 }
 // end::MetricsTest[]
