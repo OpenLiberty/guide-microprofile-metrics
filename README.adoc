@@ -111,7 +111,7 @@ mvn liberty:stop-server
 == Adding MicroProfile Metrics to the inventory service
 
 The MicroProfile Metrics API was added as a dependency to your `pom.xml` file. Look for the dependency with
-the `org.eclipse.microprofile.metric` group ID. Add this dependency to use MicroProfile Metrics API
+the `org.eclipse.microprofile.metric` artifact ID. Add this dependency to use MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
 Before you begin, navigate to the `start` directory.
