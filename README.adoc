@@ -10,7 +10,7 @@
 :page-duration: 15 minutes
 :page-releasedate: 2018-03-15
 :page-description: Learn how to use MicroProfile Metrics to provide system and application metrics from a microservice.
-:page-tags: ['Metrics' , 'MicroProfile' , 'CDI', '@Timed', '@Counted', '@Gauge', 'REST', 'microservices']
+:page-tags: ['Metrics' , 'MicroProfile' , 'CDI', '@Timed', '@Counted', '@Gauge', 'microservices']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'microprofile-health', 'cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -103,7 +103,6 @@ When you're done with the application, stop the Open Liberty server with the fol
 mvn liberty:stop-server
 ```
 
-Now, navigate back to the `start` directory to begin.
 
 // =================================================================================================
 // Adding MicroProfile Metrics to the inventory service
@@ -111,8 +110,10 @@ Now, navigate back to the `start` directory to begin.
 
 == Adding MicroProfile Metrics to the inventory service
 
+Navigate to the `start` directory to begin.
+
 The MicroProfile Metrics API was added as a dependency to your `pom.xml` file. Look for the dependency with
-the `org.eclipse.microprofile.metric` group ID. Add this dependency to use MicroProfile Metrics API
+the `org.eclipse.microprofile.metric` artifact ID. Add this dependency to use MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
 Next, create a `src/main/liberty/config/server.xml` file:
