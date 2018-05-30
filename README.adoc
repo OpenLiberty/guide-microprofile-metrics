@@ -188,7 +188,7 @@ Next, point your browser to the `http://localhost:9080/inventory/systems` URL. R
 `https://localhost:9443/metrics` URL, or access only the application metrics at the
 `https://localhost:9443/metrics/application` URL.
 
-include::{common-includes}/mvnpackage.adoc[]
+include::{common-includes}/mvncompile.adoc[]
 
 // =================================================================================================
 // Testing the metrics
