@@ -16,8 +16,8 @@ package io.openliberty.guides.inventory;
 import java.util.Properties;
 import javax.inject.Inject;
 import javax.enterprise.context.ApplicationScoped;
-import io.openliberty.guides.inventory.client.SystemClient;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+// import io.openliberty.guides.inventory.client.SystemClient;
+// import org.eclipse.microprofile.rest.client.inject.RestClient;
 import io.openliberty.guides.inventory.model.InventoryList;
 import javax.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.metrics.annotation.Counted;
@@ -33,18 +33,15 @@ public class InventoryManager {
   private InventoryList invList = new InventoryList();
   private InventoryUtils invUtils = new InventoryUtils();
 
-  @Inject
-  @RestClient
-  private SystemClient defaultRestClient;
-
   @Timed(name = "inventoryPropertiesRequestTime", absolute = true,
     description = "Time needed to get the properties of a system from the given hostname")
   public Properties get(String hostname) {
-
     Properties properties = invUtils.getPropertiesWithGivenHostName(hostname);
+
     if (properties != null) {
       invList.addToInventoryList(hostname, properties);
     }
+
     return properties;
 
   }
