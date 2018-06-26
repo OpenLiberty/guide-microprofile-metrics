@@ -33,7 +33,7 @@ public class InventoryManager {
   @Timed(name = "inventoryPropertiesRequestTime", absolute = true,
     description = "Time needed to get the properties of a system from the given hostname")
   public Properties get(String hostname) {
-    Properties properties = invUtils.getPropertiesWithGivenHostName(hostname);
+    Properties properties = invUtils.getProperties(hostname);
 
     if (properties != null) {
       invList.addToInventoryList(hostname, properties);
