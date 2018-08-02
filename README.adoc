@@ -73,9 +73,10 @@ service. Because you just started the application, the inventory is currently em
 Access the `inventory` service at the `http://localhost:9080/inventory/systems` URL at least once
 for application metrics to be collected. Otherwise, the metrics will not appear.
 
-Next, point your browser to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Log in
-as the `admin` user with `adminpwd` as the password. You can see both the system and application
-metrics in a text format.
+Next, point your browser to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. If you
+are faced with a security exception, bypass it by selecting `Advanced` or `Details` and clicking on
+the link to proceed to the webpage. Log in as the `admin` user with `adminpwd` as the password. 
+You can see both the system and application metrics in a text format.
 
 To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
 
