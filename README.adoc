@@ -126,7 +126,7 @@ Next, create a `src/main/liberty/config/server.xml` file:
 include::finish/src/main/liberty/config/server.xml[tags=server]
 ----
 
-The `mpMetrics-1.1` feature enables MicroProfile Metrics support in Open Liberty. Note that this
+The `mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this
 feature requires SSL and the configuration has been provided for you.
 
 The `quickStartSecurity` and `keyStore` configuration elements provide basic security to secure the
