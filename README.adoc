@@ -102,6 +102,23 @@ application:inventory_size_guage 1
 application:inventory_access_count 1
 ----
 
+To see only the system metrics, point your browser to `https://localhost:9443/metrics/base`.
+
+See the following sample output for the `@Gauge` and `@Counted` metrics:
+
+[source, role="no_copy"]
+----
+# TYPE base:jvm_uptime_seconds gauge
+# HELP base:jvm_uptime_seconds Displays the start time of the Java virtual machine in milliseconds. This attribute displays the approximate time when the Java virtual machine started.
+base:jvm_uptime_seconds 39.025
+----
+[source, role="no_copy"]
+----
+# TYPE base:classloader_current_loaded_class_count counter
+# HELP base:classloader_current_loaded_class_count Displays the number of classes that are currently loaded in the Java virtual machine.
+base:classloader_current_loaded_class_count 9144
+----
+
 When you're done with the application, stop the Open Liberty server with the following command:
 
 ```
