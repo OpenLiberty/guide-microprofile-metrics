@@ -118,7 +118,7 @@ mvn liberty:stop-server
 Navigate to the `start` directory to begin.
 
 The MicroProfile Metrics API was added as a dependency to your `pom.xml` file. Look for the dependency with
-the `org.eclipse.microprofile.metric` artifact ID. Add this dependency to use MicroProfile Metrics API
+the `mpMetrics` artifact ID. Add this dependency to use MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
 Next, create a `src/main/liberty/config/server.xml` file:
