@@ -12,7 +12,7 @@
 :page-guide-category: microprofile
 :page-essential: false
 :page-description: Learn how to use MicroProfile Metrics to provide system and application metrics from a microservice.
-:page-tags: ['Metrics' , 'MicroProfile' , 'CDI', '@Timed', '@Counted', '@Gauge', 'microservices']
+:page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'microprofile-health', 'cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -121,10 +121,10 @@ base:classloader_current_loaded_class_count 9144
 
 When you're done with the application, stop the Open Liberty server with the following command:
 
-```
+[role=command]
+-----------------------
 mvn liberty:stop-server
-```
-
+-----------------------
 
 // =================================================================================================
 // Adding MicroProfile Metrics to the inventory service
@@ -132,23 +132,35 @@ mvn liberty:stop-server
 
 == Adding MicroProfile Metrics to the inventory service
 
+pom.xml
+[source, xml, linenums, role='code_column']
+----
+include::/finish/pom.xml[tags=!comment;]
+----
+
 Navigate to the `start` directory to begin.
 
-The MicroProfile Metrics API was added as a dependency to your `pom.xml` file. Look for the dependency with
-the `mpMetrics` artifact ID. Add this dependency to use MicroProfile Metrics API
+The MicroProfile Metrics API was added as a dependency to your [hotspot=1-240 file=0]`pom.xml` file. This is the dependency with
+the [hotspot=91 file=0]`mpMetrics` artifact ID. This dependency was added to use the MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
 Next, create a `src/main/liberty/config/server.xml` file:
+[role="code_command hotspot=1-18", subs="quotes"]
+----
+Create the server configuration file.
+`src/main/liberty/config/server.xml`
+----
 
-[source, xml, indent=0]
+server.xml
+[source, xml, linenums, role='code_column']
 ----
 include::finish/src/main/liberty/config/server.xml[tags=server]
 ----
 
-The `mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this
+The [hotspot=8 file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this
 feature requires SSL and the configuration has been provided for you.
 
-The `quickStartSecurity` and `keyStore` configuration elements provide basic security to secure the
+The [hotspot=13 file=1]`quickStartSecurity` and [hotspot=14 file=1]`keyStore` configuration elements provide basic security to secure the
 server. When you visit the `/metrics` endpoint, use the credentials defined in the server
 configuration to log in to view the data.
 
@@ -158,38 +170,42 @@ configuration to log in to view the data.
 
 === Adding the annotations
 
-Create the `InventoryManager` class in the
-`src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
+[role="code_command hotspot=33-67", subs="quotes"]
+----
+Create the `InventoryManager` class
+`src/main/java/io/openliberty/guides/inventory/InventoryManager.java`:
+----
 
-[source, java, indent=0]
+InventoryManager.java
+[source, java, linenums, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
 ----
 
-Apply the `@Timed` annotation to the `get()` method to track how frequently the method is
+Apply the [hotspot=38-41]`@Timed` annotation to the [hotspot=40-42]`get()` method to track how frequently the method is
 invoked and also how long it takes for the invocation to complete. This annotation has these
 metadata fields:
 
 |===
-|`name` | Optional. Use this field to name of the metric.
-|`description` | Optional. Use this field to describe the purpose of the metric.
-|`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the `name` field or that is specified with the package prefix.
+|[hotspot=38]`name` | Optional. Use this field to name of the metric.
+|[hotspot=39]`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the `name` field or that is specified with the package prefix.
+|[hotspot=40-41]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
-Apply the `@Counted` annotation to the `list()` method to count how many times the
+Apply the [hotspot=57-60]`@Counted` annotation to the [hotspot=61-63]`list()` method to count how many times the
 `http://localhost:9080/inventory/systems` URL is accessed. Note the additional metadata field:
 
 |===
-| `monotonic` | Set this annotation to `true` to count the total number of invocations of the
+| [hotspot=59]`monotonic` | Set this annotation to `true` to count the total number of invocations of the
 annotated method, which is the total number of times the inventory is accessed.
 |===
 
-Apply the `@Gauge` annotation to the `getTotal()` method to track the number of systems that are stored in
-the inventory. Note that when the value of the gauge is retrieved, the underlying `getTotal()` method
+Apply the [hotspot=65-68]`@Gauge` annotation to the [hotspot=69-71]`getTotal()` method to track the number of systems that are stored in
+the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=69-71]`getTotal()` method
 is called to return the size of the inventory. Note the additional metadata field:
 
 |===
-| `unit` | Set the unit of the metric. If it is `MetricUnits.NONE`, the metric name is used as is without appending the unit name, and no scaling is applied.
+| [hotspot=65]`unit` | Set the unit of the metric. If it is [hotspot=65]`MetricUnits.NONE`, the metric name is used as is without appending the unit name, and no scaling is applied.
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
@@ -222,41 +238,53 @@ You can test your application manually, but automated tests ensure code quality 
 failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide a simple
 environment for you to write tests.
 
-First, create a test class in the `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java` file:
+[role="code_command hotspot=29-144", subs="quotes"]
+----
+Create the `MetricsTest` class
+`src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
+----
 
-[source, java, indent=0]
+
+[source, java, linenums, role='code_column']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
 ----
 
-* The `testPropertiesRequestTimeMetric()` test case validates the `@Timed` metric. It sends a request to the
+
+InventoryManager.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
+----
+
+* The [hotspot=68-78 file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=38-41 file=1]`@Timed` metric. It sends a request to the
 `http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
 the `localhost` host to the inventory. Next, the test case makes a connection to the
 `https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
 Then, it asserts whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
-* The `testInventoryAccessCountMetric()` test case validates the `@Counted` metric. The test case sends a request to the
+* The [hotspot=80-89 file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=57-60 file=1]`@Counted` metric. The test case sends a request to the
 `http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
 that this endpoint is accessed only once.
 
-* The `testInventorySizeGaugeMetric()` test case validates the `@Gauge` metric. The test case first ensures
-that the localhost is in the inventory. It then looks for the `@Gauge` metric and asserts
+* The [hotspot=91-100 file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot= file=1]`@Gauge` metric. The test case first ensures
+that the localhost is in the inventory. It then looks for the [hotspot= file=1]`@Gauge` metric and asserts
 that the inventory size is equal to 1.
 
-The `oneTimeSetup()` method retrieves the port number for the server and builds a base URL string
-to set up the tests. Apply the `@BeforeClass` annotation to this method to execute it before any of
+The [hotspot=43-48 file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string
+to set up the tests. Apply the [hotspot=42 file=0]`@BeforeClass` annotation to this method to execute it before any of
 the test cases.
 
-The `setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service.
-Register this client with a `JsrJsonpProvider` JSON-P provider to process JSON resources. The
-`teardown()` method destroys this client instance. Apply the `@Before` annotation so that a method
-executes before a test case, and apply the `@After` annotation so that a method executes after a test
+The [hotspot=51-54]`setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service.
+Register this client with a [hotspot=53 file=0]`JsrJsonpProvider` JSON-P provider to process JSON resources. The
+[hotspot=57-59]`teardown()` method destroys this client instance. Apply the [hotspot=50 file=0]`@Before` annotation so that a method
+executes before a test case, and apply the [hotspot=56 file=0]`@After` annotation so that a method executes after a test
 case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks
 before and after a test.
 
-To execute the test cases in a particular order, put them in a `testSuite()` method.
-Label the method with the `@Test` annotation, which automatically executes when your test class runs.
+To execute the test cases in a particular order, put them in a [hotspot=62-66 file=0]`testSuite()` method.
+Label the method with the [hotspot=61]`@Test` annotation, which automatically executes when your test class runs.
 
 In addition, a few endpoint tests `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
 and `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` are provided for you to
@@ -286,7 +314,7 @@ Results :
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-To see whether the tests detect a failure, go to the `MetricsTest.java` file and change any of the assertions
+To see whether the tests detect a failure, go to the [hotspot=29-144 file=0]`MetricsTest.java` file and change any of the assertions
 in the `validateMetric()` method. Rerun the Maven build. A test failure occurs.
 
 // =================================================================================================
@@ -296,6 +324,7 @@ in the `validateMetric()` method. Rerun the Maven build. A test failure occurs.
 == Great work! You're done!
 
 You learned how to enable system and application metrics for microservices by using MicroProfile Metrics
-and wrote tests to validate them.
+and wrote tests to validate them in Open Liberty.
 
 include::{common-includes}/finish.adoc[]
+include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
