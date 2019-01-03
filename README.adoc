@@ -188,7 +188,7 @@ metadata fields:
 
 |===
 |[hotspot=23]`name` | Optional. Use this field to name of the metric.
-|[hotspot=24]`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the `name` field or that is specified with the package prefix.
+|[hotspot=24]`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the [hotspot=23]`name` field or that is specified with the package prefix.
 |[hotspot=25-26]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
