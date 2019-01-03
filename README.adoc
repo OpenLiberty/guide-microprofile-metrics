@@ -6,7 +6,7 @@
 // Contributors:
 //   IBM Corporation
 :projectid: microprofile-metrics
-:page-layout: guide
+:page-layout: guide-multipane
 :page-duration: 15 minutes
 :page-releasedate: 2018-03-15
 :page-guide-category: microprofile
