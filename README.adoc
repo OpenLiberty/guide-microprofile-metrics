@@ -123,9 +123,9 @@ base:classloader_current_loaded_class_count 9144
 When you're done with the application, stop the Open Liberty server with the following command:
 
 [role=command]
------------------------
+----
 mvn liberty:stop-server
------------------------
+----
 
 // =================================================================================================
 // Adding MicroProfile Metrics to the inventory service
@@ -136,7 +136,13 @@ mvn liberty:stop-server
 pom.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/pom.xml[tags=!comment;]
+include::finish/pom.xml[tags=!comment]
+----
+
+server.xml
+[source, xml, linenums, role='code_column']
+----
+include::finish/src/main/liberty/config/server.xml[tags=server]
 ----
 
 Navigate to the `start` directory to begin.
@@ -145,17 +151,10 @@ The MicroProfile Metrics API was added as a dependency to your [hotspot=1-240 fi
 the [hotspot=91 file=0]`mpMetrics` artifact ID. This dependency was added to use the MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
-Next, create a `src/main/liberty/config/server.xml` file:
-[role="code_command hotspot=1-18", subs="quotes"]
+[role="code_command hotspot=1-18 file=1", subs="quotes"]
 ----
 Create the server configuration file.
 `src/main/liberty/config/server.xml`
-----
-
-server.xml
-[source, xml, linenums, role='code_column']
-----
-include::finish/src/main/liberty/config/server.xml[tags=server]
 ----
 
 The [hotspot=8 file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this
@@ -216,6 +215,7 @@ the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile we
 // Building and running the application
 // =================================================================================================
 
+[role=command]
 include::{common-includes}/mvnbuild.adoc[]
 
 Point your browser to the `https://localhost:9443/metrics` URL to review the all available metrics
@@ -246,7 +246,7 @@ Create the `MetricsTest` class
 `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
 ----
 
-
+MetricsTest.java
 [source, java, linenums, role='code_column']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[tags=MetricsTest]
