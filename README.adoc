@@ -48,7 +48,7 @@ the metrics data collected. Monitoring agents can access these endpoints to coll
 // =================================================================================================
 // Getting Started
 // =================================================================================================
-[role='command']
+[role=command]
 include::{common-includes}/gitclone.adoc[]
 
 // =================================================================================================
@@ -136,7 +136,7 @@ mvn liberty:stop-server
 pom.xml
 [source, xml, linenums, role='code_column']
 ----
-include::/finish/pom.xml[tags=!comment;]
+include::finish/pom.xml[tags=!comment;]
 ----
 
 Navigate to the `start` directory to begin.
@@ -227,7 +227,7 @@ Next, point your browser to the `http://localhost:9080/inventory/systems` URL. R
 `https://localhost:9443/metrics` URL, or access only the application metrics at the
 `https://localhost:9443/metrics/application` URL.
 
-[role='command']
+[role=command]
 include::{common-includes}/mvncompile.adoc[]
 
 // =================================================================================================
@@ -296,7 +296,7 @@ introduced a bug into the code.
 // =================================================================================================
 // Running the tests
 // =================================================================================================
-[role='command']
+[role=command]
 include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
