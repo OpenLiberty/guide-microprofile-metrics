@@ -48,7 +48,7 @@ the metrics data collected. Monitoring agents can access these endpoints to coll
 // =================================================================================================
 // Getting Started
 // =================================================================================================
-
+[role='command']
 include::{common-includes}/gitclone.adoc[]
 
 // =================================================================================================
@@ -62,9 +62,10 @@ before you build your own.
 
 To try the application, navigate to the `finish` directory and run the following command:
 
-```
+[role=command]
+-----------
 mvn install liberty:start-server
-```
+-----------
 
 Maven builds the application and runs it inside Open Liberty.
 
@@ -226,6 +227,7 @@ Next, point your browser to the `http://localhost:9080/inventory/systems` URL. R
 `https://localhost:9443/metrics` URL, or access only the application metrics at the
 `https://localhost:9443/metrics/application` URL.
 
+[role='command']
 include::{common-includes}/mvncompile.adoc[]
 
 // =================================================================================================
@@ -294,7 +296,7 @@ introduced a bug into the code.
 // =================================================================================================
 // Running the tests
 // =================================================================================================
-
+[role='command']
 include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
