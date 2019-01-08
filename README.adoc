@@ -154,7 +154,7 @@ in your code to provide metrics from your microservices.
 
 [role="code_command hotspot=1-16 file=1", subs="quotes"]
 ----
-Create the server configuration file.
+#Create the server configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -173,7 +173,7 @@ configuration to log in to view the data.
 
 [role="code_command hotspot=18-58", subs="quotes"]
 ----
-Create the `InventoryManager` class
+#Create the `InventoryManager` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`:
 ----
 
@@ -254,7 +254,7 @@ environment for you to write tests.
 
 [role="code_command hotspot=16-130 file=0", subs="quotes"]
 ----
-Create the `MetricsTest` class
+#Create the `MetricsTest` class.#
 `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
 ----
 
