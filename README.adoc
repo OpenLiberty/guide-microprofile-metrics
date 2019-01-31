@@ -149,7 +149,7 @@ include::finish/src/main/liberty/config/server.xml[tags=server]
 Navigate to the `start` directory to begin.
 
 The MicroProfile Metrics API was added as a dependency to your [hotspot=1-234 file=0]`pom.xml` file. This is the dependency with
-the [hotspot=88 file=0]`mpMetrics` artifact ID. This dependency was added to use the MicroProfile Metrics API
+the [hotspot=63 file=0]`mpMetrics` artifact ID. This dependency was added to use the MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
 [role="code_command hotspot=1-16 file=1", subs="quotes"]
