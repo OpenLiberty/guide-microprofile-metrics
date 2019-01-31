@@ -259,14 +259,14 @@ environment for you to write tests.
 ----
 
 * The [hotspot=55-65 file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=23-26 file=1]`@Timed` metric. It sends a request to the
-`http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
+`\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
 the `localhost` host to the inventory. Next, the test case makes a connection to the
-`https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
+`\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
 Then, it asserts whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
 * The [hotspot=67-76 file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=42-45 file=1]`@Counted` metric. The test case sends a request to the
-`http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
+`\http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
 that this endpoint is accessed only once.
 
 * The [hotspot=78-87 file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=50-53 file=1]`@Gauge` metric. The test case first ensures
