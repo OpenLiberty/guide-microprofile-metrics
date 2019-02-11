@@ -148,11 +148,11 @@ include::finish/src/main/liberty/config/server.xml[tags=server]
 
 Navigate to the `start` directory to begin.
 
-The MicroProfile Metrics API was added as a dependency to your [hotspot=1-234 file=0]`pom.xml` file. This is the dependency with
+The MicroProfile Metrics API was added as a dependency to your [hotspot file=0]`pom.xml` file. This is the dependency with
 the [hotspot=63 file=0]`mpMetrics` artifact ID. This dependency was added to use the MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
-[role="code_command hotspot=1-16 file=1", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the server configuration file.#
 `src/main/liberty/config/server.xml`
@@ -171,7 +171,7 @@ configuration to log in to view the data.
 
 === Adding the annotations
 
-[role="code_command hotspot=18-58", subs="quotes"]
+[role="code_command hotspot", subs="quotes"]
 ----
 #Create the `InventoryManager` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`:
@@ -252,7 +252,7 @@ You can test your application manually, but automated tests ensure code quality 
 failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide a simple
 environment for you to write tests.
 
-[role="code_command hotspot=16-130 file=0", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `MetricsTest` class.#
 `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`:
@@ -315,7 +315,7 @@ Results :
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-To see whether the tests detect a failure, go to the [hotspot=16-130 file=0]`MetricsTest.java` file and change any of the assertions
+To see whether the tests detect a failure, go to the [hotspot file=0]`MetricsTest.java` file and change any of the assertions
 in the `validateMetric()` method. Rerun the Maven build. A test failure occurs.
 
 // =================================================================================================
