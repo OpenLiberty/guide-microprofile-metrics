@@ -194,7 +194,7 @@ metadata fields:
 |===
 
 Apply the [hotspot=42-45]`@Counted` annotation to the [hotspot=46-48]`list()` method to count how many times the
-`http://localhost:9080/inventory/systems` URL is accessed. Note the additional metadata field:
+`http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]` URL is accessed. Note the additional metadata field:
 
 |===
 | [hotspot=44]`monotonic` | Set this annotation to `true` to count the total number of invocations of the
@@ -219,14 +219,14 @@ the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile we
 [role=command]
 include::{common-includes}/mvnbuild.adoc[]
 
-Point your browser to the `https://localhost:9443/metrics`[window="_blank"] URL to review the all available metrics
+Point your browser to the `https://localhost:9443/metrics[https://localhost:9443/metrics^]` URL to review the all available metrics
 that have been enabled through MicroProfile Metrics. Log in with `admin` as your username and
 `adminpwd` as your password. You see only the system metrics because the server just started,
 and the `inventory` service has not been accessed.
 
-Next, point your browser to the `http://localhost:9080/inventory/systems`[window="_blank"] URL. Reload the
-`https://localhost:9443/metrics`[window="_blank"] URL, or access only the application metrics at the
-`https://localhost:9443/metrics/application`[window="_blank"] URL.
+Next, point your browser to the `http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]` URL. Reload the
+`https://localhost:9443/metrics`[https://localhost:9443/metrics^] URL, or access only the application metrics at the
+`https://localhost:9443/metrics/application`[https://localhost:9443/metrics/application^] URL.
 
 [role=command]
 include::{common-includes}/mvncompile.adoc[]
