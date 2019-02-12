@@ -70,18 +70,18 @@ mvn install liberty:start-server
 
 Maven builds the application and runs it inside Open Liberty.
 
-Point your browser to the `http://localhost:9080/inventory/systems` URL to access the `inventory`
+Point your browser to the `http://localhost:9080/inventory/systems`[window="_blank"] URL to access the `inventory`
 service. Because you just started the application, the inventory is currently empty. Then, access the
 `http://localhost:9080/inventory/systems/localhost` URL to add the localhost into the inventory.
 
-Access the `inventory` service at the `http://localhost:9080/inventory/systems` URL at least once
+Access the `inventory` service at the `http://localhost:9080/inventory/systems`[window="_blank"] URL at least once
 for application metrics to be collected. Otherwise, the metrics will not appear.
 
-Next, point your browser to the `https://localhost:9443/metrics` MicroProfile Metrics endpoint. Log in
+Next, point your browser to the `https://localhost:9443/metrics[window="_blank"]` MicroProfile Metrics endpoint. Log in
 as the `admin` user with `adminpwd` as the password. You can see both the system and application
 metrics in a text format.
 
-To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`.
+To see only the application metrics, point your browser to `https://localhost:9443/metrics/application`[window="_blank"].
 
 See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
 
@@ -104,7 +104,7 @@ application:inventory_size_guage 1
 application:inventory_access_count 1
 ----
 
-To see only the system metrics, point your browser to `https://localhost:9443/metrics/base`.
+To see only the system metrics, point your browser to `https://localhost:9443/metrics/base`[window="_blank"].
 
 See the following sample output for the `@Gauge` and `@Counted` metrics:
 
@@ -210,7 +210,7 @@ is called to return the size of the inventory. Note the additional metadata fiel
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
-the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile website].
+the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile website^].
 
 // =================================================================================================
 // Building and running the application
@@ -219,14 +219,14 @@ the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile we
 [role=command]
 include::{common-includes}/mvnbuild.adoc[]
 
-Point your browser to the `https://localhost:9443/metrics` URL to review the all available metrics
+Point your browser to the `https://localhost:9443/metrics`[window="_blank"] URL to review the all available metrics
 that have been enabled through MicroProfile Metrics. Log in with `admin` as your username and
 `adminpwd` as your password. You see only the system metrics because the server just started,
 and the `inventory` service has not been accessed.
 
-Next, point your browser to the `http://localhost:9080/inventory/systems` URL. Reload the
-`https://localhost:9443/metrics` URL, or access only the application metrics at the
-`https://localhost:9443/metrics/application` URL.
+Next, point your browser to the `http://localhost:9080/inventory/systems`[window="_blank"] URL. Reload the
+`https://localhost:9443/metrics`[window="_blank"] URL, or access only the application metrics at the
+`https://localhost:9443/metrics/application`[window="_blank"] URL.
 
 [role=command]
 include::{common-includes}/mvncompile.adoc[]
