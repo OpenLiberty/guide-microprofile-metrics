@@ -116,7 +116,8 @@ public class MetricsTest {
                                          authorizationHeaderValue)
                                      .get();
 
-    BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) metricsResponse.getEntity()));
+    BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) 
+    metricsResponse.getEntity()));
     List<String> result = new ArrayList<String>();
     try {
       String input;
