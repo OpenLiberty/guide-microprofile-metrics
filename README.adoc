@@ -174,7 +174,7 @@ configuration to log in to view the data.
 [role="code_command hotspot", subs="quotes"]
 ----
 #Create the `InventoryManager` class.#
-`src/main/java/io/openliberty/guides/inventory/InventoryManager.java`:
+`src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 
 InventoryManager.java
