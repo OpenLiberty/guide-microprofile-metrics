@@ -279,7 +279,7 @@ the test cases.
 
 The [hotspot=38-41]`setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service.
 Register this client with a [hotspot=40 file=0]`JsrJsonpProvider` JSON-P provider to process JSON resources. The
-[hotspot=44-46]`teardown()` method destroys this client instance. Apply the [hotspot=50 file=0]`@Before` annotation so that a method
+[hotspot=44-46]`teardown()` method destroys this client instance. Apply the [hotspot=37 file=0]`@Before` annotation so that a method
 executes before a test case, and apply the [hotspot=43 file=0]`@After` annotation so that a method executes after a test
 case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks
 before and after a test.
