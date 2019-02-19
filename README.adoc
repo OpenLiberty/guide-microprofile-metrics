@@ -77,7 +77,7 @@ http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventor
 Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once
 for application metrics to be collected. Otherwise, the metrics will not appear.
 
-Next, point your browser to the https://localhost:9443/metrics[http://localhost:9080/inventory/systems^] MicroProfile Metrics endpoint. Log in
+Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in
 as the `admin` user with `adminpwd` as the password. You can see both the system and application
 metrics in a text format.
 
