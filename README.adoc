@@ -327,4 +327,4 @@ in the test methods. Rerun the Maven build. A test failure occurs.
 You learned how to enable system and application metrics for microservices by using MicroProfile Metrics
 and wrote tests to validate them in Open Liberty.
 
-include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
+include::{common-includes}/attribution.adoc[subs="attributes"]
