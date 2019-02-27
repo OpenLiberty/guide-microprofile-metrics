@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2018 IBM Corporation and others.
+ * Copyright (c) 2017, 2019 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,8 +35,10 @@ public class InventoryManager {
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
   private InventoryUtils invUtils = new InventoryUtils();
 
-  @Timed(name = "inventoryPropertiesRequestTime", absolute = true,
-    description = "Time needed to get the properties of a system from the given hostname")
+  @Timed(name = "inventoryPropertiesRequestTime", 
+    absolute = true,
+    description = "Time needed to get the properties of" +
+      "a system from the given hostname")
   public Properties get(String hostname) {
     return invUtils.getProperties(hostname);
   }
@@ -52,13 +54,17 @@ public class InventoryManager {
   }
 
 
-  @Counted(name = "inventoryAccessCount", absolute = true, monotonic = true,
+  @Counted(name = "inventoryAccessCount", 
+    absolute = true, 
+    monotonic = true,
     description = "Number of times the list of systems method is requested")
   public InventoryList list() {
     return new InventoryList(systems);
   }
 
-  @Gauge(unit = MetricUnits.NONE, name = "inventorySizeGuage", absolute = true,
+  @Gauge(unit = MetricUnits.NONE, 
+    name = "inventorySizeGuage", 
+    absolute = true,
     description = "Number of systems in the inventory")
   public int getTotal() {
     return systems.size();
