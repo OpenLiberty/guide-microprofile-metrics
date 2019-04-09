@@ -6,7 +6,7 @@
     <feature>jsonp-1.1</feature>
     <feature>cdi-2.0</feature>
     <feature>mpMetrics-1.1</feature>
-    <feature>mpRestClient-1.1</feature>
+    <feature>mpRestClient-1.2</feature>
   </featureManager>
 
   <applicationManager autoExpand="true" />
