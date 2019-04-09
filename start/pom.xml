@@ -70,7 +70,7 @@
     <!-- end::metrics[] -->
     <dependency>
         <groupId>io.openliberty.features</groupId>
-        <artifactId>mpRestClient-1.1</artifactId>
+        <artifactId>mpRestClient-1.2</artifactId>
         <type>esa</type>
         <scope>provided</scope>
     </dependency>
