@@ -56,7 +56,6 @@ public class InventoryManager {
 
   @Counted(name = "inventoryAccessCount", 
     absolute = true, 
-    monotonic = true,
     description = "Number of times the list of systems method is requested")
   public InventoryList list() {
     return new InventoryList(systems);
