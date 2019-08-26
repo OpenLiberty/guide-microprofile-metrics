@@ -193,7 +193,8 @@ metadata fields:
 |[hotspot=25-26]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
-Apply the @counted annotation to the list() method to count how many times the http://localhost:9080/inventory/systems URL is accessed.
+Apply the [hotspot=42-45]`@Counted` annotation to the [hotspot=46-48]`list()` method to count how many times the
+http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL is accessed. 
 
 Apply the [hotspot=50-53]`@Gauge` annotation to the [hotspot=54-56]`getTotal()` method to track the number of systems that are stored in
 the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=54-56]`getTotal()` method
