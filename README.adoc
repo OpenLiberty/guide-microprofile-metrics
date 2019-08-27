@@ -194,12 +194,7 @@ metadata fields:
 |===
 
 Apply the [hotspot=42-45]`@Counted` annotation to the [hotspot=46-48]`list()` method to count how many times the
-http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL is accessed. Note the additional metadata field:
-
-|===
-| [hotspot=44]`monotonic` | Set this annotation to `true` to count the total number of invocations of the
-annotated method, which is the total number of times the inventory is accessed.
-|===
+http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL is accessed. 
 
 Apply the [hotspot=50-53]`@Gauge` annotation to the [hotspot=54-56]`getTotal()` method to track the number of systems that are stored in
 the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=54-56]`getTotal()` method
