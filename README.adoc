@@ -193,20 +193,15 @@ metadata fields:
 |[hotspot=25-26]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
-Apply the [hotspot=42-45]`@Counted` annotation to the [hotspot=46-48]`list()` method to count how many times the
-http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL is accessed. Note the additional metadata field:
+Apply the [hotspot=42-44]`@Counted` annotation to the [hotspot=45-47]`list()` method to count how many times the
+http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL is accessed. 
 
-|===
-| [hotspot=44]`monotonic` | Set this annotation to `true` to count the total number of invocations of the
-annotated method, which is the total number of times the inventory is accessed.
-|===
-
-Apply the [hotspot=50-53]`@Gauge` annotation to the [hotspot=54-56]`getTotal()` method to track the number of systems that are stored in
-the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=54-56]`getTotal()` method
+Apply the [hotspot=49-52]`@Gauge` annotation to the [hotspot=53-55]`getTotal()` method to track the number of systems that are stored in
+the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=53-55]`getTotal()` method
 is called to return the size of the inventory. Note the additional metadata field:
 
 |===
-| [hotspot=50]`unit` | Set the unit of the metric. If it is [hotspot=50]`MetricUnits.NONE`, the metric name is used as is without appending the unit name, and no scaling is applied.
+| [hotspot=49]`unit` | Set the unit of the metric. If it is [hotspot=49]`MetricUnits.NONE`, the metric name is used as is without appending the unit name, and no scaling is applied.
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
@@ -265,12 +260,12 @@ the `localhost` host to the inventory. Next, the test case makes a connection to
 Then, it asserts whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
-* The [hotspot=67-76 file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=42-45 file=1]`@Counted` metric. The test case sends a request to the
+* The [hotspot=67-76 file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=42-44 file=1]`@Counted` metric. The test case sends a request to the
 `\http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
 that this endpoint is accessed only once.
 
-* The [hotspot=78-87 file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=50-53 file=1]`@Gauge` metric. The test case first ensures
-that the localhost is in the inventory. It then looks for the [hotspot=50-53 file=1]`@Gauge` metric and asserts
+* The [hotspot=78-87 file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=49-52 file=1]`@Gauge` metric. The test case first ensures
+that the localhost is in the inventory. It then looks for the [hotspot=49-52 file=1]`@Gauge` metric and asserts
 that the inventory size is equal to 1.
 
 The [hotspot=30-35 file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string
