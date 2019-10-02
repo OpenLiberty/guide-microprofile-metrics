@@ -87,10 +87,14 @@ See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metr
 
 [role="no_copy"]
 ----
-# TYPE application_inventoryPropertiesRequestTime_rate_per_second gauge
-application_inventoryPropertiesRequestTime_rate_per_second 0.13199736470323709
-# HELP application_inventoryPropertiesRequestTime_seconds Time needed to get the properties of a system from the given hostname
-application_inventoryPropertiesRequestTime_seconds_count 1
+# TYPE application_inventoryProcessingTime_rate_per_second gauge
+application_inventoryProcessingTime_rate_per_second{method="get"} 0.037187510967201284
+# HELP application_inventoryProcessingTime_seconds Time needed to process the inventory
+application_inventoryProcessingTime_seconds_count{method="get"} 1
+# TYPE application_inventoryProcessingTime_rate_per_second gauge
+application_inventoryProcessingTime_rate_per_second{method="list"} 0.0743762996056714
+# HELP application_inventoryProcessingTime_seconds Time needed to process the inventory
+application_inventoryProcessingTime_seconds_count{method="list"} 2
 ----
 [role="no_copy"]
 ----
@@ -161,13 +165,13 @@ include::finish/pom.xml[]
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/src/main/liberty/config/server.xml[tags=server]
+include::finish/src/main/liberty/config/server.xml[]
 ----
 
 Navigate to the `start` directory to begin.
 
 The MicroProfile Metrics API was added as a dependency to your [hotspot file=0]`pom.xml` file. This is the dependency with
-the [hotspot=63 file=0]`mpMetrics` artifact ID. This dependency was added to use the MicroProfile Metrics API
+the [hotspot=mpMetrics file=0]`mpMetrics` artifact ID. This dependency was added to use the MicroProfile Metrics API
 in your code to provide metrics from your microservices.
 
 [role="code_command hotspot file=1", subs="quotes"]
@@ -176,12 +180,10 @@ in your code to provide metrics from your microservices.
 `src/main/liberty/config/server.xml`
 ----
 
-The [hotspot=7 file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this
+The [hotspot=mpMetrics file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this
 feature requires SSL and the configuration has been provided for you.
 
-The [hotspot=12 file=1]`quickStartSecurity` and [hotspot=13 file=1]`keyStore` configuration elements provide basic security to secure the
-server. When you visit the `/metrics` endpoint, use the credentials defined in the server
-configuration to log in to view the data.
+The [hotspot=quickStartSecurity file=1]`quickStartSecurity` and [hotspot=keyStore file=1]`keyStore` configuration elements provide basic security to secure the server. When you visit the `/metrics` endpoint, use the credentials defined in the server configuration to log in to view the data.
 
 // =================================================================================================
 // Adding the annotations
@@ -196,30 +198,39 @@ configuration to log in to view the data.
 ----
 
 InventoryManager.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-Apply the [hotspot=23-26]`@Timed` annotation to the [hotspot=27-29]`get()` method to track how frequently the method is
-invoked and also how long it takes for the invocation to complete. This annotation has these
-metadata fields:
+Apply the [hotspot=timedForGet]`@Timed` annotation to the [hotspot=get]`get()` method,
+and apply the [hotspot=timedForList]`@Timed` annotation to the [hotspot=list]`list()` method.
+
+This annotation has these metadata fields:
 
 |===
-|[hotspot=23]`name` | Optional. Use this field to name of the metric.
-|[hotspot=24]`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the [hotspot=23]`name` field or that is specified with the package prefix.
-|[hotspot=25-26]`description` | Optional. Use this field to describe the purpose of the metric.
+|[hotspot=nameForGet hotspot=nameForList]`name` | Optional. Use this field to name the metric.
+|[hotspot=tagForGet hotspot=tagForList]`tags` | Optional. Use this field to add tags to the metric with the same [hotspot=nameForGet hotspot=nameForList]`name`.
+|[hotspot=absoluteForGet hotspot=absoluteForList]`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the [hotspot=nameForGet hotspot=nameForList]`name` field or that is specified with the package prefix.
+|[hotspot=desForGet hotspot=desForList]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
-Apply the [hotspot=42-44]`@Counted` annotation to the [hotspot=45-47]`list()` method to count how many times the
-http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL is accessed monotonically, which is counting up sequentially.
+Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList]`inventoryProcessingTime` name. The `@Timed` annotation tracks how frequently and how long it takes for the method invocation to complete. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension to the collected metric data for the inventory processing time in getting the system properties.
 
-Apply the [hotspot=49-52]`@Gauge` annotation to the [hotspot=53-55]`getTotal()` method to track the number of systems that are stored in
-the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=53-55]`getTotal()` method
+- The `method=get` processing time tag indicates the time to get the system properties from calling the `system` service.
+- The `method=list` processing time tag indicates the time for the `inventory` service to list all of the system properties in the inventory.
+
+The tags can then be queried with either the processing time for the [hotspot=get]`get()` method or the [hotspot=list]`list()` method or both.
+
+Apply the [hotspot=countedForList]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the
+\http://localhost:9080/inventory/systems URL is accessed monotonically, which is counting up sequentially.
+
+Apply the [hotspot=gaugeForGetTotal]`@Gauge` annotation to the [hotspot=getTotal]`getTotal()` method to track the number of systems that are stored in
+the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=getTotal]`getTotal()` method
 is called to return the size of the inventory. Note the additional metadata field:
 
 |===
-| [hotspot=49]`unit` | Set the unit of the metric. If it is [hotspot=49]`MetricUnits.NONE`, the metric name is used as is without appending the unit name, and no scaling is applied.
+| [hotspot=unitForGetTotal]`unit` | Set the unit of the metric. If it is [hotspot=unitForGetTotal]`MetricUnits.NONE`, the metric name is used as is without appending the unit name, and no scaling is applied.
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
@@ -231,14 +242,14 @@ the https://microprofile.io/project/eclipse/microprofile-metrics[MicroProfile we
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/src/main/liberty/config/server.xml[tags=server]
+include::finish/src/main/liberty/config/server.xml[]
 ----
 
 MicroProfile Metrics API implementors can provide vendor metrics in the same forms as the base and application outputs.
 Liberty as a vendor supplies server component metrics when both the
 [hotspot=mpMetrics]`mpMetrics` and [hotspot=monitor]`monitor` features are enabled in the [hotspot]`server.xml` configuration file.
 
-You can see the vendor only metrics in the https://localhost:9443/metrics/vendor[https://localhost:9443/metrics/vendor^] URL.
+You can see the vendor only metrics in the `metrics/vendor` endpoint.
 You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management.
 Note that these metrics are specific to Liberty application server. Different vendor may provide other metrics.
 Visit https://www.ibm.com/support/knowledgecenter/en/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/rwlp_monitor_metrics_rest_api.html[Liberty vendor metrics^] for more information.
@@ -258,6 +269,9 @@ and the `inventory` service has not been accessed.
 Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the
 https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the
 https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^] URL.
+
+You can see the system metrics in the https://localhost:9443/metrics/base[^] URL.
+You can also see the vendor metrics in the https://localhost:9443/metrics/vendor[^] URL.
 
 [role=command]
 include::{common-includes}/mvncompile.adoc[]
