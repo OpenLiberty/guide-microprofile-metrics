@@ -47,7 +47,7 @@ public class InventoryManager {
          absolute = true,
          // end::absoluteForGet[]
          // tag::desForGet[]
-         description = "Time needed to process the inventory")
+         description = "Time needed to get the properties of a system")
          // end::desForGet[]
   // end::timedForGet[]
   // tag::get[]
@@ -77,7 +77,7 @@ public class InventoryManager {
          absolute = true,
          // end::absoluteForList[]
          // tag::desForList[]
-         description = "Time needed to process the inventory")
+         description = "Time needed to create an inventory list of systems")
          // end::desForList[]
   // end::timedForList[]
   // tag::countedForList[]
