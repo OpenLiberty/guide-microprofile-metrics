@@ -231,7 +231,7 @@ Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated w
 The tags can then be queried with either the processing time for the [hotspot=get]`get()` method or the [hotspot=list]`list()` method or both.
 
 Apply the [hotspot=countedForList]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the
-\http://localhost:9080/inventory/systems URL is accessed monotonically, which is counting up sequentially.
+`\http://localhost:9080/inventory/systems` URL is accessed monotonically, which is counting up sequentially.
 
 Apply the [hotspot=gaugeForGetTotal]`@Gauge` annotation to the [hotspot=getTotal]`getTotal()` method to track the number of systems that are stored in
 the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=getTotal]`getTotal()` method
@@ -296,9 +296,9 @@ include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[
 ----
 
 InventoryManager.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=InventoryManager]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
 You can test your application manually, but automated tests ensure code quality because they trigger a
@@ -311,19 +311,19 @@ environment for you to write tests.
 `src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java`
 ----
 
-* The [hotspot=55-65 file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=23-26 file=1]`@Timed` metric. It sends a request to the
+* The [hotspot=55-65 file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=timedForGet file=1]`@Timed` metric. It sends a request to the
 `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
 the `localhost` host to the inventory. Next, the test case makes a connection to the
 `\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
 Then, it asserts whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
-* The [hotspot=67-76 file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=42-44 file=1]`@Counted` metric. The test case sends a request to the
+* The [hotspot=67-76 file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=countedForList file=1]`@Counted` metric. The test case sends a request to the
 `\http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
 that this endpoint is accessed only once.
 
-* The [hotspot=78-87 file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=49-52 file=1]`@Gauge` metric. The test case first ensures
-that the localhost is in the inventory. It then looks for the [hotspot=49-52 file=1]`@Gauge` metric and asserts
+* The [hotspot=78-87 file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric. The test case first ensures
+that the localhost is in the inventory. It then looks for the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric and asserts
 that the inventory size is equal to 1.
 
 The [hotspot=30-35 file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string
