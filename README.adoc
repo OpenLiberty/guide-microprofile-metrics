@@ -123,9 +123,9 @@ See the following sample output for the `@Gauge` and `@Counted` metrics:
 
 [role="no_copy"]
 ----
-# TYPE base:jvm_uptime_seconds gauge
-# HELP base:jvm_uptime_seconds Displays the start time of the Java virtual machine in milliseconds. This attribute displays the approximate time when the Java virtual machine started.
-base:jvm_uptime_seconds 39.025
+# TYPE base_jvm_uptime_seconds gauge
+# HELP base_jvm_uptime_seconds Displays the start time of the Java virtual machine in milliseconds. This attribute displays the approximate time when the Java virtual machine started.
+base_jvm_uptime_seconds 30.342000000000002
 ----
 [role="no_copy"]
 ----
