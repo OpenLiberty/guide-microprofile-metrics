@@ -34,14 +34,23 @@ public class InventoryManager {
 
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
   private InventoryUtils invUtils = new InventoryUtils();
-
+  // tag::Timed[]
+  // tag::name[]
   @Timed(name = "inventoryPropertiesRequestTime", 
+  // end::name[]
+    // tag::absolute[]
     absolute = true,
+    // end::absolute[]
+    // tag::description[]
     description = "Time needed to get the properties of" +
       "a system from the given hostname")
+      // tag::description[]
+  // end::Timed[]
+  // tag::get[]
   public Properties get(String hostname) {
     return invUtils.getProperties(hostname);
   }
+  // end::get[]
 
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
@@ -53,21 +62,30 @@ public class InventoryManager {
       systems.add(host);
   }
 
-
+  // tag::Counted[]
   @Counted(name = "inventoryAccessCount", 
     absolute = true, 
     description = "Number of times the list of systems method is requested")
+    // end::Counted[]
+  // tag::list[]
   public InventoryList list() {
     return new InventoryList(systems);
   }
+  // end::list[]
 
-  @Gauge(unit = MetricUnits.NONE, 
+  // tag::Gauge[]
+  // tag::unit[]
+  @Gauge(unit = MetricUnits.NONE,
+  // end::unit[] 
     name = "inventorySizeGuage", 
     absolute = true,
     description = "Number of systems in the inventory")
+  // end::Gauge[]
+  // tag::getTotal[]
   public int getTotal() {
     return systems.size();
   }
+  // end::getTotal[]
 
 }
 // end::InventoryManager[]

@@ -39,32 +39,50 @@ public class MetricsTest {
   private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
   private final String METRICS_APPLICATION = "metrics/application";
 
+  // tag::BeforeClass[]
   @BeforeClass
+  // end::BeforeClass[]
+  // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
     httpPort = System.getProperty("liberty.test.port");
     httpsPort = System.getProperty("liberty.https.port");
     baseHttpUrl = "http://localhost:" + httpPort + "/";
     baseHttpsUrl = "https://localhost:" + httpsPort + "/";
   }
+  // end::oneTimeSetup[]
 
+  // tag::Before[]
   @Before
+  // end::Before[]
   public void setup() {
     client = ClientBuilder.newClient();
+    // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
+    // end::JsrJsonpProvider[]
   }
-
+  // tag::After[]
   @After
+  // end::After[]
+
+  // tag::teardown[]
   public void teardown() {
     client.close();
   }
+  // end::teardown[]
 
+  // tag::Test[]
   @Test
+  // end::Test[]
+  
+  // tag::testSuite[]
   public void testSuite() {
     this.testPropertiesRequestTimeMetric();
     this.testInventoryAccessCountMetric();
     this.testInventorySizeGaugeMetric();
   }
+  // end::testSuite[]
 
+  // tag::testPropertiesRequestTimeMetricp[]
   public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     metrics = getMetrics();
@@ -76,7 +94,9 @@ public class MetricsTest {
       }
     }
   }
+  // end::testPropertiesRequestTimeMetric[]
 
+  // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
@@ -87,7 +107,9 @@ public class MetricsTest {
       }
     }
   }
+  // end::testInventoryAccessCountMetric[]
 
+  // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
     for (String metric : metrics) {
@@ -98,6 +120,7 @@ public class MetricsTest {
     }
 
   }
+  // end::testInventorySizeGaugeMetric[]
 
   public void connectToEndpoint(String url) {
     Response response = this.getResponse(url);

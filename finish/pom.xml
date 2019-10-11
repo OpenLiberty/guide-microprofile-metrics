@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>io.openliberty.guides</groupId>
-  <artifactId>microprofile-metrics</artifactId>
+  <artifactId>guide-microprofile-metrics</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
@@ -63,7 +63,9 @@
     <!-- tag::metrics[] -->
     <dependency>
         <groupId>io.openliberty.features</groupId>
+        <!-- tag::mpMetrics[] -->
         <artifactId>mpMetrics-2.0</artifactId>
+        <!-- end::mpMetrics[] -->
         <type>esa</type>
         <scope>provided</scope>
     </dependency>
