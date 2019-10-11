@@ -54,12 +54,16 @@ public class MetricsTest {
   // tag::Before[]
   @Before
   // end::Before[]
+
+  // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
     // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
     // end::JsrJsonpProvider[]
   }
+  // end::setup[]
+  
   // tag::After[]
   @After
   // end::After[]
@@ -82,7 +86,7 @@ public class MetricsTest {
   }
   // end::testSuite[]
 
-  // tag::testPropertiesRequestTimeMetricp[]
+  // tag::testPropertiesRequestTimeMetric[]
   public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     metrics = getMetrics();

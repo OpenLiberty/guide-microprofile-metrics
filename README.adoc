@@ -178,7 +178,7 @@ configuration to log in to view the data.
 ----
 
 InventoryManager.java
-[source, java, linenums, role='code_column tags=InventoryManager']
+[source, java, linenums, role='code_column tags=InventoryManager hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
@@ -232,13 +232,13 @@ include::{common-includes}/mvncompile.adoc[]
 
 == Testing the metrics
 MetricsTest.java
-[source, java, linenums, role='code_column tags=MetricsTest']
+[source, java, linenums, role='code_column tags=MetricsTest hide_tags=copyright']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/metrics/MetricsTest.java[]
 ----
 
 InventoryManager.java
-[source, java, linenums, role='code_column tags=InventoryManager']
+[source, java, linenums, role='code_column tags=InventoryManager hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----

@@ -44,7 +44,7 @@ public class InventoryManager {
     // tag::description[]
     description = "Time needed to get the properties of" +
       "a system from the given hostname")
-      // tag::description[]
+      // end::description[]
   // end::Timed[]
   // tag::get[]
   public Properties get(String hostname) {
