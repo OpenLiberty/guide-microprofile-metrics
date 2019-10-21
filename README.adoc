@@ -87,21 +87,21 @@ See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metr
 
 [role="no_copy"]
 ----
-# TYPE application:inventory_properties_request_time_rate_per_second gauge
-application:inventory_properties_request_time_rate_per_second 0.012564862395324394
-# HELP application:inventory_properties_request_time_seconds Time needed to get the properties of a system from the given hostname
+# TYPE application_inventoryPropertiesRequestTime_rate_per_second gauge
+application_inventoryPropertiesRequestTime_rate_per_second 0.012564862395324394
+# HELP application_inventoryPropertiesRequestTime_rate_per_second Time needed to get the properties of a system from the given hostname
 ----
 [role="no_copy"]
 ----
-# TYPE application:inventory_size_guage gauge
-# HELP application:inventory_size_guage Number of systems in the inventory
-application:inventory_size_guage 1
+# TYPE application_inventorySizeGuage gauge
+# HELP application_inventorySizeGuage Number of systems in the inventory
+application_inventorySizeGuage 1
 ----
 [role="no_copy"]
 ----
-# TYPE application:inventory_access_count counter
-# HELP application:inventory_access_count Number of times the list of systems method is requested
-application:inventory_access_count 1
+# TYPE application_inventoryAccessCount_total counter
+# HELP application_inventoryAccessCount_total Number of times the list of systems method is requested
+application_inventoryAccessCount_total 1
 ----
 
 To see only the system metrics, point your browser to https://localhost:9443/metrics/base[https://localhost:9443/metrics/base^].
@@ -110,15 +110,15 @@ See the following sample output for the `@Gauge` and `@Counted` metrics:
 
 [role="no_copy"]
 ----
-# TYPE base:jvm_uptime_seconds gauge
-# HELP base:jvm_uptime_seconds Displays the start time of the Java virtual machine in milliseconds. This attribute displays the approximate time when the Java virtual machine started.
-base:jvm_uptime_seconds 39.025
+# TYPE base_jvm_uptime_seconds gauge
+# HELP base_jvm_uptime_seconds Displays the start time of the Java virtual machine in milliseconds. This attribute displays the approximate time when the Java virtual machine started.
+base_jvm_uptime_seconds 39.025
 ----
 [role="no_copy"]
 ----
-# TYPE base:classloader_current_loaded_class_count counter
-# HELP base:classloader_current_loaded_class_count Displays the number of classes that are currently loaded in the Java virtual machine.
-base:classloader_current_loaded_class_count 9144
+# TYPE base_classloader_loadedClasses_count counter
+# HELP base_classloader_loadedClasses_count Displays the number of classes that are currently loaded in the Java virtual machine.
+base_classloader_loadedClasses_count 9144
 ----
 
 When you're done with the application, stop the Open Liberty server with the following command:
