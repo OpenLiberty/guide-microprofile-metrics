@@ -16,7 +16,7 @@
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'microprofile-health', 'cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
-page-seo-title: Providing metrics from a microservice with MicroProfile Metrics
+:page-seo-title: Providing metrics from a microservice with MicroProfile Metrics
 :page-seo-description: A tutorial and an example on how to provide metrics from a microservice using MicroProfile Metrics.
 :source-highlighter: prettify
 :guide-author: Open Liberty
@@ -228,10 +228,10 @@ This annotation has these metadata fields:
 The `@Timed` annotation tracks how frequently and how long it takes for the method invocation to complete.
 Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension to uniquely identify the collected metric data for the inventory processing time in getting the system properties.
 
-- The `method=get` tagged processing time indicates the time to get the system properties from calling the `system` service.
-- The `method=list` tagged processing time indicates the time for the `inventory` service to list all of the system properties in the inventory.
+- The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the time to get the system properties from calling the `system` service.
+- The [hotspot=tagForList]`method=list` tag identifies the [hotspot=nameForList]`inventoryProcessingTime` metric that measures the time for the `inventory` service to list all of the system properties in the inventory.
 
-The tags can then be queried with either the processing time for the [hotspot=get]`get()` method or the [hotspot=list]`list()` method or both.
+The tags can then be queried in a metrics monitoring tool for the inventory processing time.
 
 Apply the [hotspot=countedForList]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the
 `\http://localhost:9080/inventory/systems` URL is accessed monotonically, which is counting up sequentially.
