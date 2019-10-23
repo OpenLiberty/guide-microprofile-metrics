@@ -231,7 +231,7 @@ Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated w
 - The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the time to get the system properties from calling the `system` service.
 - The [hotspot=tagForList]`method=list` tag identifies the [hotspot=nameForList]`inventoryProcessingTime` metric that measures the time for the `inventory` service to list all of the system properties in the inventory.
 
-The tags can then be queried in a metrics monitoring tool for the inventory processing time.
+The tags allow the metrics to be queried together or separately given the functionality of the monitoring tool of your choice. The `inventoryProcessingTime` metrics for example could be queried to display an aggregate time of both tagged metrics or individual times.
 
 Apply the [hotspot=countedForList]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the
 `\http://localhost:9080/inventory/systems` URL is accessed monotonically, which is counting up sequentially.
