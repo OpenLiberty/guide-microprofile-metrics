@@ -25,7 +25,7 @@ import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
 
 public class InventoryUtils {
 
-  private final String DEFAULT_PORT = System.getProperty("default.http.port");
+  private final String DEFAULT_PORT = System.getProperty("default.http.port", "9080");
 
   // tag::builder[]
   public Properties getProperties(String hostname) {

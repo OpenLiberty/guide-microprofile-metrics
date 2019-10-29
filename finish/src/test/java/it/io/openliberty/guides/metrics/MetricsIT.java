@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MetricsTest {
+public class MetricsIT {
   private static String httpPort;
   private static String httpsPort;
   private static String baseHttpUrl;
@@ -41,8 +41,8 @@ public class MetricsTest {
 
   @BeforeClass
   public static void oneTimeSetup() {
-    httpPort = System.getProperty("liberty.test.port");
-    httpsPort = System.getProperty("liberty.https.port");
+    httpPort = System.getProperty("http.port");
+    httpsPort = System.getProperty("https.port");
     baseHttpUrl = "http://localhost:" + httpPort + "/";
     baseHttpsUrl = "https://localhost:" + httpsPort + "/";
   }
