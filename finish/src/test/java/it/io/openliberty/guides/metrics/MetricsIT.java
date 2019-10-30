@@ -13,7 +13,7 @@
 // tag::MetricsTest[]
 package it.io.openliberty.guides.metrics;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import java.io.*;
 import java.util.*;
 import javax.ws.rs.client.Client;
@@ -21,10 +21,10 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class MetricsIT {
   private static String httpPort;
@@ -39,9 +39,9 @@ public class MetricsIT {
   private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
   private final String METRICS_APPLICATION = "metrics/application";
 
-  // tag::BeforeClass[]
-  @BeforeClass
-  // end::BeforeClass[]
+  // tag::BeforeAll[]
+  @BeforeAll
+  // end::BeforeAll[]
   // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
     httpPort = System.getProperty("http.port");
@@ -51,9 +51,9 @@ public class MetricsIT {
   }
   // end::oneTimeSetup[]
 
-  // tag::Before[]
-  @Before
-  // end::Before[]
+  // tag::BeforeEach[]
+  @BeforeEach
+  // end::BeforeEach[]
   // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
@@ -63,9 +63,9 @@ public class MetricsIT {
   }
   // end::setup[]
 
-  // tag::After[]
-  @After
-  // end::After[]
+  // tag::AfterEach[]
+  @AfterEach
+  // end::AfterEach[]
   // tag::teardown[]
   public void teardown() {
     client.close();
@@ -162,7 +162,7 @@ public class MetricsIT {
   }
 
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+    assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
   }
 }
 // end::MetricsTest[]

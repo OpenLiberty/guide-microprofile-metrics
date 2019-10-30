@@ -337,13 +337,13 @@ that the localhost is in the inventory. It then looks for the [hotspot=gaugeForG
 that the inventory size is equal to 1.
 
 The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string
-to set up the tests. Apply the [hotspot=BeforeClass file=0]`@BeforeClass` annotation to this method to execute it before any of
+to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to execute it before any of
 the test cases.
 
 The [hotspot=setup file=0]`setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service.
 Register this client with a [hotspot=JsrJsonpProvider file=0]`JsrJsonpProvider` JSON-P provider to process JSON resources. The
-[hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=Before file=0]`@Before` annotation so that a method
-executes before a test case, and apply the [hotspot=After file=0]`@After` annotation so that a method executes after a test
+[hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=BeforeEach file=0]`@BeforeEach` annotation so that a method
+executes before a test case, and apply the [hotspot=AfterEach file=0]`@AfterEach` annotation so that a method executes after a test
 case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks
 before and after a test.
 
