@@ -70,7 +70,7 @@ public class MetricsIT {
     metrics = getMetrics();
     for (String metric : metrics) {
       if (metric.startsWith(
-          "application:inventory_properties_request_time_rate_per_second")) {
+          "application_inventoryProcessingTime_rate_per_second")) {
         float seconds = Float.parseFloat(metric.split(" ")[1]);
         assertTrue(4 > seconds);
       }
@@ -81,9 +81,9 @@ public class MetricsIT {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
     for (String metric : metrics) {
-      if (metric.startsWith("application:inventory_access_count")) {
+      if (metric.startsWith("application_inventoryAccessCount_total")) {
         assertTrue(
-            1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
+            1 <= Integer.parseInt(metric.split("\\s+")[metric.split("\\s+").length - 1]));
       }
     }
   }
@@ -91,9 +91,9 @@ public class MetricsIT {
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
     for (String metric : metrics) {
-      if (metric.startsWith("application:inventory_size_guage")) {
+      if (metric.startsWith("application_inventorySizeGuage")) {
         assertTrue(
-            1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
+            1 <= Character.getNumericValue(metric.charAt(metric.length() - 1)));
       }
     }
 
