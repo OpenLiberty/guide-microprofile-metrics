@@ -39,32 +39,51 @@ public class MetricsIT {
   private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
   private final String METRICS_APPLICATION = "metrics/application";
 
+  // tag::BeforeClass[]
   @BeforeClass
+  // end::BeforeClass[]
+  // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
     httpPort = System.getProperty("http.port");
     httpsPort = System.getProperty("https.port");
     baseHttpUrl = "http://localhost:" + httpPort + "/";
     baseHttpsUrl = "https://localhost:" + httpsPort + "/";
   }
+  // end::oneTimeSetup[]
 
+  // tag::Before[]
   @Before
+  // end::Before[]
+  // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
+    // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
+    // end::JsrJsonpProvider[]
   }
+  // end::setup[]
 
+  // tag::After[]
   @After
+  // end::After[]
+  // tag::teardown[]
   public void teardown() {
     client.close();
   }
+  // end::teardown[]
 
+  // tag::Test[]
   @Test
+  // end::Test[]
+  // tag::testSuite[]
   public void testSuite() {
     this.testPropertiesRequestTimeMetric();
     this.testInventoryAccessCountMetric();
     this.testInventorySizeGaugeMetric();
   }
+  // end::testSuite[]
 
+  // tag::testPropertiesRequestTimeMetric[]
   public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     metrics = getMetrics();
@@ -76,7 +95,9 @@ public class MetricsIT {
       }
     }
   }
+  // end::testPropertiesRequestTimeMetric[]
 
+  // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
@@ -87,7 +108,9 @@ public class MetricsIT {
       }
     }
   }
+  // end::testInventoryAccessCountMetric[]
 
+  // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
     for (String metric : metrics) {
@@ -96,8 +119,8 @@ public class MetricsIT {
             1 <= Character.getNumericValue(metric.charAt(metric.length() - 1)));
       }
     }
-
   }
+  // end::testInventorySizeGaugeMetric[]
 
   public void connectToEndpoint(String url) {
     Response response = this.getResponse(url);
