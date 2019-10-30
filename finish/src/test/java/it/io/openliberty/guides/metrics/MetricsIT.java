@@ -91,7 +91,7 @@ public class MetricsIT {
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
     for (String metric : metrics) {
-      if (metric.startsWith("application_inventorySizeGuage")) {
+      if (metric.startsWith("application_inventorySizeGauge")) {
         assertTrue(
             1 <= Character.getNumericValue(metric.charAt(metric.length() - 1)));
       }

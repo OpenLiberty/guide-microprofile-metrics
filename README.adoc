@@ -107,9 +107,9 @@ application_inventoryProcessingTime_seconds{method="list",quantile="0.5"} 2.2185
 ----
 [role="no_copy"]
 ----
-# TYPE application_inventorySizeGuage gauge
-# HELP application_inventorySizeGuage Number of systems in the inventory
-application_inventorySizeGuage 1
+# TYPE application_inventorySizeGauge gauge
+# HELP application_inventorySizeGauge Number of systems in the inventory
+application_inventorySizeGauge 1
 ----
 [role="no_copy"]
 ----
