@@ -120,7 +120,7 @@ application_inventoryAccessCount_total 1
 
 To see only the system metrics, point your browser to https://localhost:9443/metrics/base[https://localhost:9443/metrics/base^].
 
-See the following sample output for the `@Gauge` and `@Counted` metrics:
+See the following sample output:
 
 [role="no_copy"]
 ----
@@ -137,7 +137,7 @@ base_classloader_loadedClasses_count 11231
 
 To see only the vendor metrics, point your browser to https://localhost:9443/metrics/vendor[https://localhost:9443/metrics/vendor^].
 
-See the following sample output for the `@Gauge` and `@Counted` metrics:
+See the following sample output:
 
 [role="no_copy"]
 ----
@@ -271,7 +271,7 @@ Liberty as a vendor supplies server component metrics when both the
 You can see the vendor only metrics in the `metrics/vendor` endpoint.
 You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management.
 Note that these metrics are specific to Liberty application server. Different vendor may provide other metrics.
-Visit https://www.ibm.com/support/knowledgecenter/en/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/rwlp_monitor_metrics_rest_api.html[Liberty vendor metrics^] for more information.
+Visit the https://openliberty.io/docs/ref/general/#metrics-catalog.html[Metrics reference list^] for more information.
 
 // =================================================================================================
 // Building and running the application
