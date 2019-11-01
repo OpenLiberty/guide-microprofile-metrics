@@ -95,7 +95,7 @@ public class InventoryManager {
   // tag::unitForGetTotal[]
   @Gauge(unit = MetricUnits.NONE,
   // end::unitForGetTotal[]
-         name = "inventorySizeGuage",
+         name = "inventorySizeGauge",
          absolute = true,
          description = "Number of systems in the inventory")
   // end::gaugeForGetTotal[]

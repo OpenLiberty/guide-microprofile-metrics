@@ -1,0 +1,9 @@
+<server description="Sample Liberty server">
+
+  <featureManager>
+    <feature>servlet-4.0</feature>
+  </featureManager>
+
+  <webApplication location="guide-microprofile-metrics.war" contextRoot="/"/>
+  
+</server>
