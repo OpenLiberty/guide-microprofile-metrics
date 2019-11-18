@@ -54,7 +54,6 @@ public class MetricsTest {
   // tag::Before[]
   @Before
   // end::Before[]
-
   // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
@@ -63,11 +62,10 @@ public class MetricsTest {
     // end::JsrJsonpProvider[]
   }
   // end::setup[]
-  
+
   // tag::After[]
   @After
   // end::After[]
-
   // tag::teardown[]
   public void teardown() {
     client.close();
@@ -77,7 +75,6 @@ public class MetricsTest {
   // tag::Test[]
   @Test
   // end::Test[]
-  
   // tag::testSuite[]
   public void testSuite() {
     this.testPropertiesRequestTimeMetric();

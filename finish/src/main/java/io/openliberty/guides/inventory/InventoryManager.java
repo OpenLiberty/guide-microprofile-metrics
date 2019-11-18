@@ -34,6 +34,7 @@ public class InventoryManager {
 
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
   private InventoryUtils invUtils = new InventoryUtils();
+  
   // tag::Timed[]
   // tag::name[]
   @Timed(name = "inventoryPropertiesRequestTime", 

@@ -196,7 +196,7 @@ metadata fields:
 Apply the [hotspot=Counted]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the
 http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL is accessed. 
 
-Apply the [hotspot=unit]`@Gauge` annotation to the [hotspot=getTotal]`getTotal()` method to track the number of systems that are stored in
+Apply the [hotspot=Gauge]`@Gauge` annotation to the [hotspot=getTotal]`getTotal()` method to track the number of systems that are stored in
 the inventory. Note that when the value of the gauge is retrieved, the underlying [hotspot=getTotal]`getTotal()` method
 is called to return the size of the inventory. Note the additional metadata field:
 
