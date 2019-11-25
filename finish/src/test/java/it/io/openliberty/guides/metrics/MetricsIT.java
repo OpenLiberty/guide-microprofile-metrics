@@ -24,8 +24,14 @@ import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+// tag::TestMethodOrder[]
+@TestMethodOrder(OrderAnnotation.class)
+// end::TestMethodOrder[]
 public class MetricsIT {
   private static String httpPort;
   private static String httpsPort;
@@ -72,17 +78,12 @@ public class MetricsIT {
   }
   // end::teardown[]
 
-  // tag::Test[]
+  // tag::Test1[]
   @Test
-  // end::Test[]
-  // tag::testSuite[]
-  public void testSuite() {
-    this.testPropertiesRequestTimeMetric();
-    this.testInventoryAccessCountMetric();
-    this.testInventorySizeGaugeMetric();
-  }
-  // end::testSuite[]
-
+  // end::Test1[]
+  // tag::Order1[]
+  @Order(1)
+  // end::Order1[]
   // tag::testPropertiesRequestTimeMetric[]
   public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
@@ -97,6 +98,12 @@ public class MetricsIT {
   }
   // end::testPropertiesRequestTimeMetric[]
 
+  // tag::Test2[]
+  @Test
+  // end::Test2[]
+  // tag::Order2[]
+  @Order(2)
+  // end::Order2[]
   // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
@@ -110,6 +117,12 @@ public class MetricsIT {
   }
   // end::testInventoryAccessCountMetric[]
 
+  // tag::Test3[]
+  @Test
+  // end::Test3[]
+  // tag::Order3[]
+  @Order(3)
+  // end::Order3[]
   // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();

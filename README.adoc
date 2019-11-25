@@ -346,8 +346,12 @@ runs before a test case and apply the [hotspot=AfterEach file=0]`@AfterEach` ann
 case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks
 before and after a test.
 
-To run the test cases in a particular order, put them in a [hotspot=testSuite file=0]`testSuite()` method.
-Label the method with the [hotspot=Test file=0]`@Test` annotation, which automatically runs when your test class runs.
+To force these test cases to run in a particular order, annotate your [hotspot file=0]`MetricsIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation.
+[hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, 
+according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. 
+You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, 
+such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases
+with the [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that they automatically run when your test class runs.
 
 In addition, the endpoint tests `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java`
 and `src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java` are provided for you to
@@ -370,13 +374,13 @@ Because you started Open Liberty in development mode at the start of the guide, 
 Running it.io.openliberty.guides.system.SystemEndpointIT
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.4 sec - in it.io.openliberty.guides.system.SystemEndpointIT
 Running it.io.openliberty.guides.metrics.MetricsIT
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.697 sec - in it.io.openliberty.guides.metrics.MetricsIT
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.697 sec - in it.io.openliberty.guides.metrics.MetricsIT
 Running it.io.openliberty.guides.inventory.InventoryEndpointIT
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 sec - in it.io.openliberty.guides.inventory.InventoryIT
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
 
 Results :
 
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To determine whether the tests detect a failure, go to the [hotspot file=0]`MetricsIT.java` file and change any of the assertions
