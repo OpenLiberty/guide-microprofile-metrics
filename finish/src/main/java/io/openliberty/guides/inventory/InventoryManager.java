@@ -18,14 +18,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import javax.enterprise.context.ApplicationScoped;
+
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.annotation.Timed;
+
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.model.SystemData;
-
-import javax.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.metrics.annotation.Counted;
-import org.eclipse.microprofile.metrics.annotation.Timed;
-import org.eclipse.microprofile.metrics.annotation.Gauge;
-import org.eclipse.microprofile.metrics.MetricUnits;
 
 // tag::ApplicationScoped[]
 @ApplicationScoped
@@ -35,13 +36,25 @@ public class InventoryManager {
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
   private InventoryUtils invUtils = new InventoryUtils();
 
-  @Timed(name = "inventoryPropertiesRequestTime", 
-    absolute = true,
-    description = "Time needed to get the properties of" +
-      "a system from the given hostname")
+  // tag::timedForGet[]
+  // tag::nameForGet[]
+  @Timed(name = "inventoryProcessingTime",
+  // end::nameForGet[]
+         // tag::tagForGet[]
+         tags = {"method=get"},
+         // end::tagForGet[]
+         // tag::absoluteForGet[]
+         absolute = true,
+         // end::absoluteForGet[]
+         // tag::desForGet[]
+         description = "Time needed to process the inventory")
+         // end::desForGet[]
+  // end::timedForGet[]
+  // tag::get[]
   public Properties get(String hostname) {
     return invUtils.getProperties(hostname);
   }
+  // end::get[]
 
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
@@ -53,21 +66,43 @@ public class InventoryManager {
       systems.add(host);
   }
 
-
-  @Counted(name = "inventoryAccessCount", 
-    absolute = true, 
-    description = "Number of times the list of systems method is requested")
+  // tag::timedForList[]
+  // tag::nameForList[]
+  @Timed(name = "inventoryProcessingTime",
+  // end::nameForList[]
+         // tag::tagForList[]
+         tags = {"method=list"},
+         // end::tagForList[]
+         // tag::absoluteForList[]
+         absolute = true,
+         // end::absoluteForList[]
+         // tag::desForList[]
+         description = "Time needed to process the inventory")
+         // end::desForList[]
+  // end::timedForList[]
+  // tag::countedForList[]
+  @Counted(name = "inventoryAccessCount",
+           absolute = true,
+           description = "Number of times the list of systems method is requested")
+  // end::countedForList[]
+  // tag::list[]
   public InventoryList list() {
     return new InventoryList(systems);
   }
+  // end::list[]
 
-  @Gauge(unit = MetricUnits.NONE, 
-    name = "inventorySizeGuage", 
-    absolute = true,
-    description = "Number of systems in the inventory")
+  // tag::gaugeForGetTotal[]
+  // tag::unitForGetTotal[]
+  @Gauge(unit = MetricUnits.NONE,
+  // end::unitForGetTotal[]
+         name = "inventorySizeGauge",
+         absolute = true,
+         description = "Number of systems in the inventory")
+  // end::gaugeForGetTotal[]
+  // tag::getTotal[]
   public int getTotal() {
     return systems.size();
   }
-
+  // end::getTotal[]
 }
 // end::InventoryManager[]
