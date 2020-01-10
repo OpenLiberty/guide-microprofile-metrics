@@ -16,6 +16,8 @@
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'microprofile-health', 'cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:page-seo-title: Monitoring the metrics of a Java microservice using Eclipse MicroProfile Metrics
+:page-seo-description: A tutorial on how to expose both system and custom application metrics from a Java microservice and monitor endpoints using Eclipse MicroProfile Metrics 
 :source-highlighter: prettify
 :guide-author: Open Liberty
 = Providing metrics from a microservice
