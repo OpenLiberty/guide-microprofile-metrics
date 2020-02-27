@@ -1,4 +1,4 @@
-// Copyright (c) 2018, 2019 IBM Corporation and others.
+// Copyright (c) 2018, 2020 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -152,13 +152,7 @@ vendor_threadpool_size{pool="Default_Executor"} 32
 vendor_servlet_request_total{servlet="microprofile_metrics_io_openliberty_guides_inventory_InventoryApplication"} 1
 ----
 
-After you are done checking out the application, stop the Open Liberty server by pressing `CTRL+C` in the shell session where you ran the server.
-Alternatively, you can run the `liberty:stop` goal from the `finish` directory in another shell session:
-
-[role=command]
-----
-mvn liberty:stop
-----
+include::{common-includes}/twyb-end.adoc[]
 
 // =================================================================================================
 // Adding MicroProfile Metrics to the inventory service
@@ -178,14 +172,7 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-Navigate to the `start` directory to begin.
-
-Start Open Liberty in development mode, which starts the Open Liberty server and listens for file changes:
-
-[role=command]
-----
-mvn liberty:dev
-----
+include::{common-includes}/devmode-start.adoc[]
 
 The MicroProfile Metrics API is included in the MicroProfile dependency specified by your [hotspot file=0]`pom.xml` file.
 Look for the dependency with the [hotspot=microprofile file=0]`microprofile` artifact ID.
@@ -386,8 +373,7 @@ Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
 To determine whether the tests detect a failure, go to the [hotspot file=0]`MetricsIT.java` file and change any of the assertions
 in the test methods. Then re-run the tests to see a test failure occur.
 
-When you have finished checking out the service, exit out of development mode by typing `q` in the shell session
-where you ran the server and then press the `enter/return` key.
+include::{common-includes}/devmode-quit.adoc[]
 
 // =================================================================================================
 // Great work! You're done!
