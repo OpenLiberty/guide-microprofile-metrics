@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,7 @@
 // tag::MetricsTest[]
 package it.io.openliberty.guides.metrics;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import java.io.*;
 import java.util.*;
 import javax.ws.rs.client.Client;
@@ -21,12 +21,18 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-public class MetricsTest {
+// tag::TestMethodOrder[]
+@TestMethodOrder(OrderAnnotation.class)
+// end::TestMethodOrder[]
+public class MetricsIT {
   private static String httpPort;
   private static String httpsPort;
   private static String baseHttpUrl;
@@ -39,65 +45,95 @@ public class MetricsTest {
   private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
   private final String METRICS_APPLICATION = "metrics/application";
 
-  @BeforeClass
+  // tag::BeforeAll[]
+  @BeforeAll
+  // end::BeforeAll[]
+  // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
-    httpPort = System.getProperty("liberty.test.port");
-    httpsPort = System.getProperty("liberty.https.port");
+    httpPort = System.getProperty("http.port");
+    httpsPort = System.getProperty("https.port");
     baseHttpUrl = "http://localhost:" + httpPort + "/";
     baseHttpsUrl = "https://localhost:" + httpsPort + "/";
   }
+  // end::oneTimeSetup[]
 
-  @Before
+  // tag::BeforeEach[]
+  @BeforeEach
+  // end::BeforeEach[]
+  // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
+    // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
+    // end::JsrJsonpProvider[]
   }
+  // end::setup[]
 
-  @After
+  // tag::AfterEach[]
+  @AfterEach
+  // end::AfterEach[]
+  // tag::teardown[]
   public void teardown() {
     client.close();
   }
+  // end::teardown[]
 
+  // tag::Test1[]
   @Test
-  public void testSuite() {
-    this.testPropertiesRequestTimeMetric();
-    this.testInventoryAccessCountMetric();
-    this.testInventorySizeGaugeMetric();
-  }
-
+  // end::Test1[]
+  // tag::Order1[]
+  @Order(1)
+  // end::Order1[]
+  // tag::testPropertiesRequestTimeMetric[]
   public void testPropertiesRequestTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     metrics = getMetrics();
     for (String metric : metrics) {
       if (metric.startsWith(
-          "application:inventory_properties_request_time_rate_per_second")) {
+          "application_inventoryProcessingTime_rate_per_second")) {
         float seconds = Float.parseFloat(metric.split(" ")[1]);
         assertTrue(4 > seconds);
       }
     }
   }
+  // end::testPropertiesRequestTimeMetric[]
 
+  // tag::Test2[]
+  @Test
+  // end::Test2[]
+  // tag::Order2[]
+  @Order(2)
+  // end::Order2[]
+  // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
     for (String metric : metrics) {
-      if (metric.startsWith("application:inventory_access_count")) {
+      if (metric.startsWith("application_inventoryAccessCount_total")) {
         assertTrue(
-            1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
+            1 <= Integer.parseInt(metric.split(" ")[metric.split(" ").length - 1]));
       }
     }
   }
+  // end::testInventoryAccessCountMetric[]
 
+  // tag::Test3[]
+  @Test
+  // end::Test3[]
+  // tag::Order3[]
+  @Order(3)
+  // end::Order3[]
+  // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
     for (String metric : metrics) {
-      if (metric.startsWith("application:inventory_size_guage")) {
+      if (metric.startsWith("application_inventorySizeGauge")) {
         assertTrue(
-            1 == Character.getNumericValue(metric.charAt(metric.length() - 1)));
+            1 <= Character.getNumericValue(metric.charAt(metric.length() - 1)));
       }
     }
-
   }
+  // end::testInventorySizeGaugeMetric[]
 
   public void connectToEndpoint(String url) {
     Response response = this.getResponse(url);
@@ -139,7 +175,7 @@ public class MetricsTest {
   }
 
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+    assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
   }
 }
 // end::MetricsTest[]
