@@ -178,6 +178,8 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
+Head into the `start` directory.
+
 include::{common-includes}/devmode-start.adoc[]
 
 The MicroProfile Metrics API is included in the MicroProfile dependency specified by your [hotspot file=0]`pom.xml` file.
