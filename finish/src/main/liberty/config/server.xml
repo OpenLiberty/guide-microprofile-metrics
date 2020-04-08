@@ -17,6 +17,9 @@
   <variable name="default.https.port" defaultValue="9443"/>
 
   <applicationManager autoExpand="true" />
+  <!-- tag::mpMetricsAuthentication[] -->
+  <mpMetrics authentication="false"/>
+  <!-- end::mpMetricsAuthentication[] -->
   <!-- tag::quickStartSecurity[] -->
   <quickStartSecurity userName="admin" userPassword="adminpwd"/>
   <!-- end::quickStartSecurity[] -->
