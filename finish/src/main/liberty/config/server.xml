@@ -18,7 +18,7 @@
 
   <applicationManager autoExpand="true" />
   <!-- tag::mpMetricsAuthentication[] -->
-  <mpMetrics authentication="false"/>
+  <mpMetrics authentication="true"/>
   <!-- end::mpMetricsAuthentication[] -->
   <!-- tag::quickStartSecurity[] -->
   <quickStartSecurity userName="admin" userPassword="adminpwd"/>
