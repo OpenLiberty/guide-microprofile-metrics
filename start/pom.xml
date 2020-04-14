@@ -31,7 +31,7 @@
       <!-- tag::microprofile[] -->
       <artifactId>microprofile</artifactId>
       <!-- end::microprofile[] -->
-      <version>3.2</version>
+      <version>3.3</version>
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
@@ -45,13 +45,13 @@
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-rs-client</artifactId>
-      <version>3.3.5</version>
+      <version>3.3.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-rs-extension-providers</artifactId>
-      <version>3.3.5</version>
+      <version>3.3.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>
