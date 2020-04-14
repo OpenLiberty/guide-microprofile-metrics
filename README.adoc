@@ -252,7 +252,7 @@ include::finish/src/main/liberty/config/server.xml[]
 ----
 
 MicroProfile Metrics API implementers can provide vendor metrics in the same forms as the base and application metrics do.
-Liberty as a vendor supplies server component metrics when [hotspot=mpMetrics]`mpMetrics` features is enabled in the [hotspot]`server.xml` configuration file.
+Liberty as a vendor supplies server component metrics when [hotspot=mpMetrics]`mpMetrics` feature is enabled in the [hotspot]`server.xml` configuration file.
 
 You can see the vendor-only metrics in the `metrics/vendor` endpoint.
 You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management.
