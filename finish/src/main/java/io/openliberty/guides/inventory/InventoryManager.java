@@ -24,6 +24,7 @@ import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
 
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.model.SystemData;
@@ -38,7 +39,7 @@ public class InventoryManager {
 
   // tag::timedForGet[]
   // tag::nameForGet[]
-  @Timed(name = "inventoryProcessingTime",
+  @SimplyTimed(name = "inventoryProcessingTime",
   // end::nameForGet[]
          // tag::tagForGet[]
          tags = {"method=get"},
