@@ -39,7 +39,7 @@ public class InventoryManager {
 
   // tag::timedForGet[]
   // tag::nameForGet[]
-  @SimplyTimed(name = "inventoryProcessingTime",
+  @Timed(name = "inventoryProcessingTime",
   // end::nameForGet[]
          // tag::tagForGet[]
          tags = {"method=get"},
@@ -57,6 +57,10 @@ public class InventoryManager {
   }
   // end::get[]
 
+  @SimplyTimed(name = "inventoryAddingTime", 
+    tags = {"method=add"},
+    absolute = true,
+    description = "Time needed to add system properties the inventory")
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
