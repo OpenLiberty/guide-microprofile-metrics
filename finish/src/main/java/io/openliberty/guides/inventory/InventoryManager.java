@@ -57,10 +57,15 @@ public class InventoryManager {
   }
   // end::get[]
 
+  // tag::timedForAdd[]
+  // tag::nameForAdd[]
   @SimplyTimed(name = "inventoryAddingTime", 
-    tags = {"method=add"},
-    absolute = true,
+  // end::nameForAdd[]
+    // tag::desForAdd[]
     description = "Time needed to add system properties the inventory")
+    // end::desForAdd[]
+  // end::timedForAdd[]
+  // tag::add[]
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
@@ -70,6 +75,7 @@ public class InventoryManager {
     if (!systems.contains(host))
       systems.add(host);
   }
+  // end::add[]
 
   // tag::timedForList[]
   // tag::nameForList[]
