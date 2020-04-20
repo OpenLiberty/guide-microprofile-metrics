@@ -84,7 +84,7 @@ metrics in a text format.
 
 To see only the application metrics, point your browser to https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^].
 
-See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
+See the following sample outputs for the `@Timed`, `@SimplyTimed` `@Gauge`, and `@Counted` metrics:
 
 [role="no_copy"]
 ----
@@ -221,8 +221,9 @@ This annotation has these metadata fields:
 |[hotspot=desForGet hotspot=desForList hotspot=desForAdd]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
-The `@Timed` annotation tracks how frequently the method is invoked and how long it takes for each invocation of the method to complete.
-Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList hotspot=nameForAdd]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension that uniquely identifies the collected metric data from the inventory processing time in getting the system properties.
+The `@SimplyTimed` annotation tracks how frequently the method is invoked and how long it takes for each invocation of the method to complete. The `@Timed` annotation tracks the same thing and it aggregated to calculate duration statistics.
+Both `@SimplyTimed` and `@Timed` have the same specs.
+Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` and `@SimplyTimed` metric and have the same [hotspot=nameForGet hotspot=nameForList hotspot=nameForAdd]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension that uniquely identifies the collected metric data from the inventory processing time in getting the system properties.
 
 - The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the elapse time in getting the system properties from calling the `system` service.
 - The [hotspot=tagForList]`method=list` tag identifies the [hotspot=nameForList]`inventoryProcessingTime` metric that measures the elapse time for the `inventory` service to list all of the system properties in the inventory.
