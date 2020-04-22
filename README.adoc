@@ -365,13 +365,13 @@ Because you started Open Liberty in development mode at the start of the guide, 
 Running it.io.openliberty.guides.system.SystemEndpointIT
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.4 sec - in it.io.openliberty.guides.system.SystemEndpointIT
 Running it.io.openliberty.guides.metrics.MetricsIT
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.697 sec - in it.io.openliberty.guides.metrics.MetricsIT
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.476 sec - in it.io.openliberty.guides.metrics.MetricsIT
 Running it.io.openliberty.guides.inventory.InventoryEndpointIT
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
 
 Results :
 
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To determine whether the tests detect a failure, go to the [hotspot file=0]`MetricsIT.java` file and change any of the assertions
