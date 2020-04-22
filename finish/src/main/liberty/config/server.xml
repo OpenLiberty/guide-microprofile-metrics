@@ -7,7 +7,7 @@
     <!-- tag::mpMetrics[] -->
     <feature>mpMetrics-2.3</feature>
     <!-- end::mpMetrics[] -->
-    <feature>mpRestClient-1.3</feature>
+    <feature>mpRestClient-1.4</feature>
   </featureManager>
 
   <variable name="default.http.port" defaultValue="9080"/>
