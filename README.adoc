@@ -220,6 +220,7 @@ This annotation has these metadata fields:
 |[hotspot=desForGet hotspot=desForList]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
+- The `@Timed` annotation tracks how frequently the method is invoked and how long it takes for each invocation of the method to complete.
 Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension that uniquely identifies the collected metric data from the inventory processing time in getting the system properties.
 
 - The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the elapse time in getting the system properties from calling the `system` service.
