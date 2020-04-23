@@ -210,18 +210,16 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.j
 
 Apply the [hotspot=timedForGet]`@Timed` annotation to the [hotspot=get]`get()` method,
 and apply the [hotspot=timedForList]`@Timed` annotation to the [hotspot=list]`list()` method.
-Apply the [hotspot=timedForAdd]`@SimplyTimed` annotation to the [hotspot=add]`add()` method.
 
 This annotation has these metadata fields:
 
 |===
-|[hotspot=nameForGet hotspot=nameForList hotspot=nameForAdd]`name` | Optional. Use this field to name the metric.
-|[hotspot=tagForGet hotspot=tagForList]`tags` | Optional. Use this field to add tags to the metric with the same [hotspot=nameForGet hotspot=nameForList hotspot=nameForAdd]`name`.
-|[hotspot=absoluteForGet hotspot=absoluteForList]`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the [hotspot=nameForGet hotspot=nameForList hotspot=nameForAdd]`name` field or that is specified with the package prefix.
-|[hotspot=desForGet hotspot=desForList hotspot=desForAdd]`description` | Optional. Use this field to describe the purpose of the metric.
+|[hotspot=nameForGet hotspot=nameForList]`name` | Optional. Use this field to name the metric.
+|[hotspot=tagForGet hotspot=tagForList]`tags` | Optional. Use this field to add tags to the metric with the same [hotspot=nameForGet hotspot=nameForList]`name`.
+|[hotspot=absoluteForGet hotspot=absoluteForList]`absolute` | Optional. Use this field to determine whether the metric name is the exact name that is specified in the [hotspot=nameForGet hotspot=nameForList]`name` field or that is specified with the package prefix.
+|[hotspot=desForGet hotspot=desForList]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
-The `@Timed` annotation tracks the same thing and it aggregated to calculate duration statistics.
 Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension that uniquely identifies the collected metric data from the inventory processing time in getting the system properties.
 
 - The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the elapse time in getting the system properties from calling the `system` service.
@@ -229,9 +227,7 @@ Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated w
 
 The tags allow you to query the metrics together or separately based on the functionality of the monitoring tool of your choice. The `inventoryProcessingTime` metrics for example could be queried to display an aggregate time of both tagged metrics or individual times.
 
-The `@SimplyTimed` annotation tracks how frequently the method is invoked and how long it takes for each invocation of the method to complete. `@SimplyTimed` supports the same fields as `@Timed` in the above table.
-
-- The [hotspot=tagForAdd]`method=add` tag identifies the [hotspot=nameForAdd]`inventoryAddingTime` metric that measures the elapse time in adding system properties to the inventory.
+Apply the [hotspot=timedForAdd]`@SimplyTimed` annotation to the [hotspot=add]`add()` method to track how frequently the method is invoked and how long it takes for each invocation of the method to complete. `@SimplyTimed` supports the same fields as `@Timed` in the above table.
 
 Apply the [hotspot=countedForList]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the
 `\http://localhost:9080/inventory/systems` URL is accessed monotonically, which is counting up sequentially.
