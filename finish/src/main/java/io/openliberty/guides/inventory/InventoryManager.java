@@ -61,6 +61,9 @@ public class InventoryManager {
   // tag::nameForAdd[]
   @SimplyTimed(name = "inventoryAddingTime", 
   // end::nameForAdd[]
+    // tag::absoluteForAdd[]
+    absolute=true,
+    // end::absoluteForAdd[]
     // tag::desForAdd[]
     description = "Time needed to add system properties to the inventory")
     // end::desForAdd[]

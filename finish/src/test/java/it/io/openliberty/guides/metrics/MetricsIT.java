@@ -148,7 +148,7 @@ public class MetricsIT {
     boolean checkMetric = false;
     for (String metric : metrics) {
       if (metric.startsWith(
-          "application_io_openliberty_guides_inventory_InventoryManager")) {
+          "application_inventoryAddingTime_total")) {
             checkMetric = true;
       }
     }
