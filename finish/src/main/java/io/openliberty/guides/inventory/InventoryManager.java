@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,6 +24,7 @@ import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
 
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.model.SystemData;
@@ -56,6 +57,18 @@ public class InventoryManager {
   }
   // end::get[]
 
+  // tag::timedForAdd[]
+  // tag::nameForAdd[]
+  @SimplyTimed(name = "inventoryAddingTime", 
+  // end::nameForAdd[]
+    // tag::absoluteForAdd[]
+    absolute=true,
+    // end::absoluteForAdd[]
+    // tag::desForAdd[]
+    description = "Time needed to add system properties to the inventory")
+    // end::desForAdd[]
+  // end::timedForAdd[]
+  // tag::add[]
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
@@ -65,6 +78,7 @@ public class InventoryManager {
     if (!systems.contains(host))
       systems.add(host);
   }
+  // end::add[]
 
   // tag::timedForList[]
   // tag::nameForList[]
