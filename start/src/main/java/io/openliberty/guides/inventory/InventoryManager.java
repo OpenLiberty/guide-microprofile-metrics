@@ -23,9 +23,7 @@ import javax.enterprise.context.ApplicationScoped;
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.model.SystemData;
 
-// tag::ApplicationScoped[]
 @ApplicationScoped
-// end::ApplicationScoped[]
 public class InventoryManager {
 
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
@@ -59,4 +57,5 @@ public class InventoryManager {
   public int getTotal() {
     return systems.size();
   }
+  // end::getTotal[]
 }
