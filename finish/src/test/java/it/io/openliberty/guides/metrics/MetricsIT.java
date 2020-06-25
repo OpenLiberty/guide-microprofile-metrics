@@ -106,14 +106,22 @@ public class MetricsIT {
   // end::Order2[]
   // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
+    metrics = getMetrics();
+    int accessCountBefore = 0;
+    int accessCountAfter = 0;
+    for (String metric : metrics) {
+      if (metric.startsWith("application_inventoryAccessCount_total")) {
+        accessCountBefore = Integer.parseInt(metric.split(" ")[metric.split(" ").length - 1]);
+      }
+    }
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
     for (String metric : metrics) {
       if (metric.startsWith("application_inventoryAccessCount_total")) {
-        assertTrue(
-            1 <= Integer.parseInt(metric.split(" ")[metric.split(" ").length - 1]));
+        accessCountAfter = Integer.parseInt(metric.split(" ")[metric.split(" ").length - 1]);
       }
     }
+    assertTrue(accessCountAfter > accessCountBefore);
   }
   // end::testInventoryAccessCountMetric[]
 
