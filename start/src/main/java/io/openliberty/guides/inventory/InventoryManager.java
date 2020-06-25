@@ -29,13 +29,10 @@ public class InventoryManager {
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
   private InventoryUtils invUtils = new InventoryUtils();
 
-  // tag::get[]
   public Properties get(String hostname) {
     return invUtils.getProperties(hostname);
   }
-  // end::get[]
 
-  // tag::add[]
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
@@ -45,17 +42,12 @@ public class InventoryManager {
     if (!systems.contains(host))
       systems.add(host);
   }
-  // end::add[]
 
-  // tag::list[]
   public InventoryList list() {
     return new InventoryList(systems);
   }
-  // end::list[]
 
-  // tag::getTotal[]
   public int getTotal() {
     return systems.size();
   }
-  // end::getTotal[]
 }
