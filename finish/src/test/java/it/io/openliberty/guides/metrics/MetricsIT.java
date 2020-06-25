@@ -107,20 +107,13 @@ public class MetricsIT {
   // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
     metrics = getMetrics();
-    int accessCountBefore = 0;
+    int accessCountBefore = getIntMetric(metrics, 
+                                         "application_inventoryAccessCount_total");
     int accessCountAfter = 0;
-    for (String metric : metrics) {
-      if (metric.startsWith("application_inventoryAccessCount_total")) {
-        accessCountBefore = Integer.parseInt(metric.split(" ")[metric.split(" ").length - 1]);
-      }
-    }
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
-    for (String metric : metrics) {
-      if (metric.startsWith("application_inventoryAccessCount_total")) {
-        accessCountAfter = Integer.parseInt(metric.split(" ")[metric.split(" ").length - 1]);
-      }
-    }
+    accessCountAfter = getIntMetric(metrics, 
+                                    "application_inventoryAccessCount_total");
     assertTrue(accessCountAfter > accessCountBefore);
   }
   // end::testInventoryAccessCountMetric[]
@@ -134,12 +127,7 @@ public class MetricsIT {
   // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
-    for (String metric : metrics) {
-      if (metric.startsWith("application_inventorySizeGauge")) {
-        assertTrue(
-            1 <= Character.getNumericValue(metric.charAt(metric.length() - 1)));
-      }
-    }
+    assertTrue(1 <= getIntMetric(metrics, "application_inventorySizeGauge"));
   }
   // end::testInventorySizeGaugeMetric[]
 
@@ -205,6 +193,17 @@ public class MetricsIT {
 
   private void assertResponse(String url, Response response) {
     assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
+  }
+  
+  private int getIntMetric(List<String> metrics, String metricName) {
+    int output = -1;
+    for (String metric : metrics) {
+      if (metric.startsWith(metricName)) {
+          String[] mSplit = metric.split(" ");
+          output = Integer.parseInt(mSplit[mSplit.length - 1]);
+      }
+    }
+    return output;
   }
 }
 // end::MetricsTest[]
