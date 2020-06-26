@@ -91,7 +91,7 @@ public class MetricsIT {
     for (String metric : metrics) {
       if (metric.startsWith(
           "application_inventoryProcessingTime_rate_per_second")) {
-        float seconds = Float.parseFloat(metric.split(" ")[1]);
+        float seconds = Float.parseFloat(metric.split("\\s+")[1]);
         assertTrue(4 > seconds);
       }
     }
@@ -199,7 +199,7 @@ public class MetricsIT {
     int output = -1;
     for (String metric : metrics) {
       if (metric.startsWith(metricName)) {
-          String[] mSplit = metric.split(" ");
+          String[] mSplit = metric.split("\\s+");
           output = Integer.parseInt(mSplit[mSplit.length - 1]);
       }
     }
