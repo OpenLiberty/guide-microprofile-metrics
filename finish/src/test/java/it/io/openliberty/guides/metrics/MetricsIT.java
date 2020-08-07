@@ -109,11 +109,10 @@ public class MetricsIT {
     metrics = getMetrics();
     int accessCountBefore = getIntMetric(metrics, 
                                          "application_inventoryAccessCount_total");
-    int accessCountAfter = 0;
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
-    accessCountAfter = getIntMetric(metrics, 
-                                    "application_inventoryAccessCount_total");
+    int accessCountAfter = getIntMetric(metrics, 
+                                        "application_inventoryAccessCount_total");
     assertTrue(accessCountAfter > accessCountBefore);
   }
   // end::testInventoryAccessCountMetric[]
