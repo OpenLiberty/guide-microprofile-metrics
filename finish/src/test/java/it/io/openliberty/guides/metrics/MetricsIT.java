@@ -107,13 +107,17 @@ public class MetricsIT {
   // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
     metrics = getMetrics();
-    int accessCountBefore = getIntMetric(metrics, 
-                                         "application_inventoryAccessCount_total");
+    Map<String, Integer> accessCountsBefore = getIntMetrics(metrics,
+            "application_inventoryAccessCount_total");
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
-    int accessCountAfter = getIntMetric(metrics, 
-                                        "application_inventoryAccessCount_total");
-    assertTrue(accessCountAfter > accessCountBefore);
+    Map<String, Integer> accessCountsAfter = getIntMetrics(metrics,
+            "application_inventoryAccessCount_total");
+    for (String key : accessCountsBefore.keySet()) {
+      Integer accessCountBefore = accessCountsBefore.get(key);
+      Integer accessCountAfter = accessCountsAfter.get(key);
+      assertTrue(accessCountAfter > accessCountBefore);
+    }
   }
   // end::testInventoryAccessCountMetric[]
 
@@ -126,7 +130,11 @@ public class MetricsIT {
   // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
-    assertTrue(1 <= getIntMetric(metrics, "application_inventorySizeGauge"));
+    Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics, 
+            "application_inventorySizeGauge");
+    for (Integer value : inventorySizeGauges.values()) {
+      assertTrue(1 <= value);
+    }
   }
   // end::testInventorySizeGaugeMetric[]
 
@@ -194,12 +202,14 @@ public class MetricsIT {
     assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
   }
   
-  private int getIntMetric(List<String> metrics, String metricName) {
-    int output = -1;
+  private Map<String, Integer> getIntMetrics(List<String> metrics, String metricName) {
+    Map<String, Integer> output = new HashMap<String, Integer>();
     for (String metric : metrics) {
       if (metric.startsWith(metricName)) {
-          String[] mSplit = metric.split("\\s+");
-          output = Integer.parseInt(mSplit[mSplit.length - 1]);
+        String[] mSplit = metric.split("\\s+");
+        String key = mSplit[0];
+        Integer value = Integer.parseInt(mSplit[mSplit.length - 1]);
+        output.put(key, value);
       }
     }
     return output;
