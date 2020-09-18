@@ -259,7 +259,7 @@ Open Liberty as a vendor supplies server component metrics when the [hotspot=mpM
 You can see the vendor-only metrics in the `metrics/vendor` endpoint.
 You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management.
 Note that these metrics are specific to the Liberty application server. Different vendors may provide other metrics.
-Visit the https://openliberty.io/docs/ref/general/#metrics-catalog.html[Metrics reference list^] for more information.
+Visit the https://openliberty.io/docs/ref/general/#metrics-list.html[Metrics reference list^] for more information.
 
 // =================================================================================================
 // Building and running the application
