@@ -245,7 +245,7 @@ Additional information about these annotations, relevant metadata fields, and mo
 the https://openliberty.io/docs/ref/microprofile/3.0/#package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=org/eclipse/microprofile/metrics/annotation/package-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
 
-== Enabling vendor metrics for the micorservices
+== Enabling vendor metrics for the microservices
 
 server.xml
 [source, xml, linenums, role='code_column']
