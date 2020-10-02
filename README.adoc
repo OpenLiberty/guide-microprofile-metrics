@@ -58,18 +58,8 @@ include::{common-includes}/gitclone.adoc[]
 // Try what you'll build
 // =================================================================================================
 
-=== Try what you'll build
-
-The `finish` directory contains the finished implementation for the application. You can try it out
-before you build your own.
-
-To try out the application, first go to the `finish` directory and run the
-following Maven goal to build the application and deploy it to Open Liberty:
-
-[role=command]
------------
-mvn liberty:run
------------
+[role='command']
+include::{common-includes}/twyb-intro.adoc[]
 
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL to access the `inventory`
 service. Because you just started the application, the inventory is currently empty. Access the
@@ -171,6 +161,8 @@ server.xml
 ----
 include::finish/src/main/liberty/config/server.xml[]
 ----
+
+Navigate to the `start` directory to begin.
 
 include::{common-includes}/devmode-start.adoc[]
 
