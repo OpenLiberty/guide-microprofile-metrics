@@ -13,22 +13,29 @@
 // tag::MetricsTest[]
 package it.io.openliberty.guides.metrics;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.io.*;
-import java.security.KeyStore;
-import java.util.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.KeyStore;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -50,8 +57,8 @@ public class MetricsIT {
   private static String httpsPort;
   private static String baseHttpUrl;
   private static String baseHttpsUrl;
-  
-  private static SSLContext ssl;
+  private static KeyStore keystore;
+
   private List<String> metrics;
   private Client client;
 
@@ -68,22 +75,16 @@ public class MetricsIT {
     httpsPort = System.getProperty("https.port");
     baseHttpUrl = "http://localhost:" + httpPort + "/";
     baseHttpsUrl = "https://localhost:" + httpsPort + "/";
-    setupSSL();
+    loadKeystore();
   }
   // end::oneTimeSetup[]
 
-  private static void setupSSL() throws Exception {
+  private static void loadKeystore() throws Exception {
     Properties sysEnv = new Properties();
     sysEnv.load(new FileInputStream(systemEnvPath));
     char[] password = sysEnv.getProperty("keystore_password").toCharArray();
-    KeyStore keystore = KeyStore.getInstance("PKCS12");
+    keystore = KeyStore.getInstance("PKCS12");
     keystore.load(new FileInputStream(keystorePath), password);
-    KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-    kmf.init(keystore, password);
-    TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-    tmf.init(keystore);
-    ssl = SSLContext.getInstance("TLS");
-    ssl.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
   }
   
   // tag::BeforeEach[]
@@ -91,7 +92,7 @@ public class MetricsIT {
   // end::BeforeEach[]
   // tag::setup[]
   public void setup() {
-    client = ClientBuilder.newBuilder().sslContext(ssl).build();
+    client = ClientBuilder.newBuilder().trustStore(keystore).build();
     // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
     // end::JsrJsonpProvider[]

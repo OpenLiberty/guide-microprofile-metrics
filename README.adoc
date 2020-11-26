@@ -164,7 +164,7 @@ include::finish/src/main/liberty/config/server.xml[]
 
 Navigate to the `start` directory to begin.
 
-include::{common-includes}/devmode-start.adoc[]
+include::{common-includes}/devmode-lmp33-start.adoc[]
 
 The MicroProfile Metrics API is included in the MicroProfile dependency specified by your [hotspot file=0]`pom.xml` file.
 Look for the dependency with the [hotspot=microprofile file=0]`microprofile` artifact ID.
