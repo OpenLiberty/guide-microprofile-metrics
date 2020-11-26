@@ -135,6 +135,27 @@ public class MetricsIT {
   }
   // end::testInventorySizeGaugeMetric[]
 
+  // tag::Test4[]
+  @Test
+  // end::Test4[]
+  // tag::Order4[]
+  @Order(4)
+  // end::Order4[]
+  // tag::testPropertiesAddSimplyTimeMetric[]
+  public void testPropertiesAddSimplyTimeMetric() {
+    connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
+    metrics = getMetrics();
+    boolean checkMetric = false;
+    for (String metric : metrics) {
+      if (metric.startsWith(
+          "application_inventoryAddingTime_total")) {
+            checkMetric = true;
+      }
+    }
+    assertTrue(checkMetric);
+  }
+  // end::testPropertiesAddSimplyTimeMetric[]
+
   public void connectToEndpoint(String url) {
     Response response = this.getResponse(url);
     this.assertResponse(url, response);
