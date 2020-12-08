@@ -136,13 +136,17 @@ public class MetricsIT {
   // end::Order2[]
   // tag::testInventoryAccessCountMetric[]
   public void testInventoryAccessCountMetric() {
+    metrics = getMetrics();
+    Map<String, Integer> accessCountsBefore = getIntMetrics(metrics,
+            "application_inventoryAccessCount_total");
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTS);
     metrics = getMetrics();
-    for (String metric : metrics) {
-      if (metric.startsWith("application_inventoryAccessCount_total")) {
-        assertTrue(
-            1 <= Integer.parseInt(metric.split(" ")[metric.split(" ").length - 1]));
-      }
+    Map<String, Integer> accessCountsAfter = getIntMetrics(metrics,
+            "application_inventoryAccessCount_total");
+    for (String key : accessCountsBefore.keySet()) {
+      Integer accessCountBefore = accessCountsBefore.get(key);
+      Integer accessCountAfter = accessCountsAfter.get(key);
+      assertTrue(accessCountAfter > accessCountBefore);
     }
   }
   // end::testInventoryAccessCountMetric[]
@@ -156,11 +160,10 @@ public class MetricsIT {
   // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
-    for (String metric : metrics) {
-      if (metric.startsWith("application_inventorySizeGauge")) {
-        assertTrue(
-            1 <= Character.getNumericValue(metric.charAt(metric.length() - 1)));
-      }
+    Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics, 
+            "application_inventorySizeGauge");
+    for (Integer value : inventorySizeGauges.values()) {
+      assertTrue(1 <= value);
     }
   }
   // end::testInventorySizeGaugeMetric[]
@@ -227,6 +230,19 @@ public class MetricsIT {
 
   private void assertResponse(String url, Response response) {
     assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
+  }
+  
+  private Map<String, Integer> getIntMetrics(List<String> metrics, String metricName) {
+    Map<String, Integer> output = new HashMap<String, Integer>();
+    for (String metric : metrics) {
+      if (metric.startsWith(metricName)) {
+        String[] mSplit = metric.split("\\s+");
+        String key = mSplit[0];
+        Integer value = Integer.parseInt(mSplit[mSplit.length - 1]);
+        output.put(key, value);
+      }
+    }
+    return output;
   }
 }
 // end::MetricsTest[]
