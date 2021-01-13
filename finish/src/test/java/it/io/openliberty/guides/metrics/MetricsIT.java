@@ -238,7 +238,7 @@ public class MetricsIT {
     Map<String, Integer> output = new HashMap<String, Integer>();
     for (String metric : metrics) {
       if (metric.startsWith(metricName)) {
-        String[] mSplit = metric.split("\\s+");
+        String[] mSplit = metric.split(" ");
         String key = mSplit[0];
         Integer value = Integer.parseInt(mSplit[mSplit.length - 1]);
         output.put(key, value);
