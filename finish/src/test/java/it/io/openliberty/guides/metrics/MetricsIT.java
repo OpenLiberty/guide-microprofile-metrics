@@ -88,7 +88,7 @@ public class MetricsIT {
     keystore = KeyStore.getInstance("PKCS12");
     keystore.load(new FileInputStream(keystorePath), password);
   }
-  
+ 
   // tag::BeforeEach[]
   @BeforeEach
   // end::BeforeEach[]
@@ -162,7 +162,7 @@ public class MetricsIT {
   // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
-    Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics, 
+    Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics,
             "application_inventorySizeGauge");
     for (Integer value : inventorySizeGauges.values()) {
       assertTrue(1 <= value);
@@ -208,7 +208,7 @@ public class MetricsIT {
                                          authorizationHeaderValue)
                                      .get();
 
-    BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) 
+    BufferedReader br = new BufferedReader(new InputStreamReader((InputStream)
     metricsResponse.getEntity()));
     List<String> result = new ArrayList<String>();
     try {
@@ -233,7 +233,7 @@ public class MetricsIT {
   private void assertResponse(String url, Response response) {
     assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
   }
-  
+
   private Map<String, Integer> getIntMetrics(List<String> metrics, String metricName) {
     Map<String, Integer> output = new HashMap<String, Integer>();
     for (String metric : metrics) {
