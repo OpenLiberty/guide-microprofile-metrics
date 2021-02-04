@@ -48,10 +48,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 // end::TestMethodOrder[]
 public class MetricsIT {
 
-  private static final String keystorePath = System.getProperty("user.dir")
+  private static final String KEYSTORE_PATH = System.getProperty("user.dir")
                               + "/target/liberty/wlp/usr/servers/"
                               + "defaultServer/resources/security/key.p12";
-  private static final String systemEnvPath =  System.getProperty("user.dir")
+  private static final String SYSTEM_ENV_PATH =  System.getProperty("user.dir")
                               + "/target/liberty/wlp/usr/servers/"
                               + "defaultServer/server.env";
 
@@ -83,10 +83,10 @@ public class MetricsIT {
 
   private static void loadKeystore() throws Exception {
     Properties sysEnv = new Properties();
-    sysEnv.load(new FileInputStream(systemEnvPath));
+    sysEnv.load(new FileInputStream(SYSTEM_ENV_PATH));
     char[] password = sysEnv.getProperty("keystore_password").toCharArray();
     keystore = KeyStore.getInstance("PKCS12");
-    keystore.load(new FileInputStream(keystorePath), password);
+    keystore.load(new FileInputStream(KEYSTORE_PATH), password);
   }
 
   // tag::BeforeEach[]
