@@ -54,7 +54,7 @@ public class MetricsIT {
   private static final String systemEnvPath =  System.getProperty("user.dir")
                               + "/target/liberty/wlp/usr/servers/"
                               + "defaultServer/server.env";
-	  
+
   private static String httpPort;
   private static String httpsPort;
   private static String baseHttpUrl;
@@ -88,7 +88,7 @@ public class MetricsIT {
     keystore = KeyStore.getInstance("PKCS12");
     keystore.load(new FileInputStream(keystorePath), password);
   }
- 
+
   // tag::BeforeEach[]
   @BeforeEach
   // end::BeforeEach[]
