@@ -315,9 +315,9 @@ the `localhost` host to the inventory. Next, the test case makes a connection to
 Then, it asserts whether the time that is needed to retrieve
 the system properties for localhost is less than 4 seconds.
 
-* The [hotspot=testInventoryAccessCountMetric file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=countedForList file=1]`@Counted` metric. The test case sends a request to the
-`\http://localhost:9080/inventory/systems` URL to retrieve the whole inventory, and then it asserts
-that this endpoint is accessed at least once.
+* The [hotspot=testInventoryAccessCountMetric file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=countedForList file=1]`@Counted` metric. 
+The test case obtains metric data before and after a request to the `\http://localhost:9080/inventory/systems` URL.
+It then asserts that the metric was increased after the URL was accessed.
 
 * The [hotspot=testInventorySizeGaugeMetric file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric. The test case first ensures
 that the localhost is in the inventory, then looks for the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric and asserts
