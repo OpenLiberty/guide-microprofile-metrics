@@ -79,7 +79,7 @@ endif::[]
 ifdef::cloud-hosted[]
 Next, to visit the **/metrics** MicroProfile Metrics endpoint, select **Launch Application** from the menu of the IDE, 
 type in **9443** to specify the port number for the front-end web application, and click the **OK** button. 
-You’re redirected to the **`https://accountname-9090.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
+You’re redirected to the **`https://accountname-9443.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
 where **accountname** is your account name. Click the **metrics** link on the welcome page.
 Log in as the **admin** user with **adminpwd** as the password. You can see both the system and application
 metrics in a text format.
@@ -308,7 +308,7 @@ endif::[]
 ifdef::cloud-hosted[]
 Select **Launch Application** from the menu of the IDE, 
 type in **9443** to specify the port number for the front-end web application, and click the **OK** button. 
-You’re redirected to the **`https://accountname-9090.theiadocker-4.proxy.cognitiveclass.ai`** URL.
+You’re redirected to the **`https://accountname-9443.theiadocker-4.proxy.cognitiveclass.ai`** URL.
 
 To review the all available metrics that have been enabled through MicroProfile Metrics, click the **metrics** link on the welcome page.
 Log in with **admin** as your username and **adminpwd** as your password. You see only the system and vendor metrics because the server just started,
@@ -320,7 +320,7 @@ curl http://localhost:9080/inventory/systems
 ```
 {: codeblock}
 
-Reload the **`https://accountname-9090.theiadocker-4.proxy.cognitiveclass.ai/metrics`** URL,
+Reload the **`https://accountname-9443.theiadocker-4.proxy.cognitiveclass.ai/metrics`** URL,
 or access only the application metrics by clicking the **application metrics** link on the welcome page.
 
 You can see the system metrics by clicking the **system metrics** link on the welcome page, 
