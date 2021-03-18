@@ -77,14 +77,18 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Next, to visit the **/metrics** MicroProfile Metrics endpoint, select **Launch Application** from the menu of the IDE, 
-type in **9443** to specify the port number for the front-end web application, and click the **OK** button. 
-You’re redirected to the **`https://accountname-9443.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
-where **accountname** is your account name. Click the **metrics** link on the welcome page.
-Log in as the **admin** user with **adminpwd** as the password. You can see both the system and application
-metrics in a text format.
+Next, run the following curl command to visit the MicroProfile Metrics endpoint by the **admin** user with **adminpwd** as the password. 
+You can see both the system and application metrics in a text format.
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics
+```
+{: codeblock}
 
-To see only the application metrics, visit the **/metrics/application** endpoint by clicking the **application metrics** link on the welcome page.
+To see only the application metrics, run the following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/application
+```
+{: codeblock}
 endif::[]
 
 See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
@@ -128,7 +132,11 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-To see only the system metrics, visit the **/metrics/base** endpoint by clicking the **system metrics** link on the welcome page.
+To see only the system metrics, run the following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/base
+```
+{: codeblock}
 endif::[]
 
 See the following sample output:
@@ -153,7 +161,11 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-To see only the vendor metrics, visit the **/metrics/vendor** endpoint by clicking the **vendor metrics** link on the welcome page.
+To see only the vendor metrics, run the following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
+```
+{: codeblock}
 endif::[]
 
 See the following sample output:
@@ -306,25 +318,42 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Select **Launch Application** from the menu of the IDE, 
-type in **9443** to specify the port number for the front-end web application, and click the **OK** button. 
-You’re redirected to the **`https://accountname-9443.theiadocker-4.proxy.cognitiveclass.ai`** URL.
+Run the following curl command to review the all available metrics that have been enabled through MicroProfile Metrics. 
+You see only the system and vendor metrics because the server just started, and the **inventory** service has not been accessed.
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics
+```
+{: codeblock}
 
-To review the all available metrics that have been enabled through MicroProfile Metrics, click the **metrics** link on the welcome page.
-Log in with **admin** as your username and **adminpwd** as your password. You see only the system and vendor metrics because the server just started,
-and the **inventory** service has not been accessed.
-
-Next, run the following curl command from the terminal in the IDE:
+Next, run the following curl command to access the **inventory** service:
 ```
 curl http://localhost:9080/inventory/systems
 ```
 {: codeblock}
 
-Reload the **`https://accountname-9443.theiadocker-4.proxy.cognitiveclass.ai/metrics`** URL,
-or access only the application metrics by clicking the **application metrics** link on the welcome page.
+Rerun the following curl command to access the all metrics:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics
+```
+{: codeblock}
 
-You can see the system metrics by clicking the **system metrics** link on the welcome page, 
-as well as see the vendor metrics by clicking the **vendor metrics** link on the welcome page.
+or access only the application metrics by running following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/application
+```
+{: codeblock}
+
+You can see the system metrics by running following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/base
+```
+{: codeblock}
+
+as well as see the vendor metrics by running following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
+```
+{: codeblock}
 endif::[]
 
 
