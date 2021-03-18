@@ -1,4 +1,4 @@
-// Copyright (c) 2018, 2020 IBM Corporation and others.
+// Copyright (c) 2018, 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -61,18 +61,31 @@ include::{common-includes}/gitclone.adoc[]
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
-Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL to access the `inventory`
-service. Because you just started the application, the inventory is currently empty. Access the
-http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^] URL to add the localhost into the inventory.
+Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL to access the `inventory` service. Because you just started the application, the inventory is currently empty. 
+Access the http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^] URL to add the localhost into the inventory.
 
-Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once
-for application metrics to be collected. Otherwise, the metrics will not appear.
+Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once for application metrics to be collected. Otherwise, the metrics will not appear.
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in
 as the `admin` user with `adminpwd` as the password. You can see both the system and application
 metrics in a text format.
 
 To see only the application metrics, point your browser to https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^].
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Next, to visit the **/metrics** MicroProfile Metrics endpoint, select **Launch Application** from the menu of the IDE, 
+type in **9443** to specify the port number for the front-end web application, and click the **OK** button. 
+You’re redirected to the **`https://accountname-9090.theiadocker-4.proxy.cognitiveclass.ai`** URL, 
+where **accountname** is your account name. Click the **metrics** link on the welcome page.
+Log in as the **admin** user with **adminpwd** as the password. You can see both the system and application
+metrics in a text format.
+
+To see only the application metrics, visit the **/metrics/application** endpoint by clicking the **application metrics** link on the welcome page.
+endif::[]
 
 See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
 
@@ -108,7 +121,15 @@ application_inventorySizeGauge 1
 application_inventoryAccessCount_total 1
 ----
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 To see only the system metrics, point your browser to https://localhost:9443/metrics/base[https://localhost:9443/metrics/base^].
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To see only the system metrics, visit the **/metrics/base** endpoint by clicking the **system metrics** link on the welcome page.
+endif::[]
 
 See the following sample output:
 
@@ -125,7 +146,15 @@ base_jvm_uptime_seconds 30.342000000000002
 base_classloader_loadedClasses_count 11231
 ----
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 To see only the vendor metrics, point your browser to https://localhost:9443/metrics/vendor[https://localhost:9443/metrics/vendor^].
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To see only the vendor metrics, visit the **/metrics/vendor** endpoint by clicking the **vendor metrics** link on the welcome page.
+endif::[]
 
 See the following sample output:
 
@@ -261,6 +290,8 @@ Visit the https://openliberty.io/docs/ref/general/#metrics-list.html[Metrics ref
 
 The Open Liberty server was started in development mode at the beginning of the guide and all the changes were automatically picked up.
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review the all available metrics
 that have been enabled through MicroProfile Metrics. Log in with `admin` as your username and
 `adminpwd` as your password. You see only the system and vendor metrics because the server just started,
@@ -271,6 +302,30 @@ https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access o
 https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^] URL.
 
 You can see the system metrics in the https://localhost:9443/metrics/base[^] URL as well as see the vendor metrics in the https://localhost:9443/metrics/vendor[^] URL.
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Select **Launch Application** from the menu of the IDE, 
+type in **9443** to specify the port number for the front-end web application, and click the **OK** button. 
+You’re redirected to the **`https://accountname-9090.theiadocker-4.proxy.cognitiveclass.ai`** URL.
+
+To review the all available metrics that have been enabled through MicroProfile Metrics, click the **metrics** link on the welcome page.
+Log in with **admin** as your username and **adminpwd** as your password. You see only the system and vendor metrics because the server just started,
+and the **inventory** service has not been accessed.
+
+Next, run the following curl command from the terminal in the IDE:
+```
+curl http://localhost:9080/inventory/systems
+```
+{: codeblock}
+
+Reload the **`https://accountname-9090.theiadocker-4.proxy.cognitiveclass.ai/metrics`** URL,
+or access only the application metrics by clicking the **application metrics** link on the welcome page.
+
+You can see the system metrics by clicking the **system metrics** link on the welcome page, 
+as well as see the vendor metrics by clicking the **vendor metrics** link on the welcome page.
+endif::[]
 
 
 // =================================================================================================
