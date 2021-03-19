@@ -219,7 +219,19 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Navigate to the `start` directory to begin.
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To begin, run the following command to navigate to the **start** directory:
+```
+cd /home/project/guide-microprofile-metrics/start
+```
+{: codeblock}
+endif::[]
 
 include::{common-includes}/devmode-start.adoc[]
 
