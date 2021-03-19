@@ -1,4 +1,4 @@
-// Copyright (c) 2018, 2020 IBM Corporation and others.
+// Copyright (c) 2018, 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -61,18 +61,53 @@ include::{common-includes}/gitclone.adoc[]
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL to access the `inventory`
-service. Because you just started the application, the inventory is currently empty. Access the
+service. Because you just started the application, the inventory is empty. Access the
 http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^] URL to add the localhost into the inventory.
 
 Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once
-for application metrics to be collected. Otherwise, the metrics will not appear.
+so that application metrics are collected. Otherwise, the metrics do not appear.
 
 Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in
 as the `admin` user with `adminpwd` as the password. You can see both the system and application
 metrics in a text format.
 
 To see only the application metrics, point your browser to https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^].
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+
+Run the following curl command to access the **inventory** service. Because you just started the application, the inventory is empty. 
+```
+curl http://localhost:9080/inventory/systems
+```
+{: codeblock}
+
+Run the following curl command to add the **localhost** into the inventory.
+```
+curl http://localhost:9080/inventory/systems/localhost
+```
+{: codeblock}
+
+Access the **inventory** service at the http://localhost:9080/inventory/systems URL at least once so that application metrics are collected. Otherwise, the metrics do not appear.
+
+Next, run the following curl command to visit the MicroProfile Metrics endpoint by the **admin** user with **adminpwd** as the password. 
+You can see both the system and application metrics in a text format.
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics
+```
+{: codeblock}
+
+To see only the application metrics, run the following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/application
+```
+{: codeblock}
+endif::[]
 
 See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
 
@@ -108,7 +143,19 @@ application_inventorySizeGauge 1
 application_inventoryAccessCount_total 1
 ----
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 To see only the system metrics, point your browser to https://localhost:9443/metrics/base[https://localhost:9443/metrics/base^].
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To see only the system metrics, run the following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/base
+```
+{: codeblock}
+endif::[]
 
 See the following sample output:
 
@@ -125,7 +172,19 @@ base_jvm_uptime_seconds 30.342000000000002
 base_classloader_loadedClasses_count 11231
 ----
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 To see only the vendor metrics, point your browser to https://localhost:9443/metrics/vendor[https://localhost:9443/metrics/vendor^].
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To see only the vendor metrics, run the following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
+```
+{: codeblock}
+endif::[]
 
 See the following sample output:
 
@@ -162,7 +221,19 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Navigate to the `start` directory to begin.
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To begin, run the following command to navigate to the **start** directory:
+```
+cd /home/project/guide-microprofile-metrics/start
+```
+{: codeblock}
+endif::[]
 
 include::{common-includes}/devmode-start.adoc[]
 
@@ -215,8 +286,8 @@ This annotation has these metadata fields:
 The `@Timed` annotation tracks how frequently the method is invoked and how long it takes for each invocation of the method to complete.
 Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension that uniquely identifies the collected metric data from the inventory processing time in getting the system properties.
 
-- The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the elapse time in getting the system properties from calling the `system` service.
-- The [hotspot=tagForList]`method=list` tag identifies the [hotspot=nameForList]`inventoryProcessingTime` metric that measures the elapse time for the `inventory` service to list all of the system properties in the inventory.
+* The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the elapsed time to get the system properties when you call the `system` service.
+* The [hotspot=tagForList]`method=list` tag identifies the [hotspot=nameForList]`inventoryProcessingTime` metric that measures the elapsed time for the `inventory` service to list all of the system properties in the inventory.
 
 The tags allow you to query the metrics together or separately based on the functionality of the monitoring tool of your choice. The `inventoryProcessingTime` metrics for example could be queried to display an aggregate time of both tagged metrics or individual times.
 
@@ -261,16 +332,58 @@ Visit the https://openliberty.io/docs/ref/general/#metrics-list.html[Metrics ref
 
 The Open Liberty server was started in development mode at the beginning of the guide and all the changes were automatically picked up.
 
-Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review the all available metrics
-that have been enabled through MicroProfile Metrics. Log in with `admin` as your username and
-`adminpwd` as your password. You see only the system and vendor metrics because the server just started,
-and the `inventory` service has not been accessed.
+// static guide instructions:
+ifndef::cloud-hosted[]
+Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review all the metrics 
+that are enabled through MicroProfile Metrics. Log in with `admin` as your username and `adminpwd` as your password. 
+You see only the system and vendor metrics because the server just started, and the `inventory` service has not been accessed.
 
 Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the
 https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the
 https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^] URL.
 
 You can see the system metrics in the https://localhost:9443/metrics/base[^] URL as well as see the vendor metrics in the https://localhost:9443/metrics/vendor[^] URL.
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics.
+You see only the system and vendor metrics because the server just started, and the **inventory** service has not been accessed.
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics
+```
+{: codeblock}
+
+Next, run the following curl command to access the **inventory** service:
+```
+curl http://localhost:9080/inventory/systems
+```
+{: codeblock}
+
+Rerun the following curl command to access the all metrics:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics
+```
+{: codeblock}
+
+or access only the application metrics by running following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/application
+```
+{: codeblock}
+
+You can see the system metrics by running following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/base
+```
+{: codeblock}
+
+as well as see the vendor metrics by running following curl command:
+```
+curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
+```
+{: codeblock}
+endif::[]
 
 
 // =================================================================================================
