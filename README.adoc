@@ -61,13 +61,13 @@ include::{common-includes}/gitclone.adoc[]
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL to access the `inventory` service. Because you just started the application, the inventory is currently empty. 
 Access the http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^] URL to add the localhost into the inventory.
 
 Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once for application metrics to be collected. Otherwise, the metrics will not appear.
 
-// static guide instructions:
-ifndef::cloud-hosted[]
 Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in
 as the `admin` user with `adminpwd` as the password. You can see both the system and application
 metrics in a text format.
@@ -77,6 +77,22 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+
+Run the following curl command to access the **inventory** service. Because you just started the application, the inventory is currently empty. 
+```
+curl http://localhost:9080/inventory/systems
+```
+{: codeblock}
+
+Run the following curl command to add the localhost into the inventory.
+```
+curl http://localhost:9080/inventory/systems/localhost
+```
+{: codeblock}
+
+Access the **inventory** service at the http://localhost:9080/inventory/systems URL at least once for application metrics to be collected. Otherwise, the metrics will not appear.
+
 Next, run the following curl command to visit the MicroProfile Metrics endpoint by the **admin** user with **adminpwd** as the password. 
 You can see both the system and application metrics in a text format.
 ```
