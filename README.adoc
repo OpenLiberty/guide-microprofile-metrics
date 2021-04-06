@@ -482,6 +482,9 @@ Results :
 Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
 ----
 
+The warning and error messages are expected and result from a request to a bad or an unknown hostname. 
+This request is made in the `testUnknownHost()` test from the `InventoryEndpointIT` integration test.
+
 To determine whether the tests detect a failure, go to the [hotspot file=0]`MetricsIT.java` file and change any of the assertions
 in the test methods. Then re-run the tests to see a test failure occur.
 
