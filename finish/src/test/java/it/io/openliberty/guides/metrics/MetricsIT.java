@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2020 IBM Corporation and others.
+ * Copyright (c) 2017, 2021 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,17 +13,31 @@
 // tag::MetricsTest[]
 package it.io.openliberty.guides.metrics;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.io.*;
-import java.util.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.KeyStore;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -33,10 +47,19 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(OrderAnnotation.class)
 // end::TestMethodOrder[]
 public class MetricsIT {
+
+  private static final String KEYSTORE_PATH = System.getProperty("user.dir")
+                              + "/target/liberty/wlp/usr/servers/"
+                              + "defaultServer/resources/security/key.p12";
+  private static final String SYSTEM_ENV_PATH =  System.getProperty("user.dir")
+                              + "/target/liberty/wlp/usr/servers/"
+                              + "defaultServer/server.env";
+
   private static String httpPort;
   private static String httpsPort;
   private static String baseHttpUrl;
   private static String baseHttpsUrl;
+  private static KeyStore keystore;
 
   private List<String> metrics;
   private Client client;
@@ -49,20 +72,29 @@ public class MetricsIT {
   @BeforeAll
   // end::BeforeAll[]
   // tag::oneTimeSetup[]
-  public static void oneTimeSetup() {
+  public static void oneTimeSetup() throws Exception {
     httpPort = System.getProperty("http.port");
     httpsPort = System.getProperty("https.port");
     baseHttpUrl = "http://localhost:" + httpPort + "/";
     baseHttpsUrl = "https://localhost:" + httpsPort + "/";
+    loadKeystore();
   }
   // end::oneTimeSetup[]
+
+  private static void loadKeystore() throws Exception {
+    Properties sysEnv = new Properties();
+    sysEnv.load(new FileInputStream(SYSTEM_ENV_PATH));
+    char[] password = sysEnv.getProperty("keystore_password").toCharArray();
+    keystore = KeyStore.getInstance("PKCS12");
+    keystore.load(new FileInputStream(KEYSTORE_PATH), password);
+  }
 
   // tag::BeforeEach[]
   @BeforeEach
   // end::BeforeEach[]
   // tag::setup[]
   public void setup() {
-    client = ClientBuilder.newClient();
+    client = ClientBuilder.newBuilder().trustStore(keystore).build();
     // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
     // end::JsrJsonpProvider[]
@@ -130,7 +162,7 @@ public class MetricsIT {
   // tag::testInventorySizeGaugeMetric[]
   public void testInventorySizeGaugeMetric() {
     metrics = getMetrics();
-    Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics, 
+    Map<String, Integer> inventorySizeGauges = getIntMetrics(metrics,
             "application_inventorySizeGauge");
     for (Integer value : inventorySizeGauges.values()) {
       assertTrue(1 <= value);
@@ -176,7 +208,7 @@ public class MetricsIT {
                                          authorizationHeaderValue)
                                      .get();
 
-    BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) 
+    BufferedReader br = new BufferedReader(new InputStreamReader((InputStream)
     metricsResponse.getEntity()));
     List<String> result = new ArrayList<String>();
     try {
@@ -201,7 +233,7 @@ public class MetricsIT {
   private void assertResponse(String url, Response response) {
     assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
   }
-  
+
   private Map<String, Integer> getIntMetrics(List<String> metrics, String metricName) {
     Map<String, Integer> output = new HashMap<String, Integer>();
     for (String metric : metrics) {
