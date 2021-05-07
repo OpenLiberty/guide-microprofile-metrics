@@ -31,7 +31,7 @@
       <!-- tag::microprofile[] -->
       <artifactId>microprofile</artifactId>
       <!-- end::microprofile[] -->
-      <version>3.3</version>
+      <version>4.0.1</version>
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
@@ -86,7 +86,7 @@
       <plugin>
         <groupId>io.openliberty.tools</groupId>
         <artifactId>liberty-maven-plugin</artifactId>
-        <version>3.3.3</version>
+        <version>3.3.4</version>
       </plugin>
       <!-- Plugin to run functional tests -->
       <plugin>
