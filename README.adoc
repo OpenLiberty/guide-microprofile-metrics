@@ -70,9 +70,15 @@ http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventor
 Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once
 so that application metrics are collected. Otherwise, the metrics do not appear.
 
-Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in
-as the `admin` user with `adminpwd` as the password. You can see both the system and application
-metrics in a text format.
+By default, metrics are only available when you're authenticated, and authentication should only be done if you're using `https`. Below we simulate how somebody with authentication may access the metrics:
+
+Next, point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in
+as the `admin` user with `adminpwd` as the password. Here you can see both the system and application
+metrics in a text format. 
+
+Note that your browser may have a problem with the fact you're trying to access a `https` URL with an "invalid certificate".
+This is perfectly normal and is due to the way we're simulating authentication, on localhost, for the purpose of this demo.
+If you cannot bypass this problem, you can change [hotspot=mpMetricsAuthentication]`mpMetrics authentication` from `true` to `false` and replace https://localhost:9443/metrics/[https://localhost:9443/metrics/] with http://localhost:9080/metrics/[http://localhost:9080/metrics/] for the remainder of this demo. For more information on disabling authentication, see https://openliberty.io/blog/2018/09/19/get-more-metrics-microprofile20.html#mpmetrics[this blog].
 
 To see only the application metrics, point your browser to https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^].
 endif::[]
@@ -253,6 +259,8 @@ feature requires SSL and the configuration has been provided for you.
 
 The [hotspot=quickStartSecurity file=1]`quickStartSecurity` configuration element provides basic security to secure the server. 
 When you visit the `/metrics` endpoint, use the credentials defined in the server configuration to log in and view the data.
+
+If you disabled [hotspot=mpMetricsAuthentication]`mpMetrics authentication` earlier in the guide, make sure to do that again here.
 
 // =================================================================================================
 // Adding the annotations
