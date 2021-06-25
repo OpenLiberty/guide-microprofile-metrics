@@ -15,7 +15,7 @@
 :page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'microprofile-health', 'cdi-intro']
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :page-seo-title: Monitoring the metrics of Java microservices using Eclipse MicroProfile Metrics
 :page-seo-description: A getting started tutorial and an example on how to expose system and application metrics from Java microservices and monitor metrics endpoints using Eclipse MicroProfile Metrics.
 :source-highlighter: prettify
