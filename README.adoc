@@ -83,13 +83,13 @@ Open another command-line session by selecting **Terminal** > **New Terminal** f
 
 Run the following curl command to access the **inventory** service. Because you just started the application, the inventory is empty. 
 ```
-curl http://localhost:9080/inventory/systems
+curl -s http://localhost:9080/inventory/systems | jq
 ```
 {: codeblock}
 
 Run the following curl command to add the **localhost** into the inventory.
 ```
-curl http://localhost:9080/inventory/systems/localhost
+curl -s http://localhost:9080/inventory/systems/localhost | jq
 ```
 {: codeblock}
 
@@ -357,7 +357,7 @@ curl -k --user admin:adminpwd https://localhost:9443/metrics
 
 Next, run the following curl command to access the **inventory** service:
 ```
-curl http://localhost:9080/inventory/systems
+curl -s http://localhost:9080/inventory/systems | jq
 ```
 {: codeblock}
 
