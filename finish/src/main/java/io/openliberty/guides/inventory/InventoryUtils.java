@@ -36,7 +36,8 @@ public class InventoryUtils {
       SystemClient customRestClient = RestClientBuilder.newBuilder()
                                                        .baseUrl(customURL)
                                                        .register(
-                                                           UnknownUrlExceptionMapper.class)
+                                                         UnknownUrlExceptionMapper
+                                                         .class)
                                                        .build(SystemClient.class);
       return customRestClient.getProperties();
     } catch (ProcessingException ex) {

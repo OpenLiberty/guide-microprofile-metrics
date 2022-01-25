@@ -59,10 +59,10 @@ public class InventoryManager {
 
   // tag::timedForAdd[]
   // tag::nameForAdd[]
-  @SimplyTimed(name = "inventoryAddingTime", 
+  @SimplyTimed(name = "inventoryAddingTime",
   // end::nameForAdd[]
     // tag::absoluteForAdd[]
-    absolute=true,
+    absolute = true,
     // end::absoluteForAdd[]
     // tag::desForAdd[]
     description = "Time needed to add system properties to the inventory")
@@ -75,8 +75,9 @@ public class InventoryManager {
     props.setProperty("user.name", systemProps.getProperty("user.name"));
 
     SystemData host = new SystemData(hostname, props);
-    if (!systems.contains(host))
+    if (!systems.contains(host)){
       systems.add(host);
+    }
   }
   // end::add[]
 
