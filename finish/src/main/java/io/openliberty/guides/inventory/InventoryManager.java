@@ -75,7 +75,7 @@ public class InventoryManager {
     props.setProperty("user.name", systemProps.getProperty("user.name"));
 
     SystemData host = new SystemData(hostname, props);
-    if (!systems.contains(host)){
+    if (!systems.contains(host)) {
       systems.add(host);
     }
   }
