@@ -30,11 +30,11 @@ import java.util.Map;
 import java.util.Properties;
 
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.plugins.providers.jsonb.JsonBindingProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,7 +96,7 @@ public class MetricsIT {
   public void setup() {
     client = ClientBuilder.newBuilder().trustStore(keystore).build();
     // tag::JsrJsonpProvider[]
-    client.register(JsrJsonpProvider.class);
+    client.register(JsonBindingProvider.class);
     // end::JsrJsonpProvider[]
   }
   // end::setup[]
