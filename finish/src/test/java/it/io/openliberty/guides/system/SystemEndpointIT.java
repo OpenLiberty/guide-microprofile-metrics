@@ -27,7 +27,7 @@ public class SystemEndpointIT {
     String port = System.getProperty("http.port");
     String url = "http://localhost:" + port + "/";
 
-    Client client = ResteasyClientBuilder.newClient();
+    Client client = ClientBuilder.newClient();
 
     WebTarget target = client.target(url + "system/properties");
     Response response = target.request().get();
