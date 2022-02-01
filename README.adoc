@@ -1,4 +1,4 @@
-// Copyright (c) 2018, 2021 IBM Corporation and others.
+// Copyright (c) 2018, 2022 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -197,7 +197,7 @@ vendor_threadpool_size{pool="Default_Executor"} 32
 [role="no_copy"]
 ----
 # TYPE vendor_servlet_request_total counter
-# HELP vendor_servlet_request_total The number of visits to this servlet since the start of the server.
+# HELP vendor_servlet_request_total The number of visits to this servlet from the start of the server.
 vendor_servlet_request_total{servlet="microprofile_metrics_io_openliberty_guides_inventory_InventoryApplication"} 1
 ----
 
