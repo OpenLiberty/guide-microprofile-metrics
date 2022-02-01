@@ -13,6 +13,8 @@
 // tag::testClass[]
 package it.io.openliberty.guides.inventory;
 
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

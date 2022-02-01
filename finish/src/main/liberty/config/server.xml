@@ -1,10 +1,12 @@
 <server description="Sample Liberty server">
 
   <featureManager>
-    <feature>restfulWS-3.0</feature>
-    <feature>jsonp-2.0</feature>
-    <feature>cdi-3.0</feature>
-    <!-- tag::mpMetrics[] -->
+     <feature>restfulWS-3.0</feature>
+     <feature>jsonp-2.0</feature>
+     <feature>jsonb-2.0</feature>
+     <feature>cdi-3.0</feature>
+     <feature>mpConfig-3.0</feature>
+       <!-- tag::mpMetrics[] -->
     <feature>mpMetrics-4.0</feature>
     <!-- end::mpMetrics[] -->
     <feature>mpRestClient-3.0</feature>

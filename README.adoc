@@ -405,7 +405,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.j
 ----
 
 You can test your application manually, but automated tests ensure code quality because they trigger a
-failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide a simple
+failure whenever a code change introduces a defect. JUnit and the restfulWS Client API provide a simple
 environment for you to write tests.
 
 [role="code_command hotspot file=0", subs="quotes"]
@@ -438,8 +438,7 @@ The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port numb
 to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to run it before any of
 the test cases.
 
-The [hotspot=setup file=0]`setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service.
-Register this client with a [hotspot=JsrJsonpProvider file=0]`JsrJsonpProvider` JSON-P provider to process JSON resources. The
+The [hotspot=setup file=0]`setup()` method creates a restfulWS client that makes HTTP requests to the `inventory` service. The
 [hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=BeforeEach file=0]`@BeforeEach` annotation so that a method
 runs before a test case and apply the [hotspot=AfterEach file=0]`@AfterEach` annotation so that a method runs after a test
 case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks

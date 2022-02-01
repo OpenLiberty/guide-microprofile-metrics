@@ -12,6 +12,8 @@
 // end::copyright[]
 package it.io.openliberty.guides.system;
 
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.client.Client;
