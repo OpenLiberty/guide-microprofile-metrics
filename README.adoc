@@ -33,20 +33,13 @@ You'll explore how to provide system and application metrics from a microservice
 
 == What you'll learn
 
-You will learn how to use MicroProfile Metrics to provide metrics from a microservice. You can monitor
-metrics to determine the performance and health of a service. You can also use them to pinpoint issues,
-collect data for capacity planning, or to decide when to scale a service to run with more or fewer
-resources.
+You will learn how to use MicroProfile Metrics to provide metrics from a microservice. You can monitor metrics to determine the performance and health of a service. You can also use them to pinpoint issues, collect data for capacity planning, or to decide when to scale a service to run with more or fewer resources.
 
-The application that you will work with is an `inventory` service that stores information about various
-systems. The `inventory` service communicates with the `system` service on a particular host to retrieve
-its system properties when necessary.
+The application that you will work with is an `inventory` service that stores information about various systems. The `inventory` service communicates with the `system` service on a particular host to retrieve its system properties when necessary.
 
-You will use annotations provided by MicroProfile Metrics to instrument the `inventory` service to
-provide application-level metrics data. You will add counter, gauge, and timer metrics to the service.
+You will use annotations provided by MicroProfile Metrics to instrument the `inventory` service to provide application-level metrics data. You will add counter, gauge, and timer metrics to the service.
 
-You will also check well-known REST endpoints that are defined by MicroProfile Metrics to review
-the metrics data collected. Monitoring agents can access these endpoints to collect metrics.
+You will also check well-known REST endpoints that are defined by MicroProfile Metrics to review the metrics data collected. Monitoring agents can access these endpoints to collect metrics.
 
 // =================================================================================================
 // Getting Started
@@ -63,16 +56,11 @@ include::{common-includes}/twyb-intro.adoc[]
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL to access the `inventory`
-service. Because you just started the application, the inventory is empty. Access the
-http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^] URL to add the localhost into the inventory.
+Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL to access the `inventory` service. Because you just started the application, the inventory is empty. Access the http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^] URL to add the localhost into the inventory.
 
-Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once
-so that application metrics are collected. Otherwise, the metrics do not appear.
+Access the `inventory` service at the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL at least once so that application metrics are collected. Otherwise, the metrics do not appear.
 
-Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in
-as the `admin` user with `adminpwd` as the password. You can see both the system and application
-metrics in a text format.
+Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in as the `admin` user with `adminpwd` as the password. You can see both the system and application metrics in a text format.
 
 To see only the application metrics, point your browser to https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^].
 endif::[]
@@ -95,8 +83,7 @@ curl -s http://localhost:9080/inventory/systems/localhost | jq
 
 Access the **inventory** service at the **http://localhost:9080/inventory/systems** URL at least once so that application metrics are collected. Otherwise, the metrics do not appear.
 
-Next, run the following curl command to visit the MicroProfile Metrics endpoint by the **admin** user with **adminpwd** as the password. 
-You can see both the system and application metrics in a text format.
+Next, run the following curl command to visit the MicroProfile Metrics endpoint by the **admin** user with **adminpwd** as the password.  You can see both the system and application metrics in a text format.
 ```
 curl -k --user admin:adminpwd https://localhost:9443/metrics
 ```
@@ -237,10 +224,7 @@ endif::[]
 
 include::{common-includes}/devmode-lmp33-start.adoc[]
 
-The MicroProfile Metrics API is included in the MicroProfile dependency specified by your [hotspot file=0]`pom.xml` file.
-Look for the dependency with the [hotspot=microprofile file=0]`microprofile` artifact ID.
-This dependency provides a library that allows you to use the MicroProfile Metrics API
-in your code to provide metrics from your microservices.
+The MicroProfile Metrics API is included in the MicroProfile dependency specified by your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=microprofile file=0]`microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Metrics API in your code to provide metrics from your microservices.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -248,11 +232,9 @@ in your code to provide metrics from your microservices.
 `src/main/liberty/config/server.xml`
 ----
 
-The [hotspot=mpMetrics file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this
-feature requires SSL and the configuration has been provided for you.
+The [hotspot=mpMetrics file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this feature requires SSL and the configuration has been provided for you.
 
-The [hotspot=quickStartSecurity file=1]`quickStartSecurity` configuration element provides basic security to secure the server. 
-When you visit the `/metrics` endpoint, use the credentials defined in the server configuration to log in and view the data.
+The [hotspot=quickStartSecurity file=1]`quickStartSecurity` configuration element provides basic security to secure the server. When you visit the `/metrics` endpoint, use the credentials defined in the server configuration to log in and view the data.
 
 // =================================================================================================
 // Adding the annotations
@@ -284,8 +266,7 @@ This annotation has these metadata fields:
 |[hotspot=desForGet hotspot=desForList]`description` | Optional. Use this field to describe the purpose of the metric.
 |===
 
-The `@Timed` annotation tracks how frequently the method is invoked and how long it takes for each invocation of the method to complete.
-Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension that uniquely identifies the collected metric data from the inventory processing time in getting the system properties.
+The `@Timed` annotation tracks how frequently the method is invoked and how long it takes for each invocation of the method to complete. Both the [hotspot=get]`get()` and [hotspot=list]`list()` methods are annotated with the `@Timed` metric and have the same [hotspot=nameForGet hotspot=nameForList]`inventoryProcessingTime` name. The [hotspot=tagForGet]`method=get` and [hotspot=tagForList]`method=list` tags add a dimension that uniquely identifies the collected metric data from the inventory processing time in getting the system properties.
 
 * The [hotspot=tagForGet]`method=get` tag identifies the [hotspot=nameForGet]`inventoryProcessingTime` metric that measures the elapsed time to get the system properties when you call the `system` service.
 * The [hotspot=tagForList]`method=list` tag identifies the [hotspot=nameForList]`inventoryProcessingTime` metric that measures the elapsed time for the `inventory` service to list all of the system properties in the inventory.
@@ -294,12 +275,9 @@ The tags allow you to query the metrics together or separately based on the func
 
 Apply the [hotspot=timedForAdd]`@SimplyTimed` annotation to the [hotspot=add]`add()` method to track how frequently the method is invoked and how long it takes for each invocation of the method to complete. `@SimplyTimed` supports the same fields as `@Timed` in the previous table.
 
-Apply the [hotspot=countedForList]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the
-`\http://localhost:9080/inventory/systems` URL is accessed monotonically, which is counting up sequentially.
+Apply the [hotspot=countedForList]`@Counted` annotation to the [hotspot=list]`list()` method to count how many times the `\http://localhost:9080/inventory/systems` URL is accessed monotonically, which is counting up sequentially.
 
-Apply the [hotspot=gaugeForGetTotal]`@Gauge` annotation to the [hotspot=getTotal]`getTotal()` method to track the number of systems that are stored in
-the inventory. When the value of the gauge is retrieved, the underlying [hotspot=getTotal]`getTotal()` method
-is called to return the size of the inventory. Note the additional metadata field:
+Apply the [hotspot=gaugeForGetTotal]`@Gauge` annotation to the [hotspot=getTotal]`getTotal()` method to track the number of systems that are stored in the inventory. When the value of the gauge is retrieved, the underlying [hotspot=getTotal]`getTotal()` method is called to return the size of the inventory. Note the additional metadata field:
 
 |===
 | [hotspot=unitForGetTotal]`unit` | Set the unit of the metric. If it is [hotspot=unitForGetTotal]`MetricUnits.NONE`, the metric name is used without appending the unit name, no scaling is applied.
@@ -317,13 +295,9 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-MicroProfile Metrics API implementers can provide vendor metrics in the same forms as the base and application metrics do.
-Open Liberty as a vendor supplies server component metrics when the [hotspot=mpMetrics]`mpMetrics` feature is enabled in the [hotspot]`server.xml` configuration file.
+MicroProfile Metrics API implementers can provide vendor metrics in the same forms as the base and application metrics do. Open Liberty as a vendor supplies server component metrics when the [hotspot=mpMetrics]`mpMetrics` feature is enabled in the [hotspot]`server.xml` configuration file.
 
-You can see the vendor-only metrics in the `metrics/vendor` endpoint.
-You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management.
-Note that these metrics are specific to the Liberty application server. Different vendors may provide other metrics.
-Visit the https://openliberty.io/docs/ref/general/#metrics-list.html[Metrics reference list^] for more information.
+You can see the vendor-only metrics in the `metrics/vendor` endpoint. You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management. Note that these metrics are specific to the Liberty application server. Different vendors may provide other metrics. Visit the https://openliberty.io/docs/ref/general/#metrics-list.html[Metrics reference list^] for more information.
 
 // =================================================================================================
 // Building and running the application
@@ -335,21 +309,16 @@ The Open Liberty server was started in development mode at the beginning of the 
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review all the metrics 
-that are enabled through MicroProfile Metrics. Log in with `admin` as your username and `adminpwd` as your password. 
-You see only the system and vendor metrics because the server just started, and the `inventory` service has not been accessed.
+Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `admin` as your username and `adminpwd` as your password. You see only the system and vendor metrics because the server just started, and the `inventory` service has not been accessed.
 
-Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the
-https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the
-https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^] URL.
+Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^] URL.
 
 You can see the system metrics in the https://localhost:9443/metrics/base[^] URL as well as see the vendor metrics in the https://localhost:9443/metrics/vendor[^] URL.
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics.
-You see only the system and vendor metrics because the server just started, and the **inventory** service has not been accessed.
+Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics. You see only the system and vendor metrics because the server just started, and the **inventory** service has not been accessed.
 ```
 curl -k --user admin:adminpwd https://localhost:9443/metrics
 ```
@@ -404,9 +373,7 @@ InventoryManager.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-You can test your application manually, but automated tests ensure code quality because they trigger a
-failure whenever a code change introduces a defect. JUnit and the restfulWS Client API provide a simple
-environment for you to write tests.
+You can test your application manually, but automated tests ensure code quality because they trigger a failure whenever a code change introduces a defect. JUnit and the restfulWS Client API provide a simple environment for you to write tests.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -414,47 +381,21 @@ environment for you to write tests.
 `src/test/java/it/io/openliberty/guides/metrics/MetricsIT.java`
 ----
 
-* The [hotspot=testPropertiesRequestTimeMetric file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=timedForGet file=1]`@Timed` metric. The test case sends a request to the
-`\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
-the `localhost` host to the inventory. Next, the test case makes a connection to the
-`\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text.
-Then, it asserts whether the time that is needed to retrieve
-the system properties for localhost is less than 4 seconds.
+* The [hotspot=testPropertiesRequestTimeMetric file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=timedForGet file=1]`@Timed` metric. The test case sends a request to the `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds the `localhost` host to the inventory. Next, the test case makes a connection to the `\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text. Then, it asserts whether the time that is needed to retrieve the system properties for localhost is less than 4 seconds.
 
-* The [hotspot=testInventoryAccessCountMetric file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=countedForList file=1]`@Counted` metric. 
-The test case obtains metric data before and after a request to the `\http://localhost:9080/inventory/systems` URL.
-It then asserts that the metric was increased after the URL was accessed.
+* The [hotspot=testInventoryAccessCountMetric file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=countedForList file=1]`@Counted` metric. The test case obtains metric data before and after a request to the `\http://localhost:9080/inventory/systems` URL. It then asserts that the metric was increased after the URL was accessed.
 
-* The [hotspot=testInventorySizeGaugeMetric file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric. The test case first ensures
-that the localhost is in the inventory, then looks for the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric and asserts
-that the inventory size is greater or equal to 1.
+* The [hotspot=testInventorySizeGaugeMetric file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric. The test case first ensures that the localhost is in the inventory, then looks for the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric and asserts that the inventory size is greater or equal to 1.
 
-* The [hotspot=testPropertiesAddSimplyTimeMetric file=0]`testPropertiesAddSimplyTimeMetric()` test case validates the [hotspot=timedForAdd file=1]`@SimplyTimed` metric. The test case sends a request to the
-`\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds
-the `localhost` host to the inventory. Next, the test case makes a connection to the
-`\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text. Then, it looks for the [hotspot=timedForAdd file=1]`@SimplyTimed` metric and asserts true if the metric exists.
+* The [hotspot=testPropertiesAddSimplyTimeMetric file=0]`testPropertiesAddSimplyTimeMetric()` test case validates the [hotspot=timedForAdd file=1]`@SimplyTimed` metric. The test case sends a request to the `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds the `localhost` host to the inventory. Next, the test case makes a connection to the `\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text. Then, it looks for the [hotspot=timedForAdd file=1]`@SimplyTimed` metric and asserts true if the metric exists.
 
-The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string
-to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to run it before any of
-the test cases.
+The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to run it before any of the test cases.
 
-The [hotspot=setup file=0]`setup()` method creates a restfulWS client that makes HTTP requests to the `inventory` service. The
-[hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=BeforeEach file=0]`@BeforeEach` annotation so that a method
-runs before a test case and apply the [hotspot=AfterEach file=0]`@AfterEach` annotation so that a method runs after a test
-case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks
-before and after a test.
+The [hotspot=setup file=0]`setup()` method creates a restfulWS client that makes HTTP requests to the `inventory` service. The [hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=BeforeEach file=0]`@BeforeEach` annotation so that a method runs before a test case and apply the [hotspot=AfterEach file=0]`@AfterEach` annotation so that a method runs after a test case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks before and after a test.
 
-To force these test cases to run in a particular order, annotate your [hotspot file=0]`MetricsIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation.
-[hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, 
-according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. 
-You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, 
-such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases
-with the [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that they automatically run when your test class runs.
+To force these test cases to run in a particular order, annotate your [hotspot file=0]`MetricsIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation. [hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases with the [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that they automatically run when your test class runs.
 
-In addition, the endpoint tests `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java`
-and `src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java` are provided for you to
-test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you might have
-introduced a bug into the code.
+In addition, the endpoint tests `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java` and `src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java` are provided for you to test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you might have introduced a bug into the code.
 
 // =================================================================================================
 // Running the tests
@@ -484,11 +425,9 @@ Results :
 Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-The warning and error messages are expected and result from a request to a bad or an unknown hostname. 
-This request is made in the `testUnknownHost()` test from the `InventoryEndpointIT` integration test.
+The warning and error messages are expected and result from a request to a bad or an unknown hostname. This request is made in the `testUnknownHost()` test from the `InventoryEndpointIT` integration test.
 
-To determine whether the tests detect a failure, go to the [hotspot file=0]`MetricsIT.java` file and change any of the assertions
-in the test methods. Then re-run the tests to see a test failure occur.
+To determine whether the tests detect a failure, go to the [hotspot file=0]`MetricsIT.java` file and change any of the assertions in the test methods. Then re-run the tests to see a test failure occur.
 
 include::{common-includes}/devmode-quit.adoc[]
 
