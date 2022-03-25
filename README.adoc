@@ -202,12 +202,6 @@ pom.xml
 include::finish/pom.xml[]
 ----
 
-server.xml
-[source, xml, linenums, role='code_column']
-----
-include::finish/src/main/liberty/config/server.xml[]
-----
-
 // static guide instructions:
 ifndef::cloud-hosted[]
 Navigate to the `start` directory to begin.
@@ -230,6 +224,12 @@ The MicroProfile Metrics API is included in the MicroProfile dependency specifie
 ----
 #Replace the server configuration file.#
 `src/main/liberty/config/server.xml`
+----
+
+server.xml
+[source, xml, linenums, role='code_column']
+----
+include::finish/src/main/liberty/config/server.xml[]
 ----
 
 The [hotspot=mpMetrics file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this feature requires SSL and the configuration has been provided for you.
