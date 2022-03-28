@@ -67,33 +67,29 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+Open another command-line session by selecting ***Terminal*** > ***New Terminal*** from the menu of the IDE.
 
 Run the following curl command to access the **inventory** service. Because you just started the application, the inventory is empty. 
-```
+```bash
 curl -s http://localhost:9080/inventory/systems | jq
 ```
-{: codeblock}
 
-Run the following curl command to add the **localhost** into the inventory.
-```
+Run the following curl command to add the ***localhost*** into the inventory.
+```bash
 curl -s http://localhost:9080/inventory/systems/localhost | jq
 ```
-{: codeblock}
 
-Access the **inventory** service at the **http://localhost:9080/inventory/systems** URL at least once so that application metrics are collected. Otherwise, the metrics do not appear.
+Access the ***inventory*** service at the ***http://localhost:9080/inventory/systems*** URL at least once so that application metrics are collected. Otherwise, the metrics do not appear.
 
-Next, run the following curl command to visit the MicroProfile Metrics endpoint by the **admin** user with **adminpwd** as the password.  You can see both the system and application metrics in a text format.
-```
+Next, run the following curl command to visit the MicroProfile Metrics endpoint by the ***admin*** user with ***adminpwd*** as the password.  You can see both the system and application metrics in a text format.
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics
 ```
-{: codeblock}
 
 To see only the application metrics, run the following curl command:
-```
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics/application
 ```
-{: codeblock}
 endif::[]
 
 See the following sample outputs for the `@Timed`, `@Gauge`, and `@Counted` metrics:
@@ -138,10 +134,9 @@ endif::[]
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 To see only the system metrics, run the following curl command:
-```
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics/base
 ```
-{: codeblock}
 endif::[]
 
 See the following sample output:
@@ -167,10 +162,9 @@ endif::[]
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 To see only the vendor metrics, run the following curl command:
-```
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
 ```
-{: codeblock}
 endif::[]
 
 See the following sample output:
@@ -210,10 +204,9 @@ endif::[]
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 To begin, run the following command to navigate to the **start** directory:
-```
+```bash
 cd /home/project/guide-microprofile-metrics/start
 ```
-{: codeblock}
 endif::[]
 
 include::{common-includes}/devmode-lmp33-start.adoc[]
@@ -318,41 +311,35 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics. You see only the system and vendor metrics because the server just started, and the **inventory** service has not been accessed.
-```
+Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics. You see only the system and vendor metrics because the server just started, and the ***inventory*** service has not been accessed.
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics
 ```
-{: codeblock}
 
 Next, run the following curl command to access the **inventory** service:
-```
+```bash
 curl -s http://localhost:9080/inventory/systems | jq
 ```
-{: codeblock}
 
 Rerun the following curl command to access the all metrics:
-```
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics
 ```
-{: codeblock}
 
 or access only the application metrics by running following curl command:
-```
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics/application
 ```
-{: codeblock}
 
 You can see the system metrics by running following curl command:
-```
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics/base
 ```
-{: codeblock}
 
 as well as see the vendor metrics by running following curl command:
-```
+```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
 ```
-{: codeblock}
 endif::[]
 
 
