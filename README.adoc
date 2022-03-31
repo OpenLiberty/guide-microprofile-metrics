@@ -349,7 +349,7 @@ endif::[]
 
 == Testing the metrics
 
-You can test your application manually, but automated tests ensure code quality because they trigger a failure whenever a code change introduces a defect. JUnit and the restfulWS Client API provide a simple environment for you to write tests.
+You can test your application manually, but automated tests ensure code quality because they trigger a failure whenever a code change introduces a defect. JUnit and the Jakarta Restful Web Services Client API provide a simple environment for you to write tests.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -379,7 +379,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.j
 
 The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to run it before any of the test cases.
 
-The [hotspot=setup file=0]`setup()` method creates a restfulWS client that makes HTTP requests to the `inventory` service. The [hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=BeforeEach file=0]`@BeforeEach` annotation so that a method runs before a test case and apply the [hotspot=AfterEach file=0]`@AfterEach` annotation so that a method runs after a test case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks before and after a test.
+The [hotspot=setup file=0]`setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service. The [hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=BeforeEach file=0]`@BeforeEach` annotation so that a method runs before a test case and apply the [hotspot=AfterEach file=0]`@AfterEach` annotation so that a method runs after a test case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks before and after a test.
 
 To force these test cases to run in a particular order, annotate your [hotspot file=0]`MetricsIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation. [hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases with the [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that they automatically run when your test class runs.
 
