@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2020 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,13 +16,12 @@ package it.io.openliberty.guides.inventory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -51,7 +50,6 @@ public class InventoryEndpointIT {
   @BeforeEach
   public void setup() {
     client = ClientBuilder.newClient();
-    client.register(JsrJsonpProvider.class);
   }
 
   @AfterEach
@@ -136,9 +134,9 @@ public class InventoryEndpointIT {
     "BadResponse expected status: 404. Response code not as expected.");
 
     String stringObj = badResponse.readEntity(String.class);
-    assertTrue(stringObj.contains("error"), 
+    assertTrue(stringObj.contains("error"),
     "badhostname is not a valid host but it didn't raise an error");
-    
+
     response.close();
     badResponse.close();
   }
