@@ -172,8 +172,8 @@ public class MetricsIT {
   // tag::Order4[]
   @Order(4)
   // end::Order4[]
-  // tag::testPropertiesAddSimplyTimeMetric[]
-  public void testPropertiesAddSimplyTimeMetric() {
+  // tag::testPropertiesAddTimeMetric[]
+  public void testPropertiesAddTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     metrics = getMetrics();
     boolean checkMetric = false;
@@ -185,7 +185,7 @@ public class MetricsIT {
     }
     assertTrue(checkMetric);
   }
-  // end::testPropertiesAddSimplyTimeMetric[]
+  // end::testPropertiesAddTimeMetric[]
 
   public void connectToEndpoint(String url) {
     Response response = this.getResponse(url);
