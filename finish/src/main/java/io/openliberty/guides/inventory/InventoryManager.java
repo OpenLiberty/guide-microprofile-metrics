@@ -58,7 +58,7 @@ public class InventoryManager {
 
   // tag::timedForAdd[]
   // tag::nameForAdd[]
-  @TImed(name = "inventoryAddingTime",
+  @Timed(name = "inventoryAddingTime",
   // end::nameForAdd[]
     // tag::absoluteForAdd[]
     absolute = true,
