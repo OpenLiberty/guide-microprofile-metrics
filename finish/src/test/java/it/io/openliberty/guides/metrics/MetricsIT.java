@@ -179,7 +179,7 @@ public class MetricsIT {
     boolean checkMetric = false;
     for (String metric : metrics) {
       if (metric.startsWith(
-          "application_inventoryAddingTime_total")) {
+          "application_inventoryAddingTime_seconds_count")) {
             checkMetric = true;
       }
     }
