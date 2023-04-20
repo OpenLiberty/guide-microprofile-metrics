@@ -1,4 +1,4 @@
-// Copyright (c) 2018, 2022 IBM Corporation and others.
+// Copyright (c) 2018, 2023 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -62,7 +62,7 @@ Access the `inventory` service at the http://localhost:9080/inventory/systems[ht
 
 Next, point your browser to the https://localhost:9443/metrics[http://localhost:9443/metrics^] MicroProfile Metrics endpoint. Log in as the `admin` user with `adminpwd` as the password. You can see both the system and application metrics in a text format.
 
-To see only the application metrics, point your browser to https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^].
+To see only the application metrics, point your browser to https://localhost:9443/metrics?scope=application[https://localhost:9443/metrics?scope=application^].
 endif::[]
 
 // cloud-hosted guide instructions:
@@ -88,7 +88,7 @@ curl -k --user admin:adminpwd https://localhost:9443/metrics
 
 To see only the application metrics, run the following curl command:
 ```bash
-curl -k --user admin:adminpwd https://localhost:9443/metrics/application
+curl -k --user admin:adminpwd https://localhost:9443/metrics?scope=application
 ```
 endif::[]
 
@@ -128,14 +128,14 @@ application_inventoryAccessCount_total 1
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-To see only the system metrics, point your browser to https://localhost:9443/metrics/base[https://localhost:9443/metrics/base^].
+To see only the system metrics, point your browser to https://localhost:9443/metrics?scope=base[https://localhost:9443/metrics?scope=base^].
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 To see only the system metrics, run the following curl command:
 ```bash
-curl -k --user admin:adminpwd https://localhost:9443/metrics/base
+curl -k --user admin:adminpwd https://localhost:9443/metrics?scope=base
 ```
 endif::[]
 
@@ -156,14 +156,14 @@ base_classloader_loadedClasses_count 11231
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-To see only the vendor metrics, point your browser to https://localhost:9443/metrics/vendor[https://localhost:9443/metrics/vendor^].
+To see only the vendor metrics, point your browser to https://localhost:9443/metrics?scope=vendor[https://localhost:9443/metrics?scope=vendor^].
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 To see only the vendor metrics, run the following curl command:
 ```bash
-curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
+curl -k --user admin:adminpwd https://localhost:9443/metrics?scope=vendor
 ```
 endif::[]
 
@@ -290,7 +290,7 @@ include::finish/src/main/liberty/config/server.xml[]
 
 MicroProfile Metrics API implementers can provide vendor metrics in the same forms as the base and application metrics do. Open Liberty as a vendor supplies server component metrics when the [hotspot=mpMetrics]`mpMetrics` feature is enabled in the [hotspot]`server.xml` configuration file.
 
-You can see the vendor-only metrics in the `metrics/vendor` endpoint. You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management. Note that these metrics are specific to the Liberty application server. Different vendors may provide other metrics. Visit the https://openliberty.io/docs/ref/general/#metrics-list.html[Metrics reference list^] for more information.
+You can see the vendor-only metrics in the `metrics?scope=vendor` endpoint. You see metrics from the runtime components, such as Web Application, ThreadPool and Session Management. Note that these metrics are specific to the Liberty application server. Different vendors may provide other metrics. Visit the https://openliberty.io/docs/ref/general/#metrics-list.html[Metrics reference list^] for more information.
 
 // =================================================================================================
 // Building and running the application
@@ -304,9 +304,9 @@ The Open Liberty server was started in development mode at the beginning of the 
 ifndef::cloud-hosted[]
 Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `admin` as your username and `adminpwd` as your password. You see only the system and vendor metrics because the server just started, and the `inventory` service has not been accessed.
 
-Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^] URL.
+Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the https://localhost:9443/metrics?scope=application[https://localhost:9443/metrics?scope=application^] URL.
 
-You can see the system metrics in the https://localhost:9443/metrics/base[^] URL as well as see the vendor metrics in the https://localhost:9443/metrics/vendor[^] URL.
+You can see the system metrics in the https://localhost:9443/metrics?scope=base[^] URL as well as see the vendor metrics in the https://localhost:9443/metrics?scope=vendor[^] URL.
 endif::[]
 
 // cloud-hosted guide instructions:
@@ -328,17 +328,17 @@ curl -k --user admin:adminpwd https://localhost:9443/metrics
 
 or access only the application metrics by running following curl command:
 ```bash
-curl -k --user admin:adminpwd https://localhost:9443/metrics/application
+curl -k --user admin:adminpwd https://localhost:9443/metrics?scope=application
 ```
 
 You can see the system metrics by running following curl command:
 ```bash
-curl -k --user admin:adminpwd https://localhost:9443/metrics/base
+curl -k --user admin:adminpwd https://localhost:9443/metrics?scope=base
 ```
 
 as well as see the vendor metrics by running following curl command:
 ```bash
-curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
+curl -k --user admin:adminpwd https://localhost:9443/metrics?scope=vendor
 ```
 endif::[]
 
@@ -369,13 +369,13 @@ InventoryManager.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
-* The [hotspot=testPropertiesRequestTimeMetric file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=timedForGet file=1]`@Timed` metric. The test case sends a request to the `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds the `localhost` host to the inventory. Next, the test case makes a connection to the `\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text. Then, it asserts whether the time that is needed to retrieve the system properties for localhost is less than 4 seconds.
+* The [hotspot=testPropertiesRequestTimeMetric file=0]`testPropertiesRequestTimeMetric()` test case validates the [hotspot=timedForGet file=1]`@Timed` metric. The test case sends a request to the `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds the `localhost` host to the inventory. Next, the test case makes a connection to the `\https://localhost:9443/metrics?scope=application` URL to retrieve application metrics as plain text. Then, it asserts whether the time that is needed to retrieve the system properties for localhost is less than 4 seconds.
 
 * The [hotspot=testInventoryAccessCountMetric file=0]`testInventoryAccessCountMetric()` test case validates the [hotspot=countedForList file=1]`@Counted` metric. The test case obtains metric data before and after a request to the `\http://localhost:9080/inventory/systems` URL. It then asserts that the metric was increased after the URL was accessed.
 
 * The [hotspot=testInventorySizeGaugeMetric file=0]`testInventorySizeGaugeMetric()` test case validates the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric. The test case first ensures that the localhost is in the inventory, then looks for the [hotspot=gaugeForGetTotal file=1]`@Gauge` metric and asserts that the inventory size is greater or equal to 1.
 
-* The [hotspot=testPropertiesAddTimeMetric file=0]`testPropertiesAddTimeMetric()` test case validates the [hotspot=timedForAdd file=1]`@Timed` metric. The test case sends a request to the `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds the `localhost` host to the inventory. Next, the test case makes a connection to the `\https://localhost:9443/metrics/application` URL to retrieve application metrics as plain text. Then, it looks for the [hotspot=timedForAdd file=1]`@Timed` metric and asserts true if the metric exists.
+* The [hotspot=testPropertiesAddTimeMetric file=0]`testPropertiesAddTimeMetric()` test case validates the [hotspot=timedForAdd file=1]`@Timed` metric. The test case sends a request to the `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds the `localhost` host to the inventory. Next, the test case makes a connection to the `\https://localhost:9443/metrics?scope=application` URL to retrieve application metrics as plain text. Then, it looks for the [hotspot=timedForAdd file=1]`@Timed` metric and asserts true if the metric exists.
 
 The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the server and builds a base URL string to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to run it before any of the test cases.
 

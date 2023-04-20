@@ -64,7 +64,7 @@ public class MetricsIT {
 
   private final String INVENTORY_HOSTS = "inventory/systems";
   private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
-  private final String METRICS_APPLICATION = "metrics/application";
+  private final String METRICS_APPLICATION = "metrics?scope=application";
 
   // tag::BeforeAll[]
   @BeforeAll
@@ -178,7 +178,7 @@ public class MetricsIT {
     boolean checkMetric = false;
     for (String metric : metrics) {
       if (metric.startsWith(
-          "application_inventoryAddingTime_seconds_count")) {
+          "inventoryAddingTime_seconds_count")) {
             checkMetric = true;
       }
     }
