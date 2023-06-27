@@ -298,7 +298,7 @@ You can see the vendor-only metrics in the `metrics?scope=vendor` endpoint. You 
 
 == Building and running the application
 
-The Open Liberty server was started in development mode at the beginning of the guide and all the changes were automatically picked up.
+The Open Liberty server was started in dev mode at the beginning of the guide and all the changes were automatically picked up.
 
 // static guide instructions:
 ifndef::cloud-hosted[]
@@ -391,7 +391,7 @@ In addition, the endpoint tests `src/test/java/it/io/openliberty/guides/inventor
 
 === Running the tests
 
-Because you started Open Liberty in development mode at the start of the guide, press the `enter/return` key to run the tests and see the following output:
+Because you started Open Liberty in dev mode at the start of the guide, press the `enter/return` key to run the tests and see the following output:
 
 [source, role="no_copy"]
 ----
