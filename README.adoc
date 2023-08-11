@@ -227,7 +227,7 @@ include::finish/src/main/liberty/config/server.xml[]
 
 The [hotspot=mpMetrics file=1]`mpMetrics` feature enables MicroProfile Metrics support in Open Liberty. Note that this feature requires SSL and the configuration has been provided for you.
 
-The [hotspot=quickStartSecurity file=1]`quickStartSecurity` configuration element provides basic security to secure the Liberty instance. When you visit the `/metrics` endpoint, use the credentials defined in the Liberty's configuration to log in and view the data.
+The [hotspot=quickStartSecurity file=1]`quickStartSecurity` configuration element provides basic security to secure the Liberty. When you visit the `/metrics` endpoint, use the credentials defined in the Liberty's configuration to log in and view the data.
 
 // =================================================================================================
 // Adding the annotations
