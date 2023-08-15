@@ -302,7 +302,7 @@ The Open Liberty instance was started in dev mode at the beginning of the guide 
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `admin` as your username and `adminpwd` as your password. You see only the system and vendor metrics because the instance just started, and the `inventory` service has not been accessed.
+Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `admin` as your username and `adminpwd` as your password. You see only the system and vendor metrics because the Liberty instance just started, and the `inventory` service has not been accessed.
 
 Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the https://localhost:9443/metrics?scope=application[https://localhost:9443/metrics?scope=application^] URL.
 
@@ -311,7 +311,7 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics. You see only the system and vendor metrics because the instance just started, and the ***inventory*** service has not been accessed.
+Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics. You see only the system and vendor metrics because the Liberty instance just started, and the ***inventory*** service has not been accessed.
 ```bash
 curl -k --user admin:adminpwd https://localhost:9443/metrics
 ```
@@ -377,7 +377,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.j
 
 * The [hotspot=testPropertiesAddTimeMetric file=0]`testPropertiesAddTimeMetric()` test case validates the [hotspot=timedForAdd file=1]`@Timed` metric. The test case sends a request to the `\http://localhost:9080/inventory/systems/localhost` URL to access the `inventory` service, which adds the `localhost` host to the inventory. Next, the test case makes a connection to the `\https://localhost:9443/metrics?scope=application` URL to retrieve application metrics as plain text. Then, it looks for the [hotspot=timedForAdd file=1]`@Timed` metric and asserts true if the metric exists.
 
-The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the Liberty runtime and builds a base URL string to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to run it before any of the test cases.
+The [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the Liberty and builds a base URL string to set up the tests. Apply the [hotspot=BeforeAll file=0]`@BeforeAll` annotation to this method to run it before any of the test cases.
 
 The [hotspot=setup file=0]`setup()` method creates a JAX-RS client that makes HTTP requests to the `inventory` service. The [hotspot=teardown file=0]`teardown()` method destroys this client instance. Apply the [hotspot=BeforeEach file=0]`@BeforeEach` annotation so that a method runs before a test case and apply the [hotspot=AfterEach file=0]`@AfterEach` annotation so that a method runs after a test case. Apply these annotations to methods that are generally used to perform any setup and teardown tasks before and after a test.
 
