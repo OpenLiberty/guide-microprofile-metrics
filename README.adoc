@@ -215,7 +215,7 @@ The MicroProfile Metrics API is included in the MicroProfile dependency specifie
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Replace the Liberty server.xml configuration file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
