@@ -1,4 +1,4 @@
-// Copyright (c) 2018, 2023 IBM Corporation and others.
+// Copyright (c) 2018, 2024 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -12,7 +12,7 @@
 :page-guide-category: microprofile
 :page-essential: false
 :page-description: Learn how to use MicroProfile Metrics to provide system and application metrics from a microservice.
-:page-tags: ['MicroProfile']
+:page-tags: ['microprofile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'microprofile-health', 'cdi-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
@@ -277,7 +277,7 @@ Apply the [hotspot=gaugeForGetTotal]`@Gauge` annotation to the [hotspot=getTotal
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
-the https://openliberty.io/docs/latest/reference/javadoc/microprofile-5.0-javadoc.html#package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=org/eclipse/microprofile/metrics/annotation/package-summary.html[MicroProfile Metrics Annotation Javadoc^].
+the https://openliberty.io/docs/latest/reference/javadoc/microprofile-6.1-javadoc.html#package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=org/eclipse/microprofile/metrics/annotation/package-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
 
 == Enabling vendor metrics for the microservices
