@@ -2,12 +2,11 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * http://www.eclipse.org/legal/epl-2.0/
  *
- * Contributors:
- *     IBM Corporation - Initial implementation
+ * SPDX-License-Identifier: EPL-2.0
  *******************************************************************************/
 // end::copyright[]
 // tag::MetricsTest[]
@@ -65,7 +64,7 @@ public class MetricsIT {
 
   private final String INVENTORY_HOSTS = "inventory/systems";
   private final String INVENTORY_HOSTNAME = "inventory/systems/localhost";
-  private final String METRICS_APPLICATION = "metrics/application";
+  private final String METRICS_APPLICATION = "metrics?scope=application";
 
   // tag::BeforeAll[]
   @BeforeAll
@@ -172,20 +171,20 @@ public class MetricsIT {
   // tag::Order4[]
   @Order(4)
   // end::Order4[]
-  // tag::testPropertiesAddSimplyTimeMetric[]
-  public void testPropertiesAddSimplyTimeMetric() {
+  // tag::testPropertiesAddTimeMetric[]
+  public void testPropertiesAddTimeMetric() {
     connectToEndpoint(baseHttpUrl + INVENTORY_HOSTNAME);
     metrics = getMetrics();
     boolean checkMetric = false;
     for (String metric : metrics) {
       if (metric.startsWith(
-          "application_inventoryAddingTime_total")) {
+          "inventoryAddingTime_seconds_count")) {
             checkMetric = true;
       }
     }
     assertTrue(checkMetric);
   }
-  // end::testPropertiesAddSimplyTimeMetric[]
+  // end::testPropertiesAddTimeMetric[]
 
   public void connectToEndpoint(String url) {
     Response response = this.getResponse(url);
