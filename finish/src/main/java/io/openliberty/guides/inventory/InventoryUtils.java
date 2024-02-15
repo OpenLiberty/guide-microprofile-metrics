@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2022 IBM Corporation and others.
+ * Copyright (c) 2017, 2024 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -24,11 +24,11 @@ import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
 
 public class InventoryUtils {
 
-  private final String DEFAULT_PORT = System.getProperty("default.http.port", "9080");
+  private final String HTTP_PORT = System.getProperty("http.port", "9080");
 
   // tag::builder[]
   public Properties getProperties(String hostname) {
-    String customURLString = "http://" + hostname + ":" + DEFAULT_PORT + "/system";
+    String customURLString = "http://" + hostname + ":" + HTTP_PORT + "/system";
     URL customURL = null;
     try {
       customURL = new URL(customURLString);
