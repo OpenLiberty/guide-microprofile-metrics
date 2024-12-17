@@ -190,7 +190,7 @@ threadpool_size{mp_scope="vendor",pool="Default_Executor",} 24.0
 ----
 [role="no_copy"]
 ----
-# HELP servlet_request_total The number of visits to this servlet since the start of the server.
+# HELP servlet_request_total The number of visits to this servlet ... the start of the server.
 # TYPE servlet_request_total counter
 servlet_request_total{mp_scope="vendor",servlet="guide_microprofile_metrics_io_openliberty_guides_system_SystemApplication",} 1.0
 servlet_request_total{mp_scope="vendor",servlet="guide_microprofile_metrics_io_openliberty_guides_inventory_InventoryApplication",} 3.0
