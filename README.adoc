@@ -127,9 +127,9 @@ inventoryAddingTime_seconds_sum{mp_scope="application",} 3.1E-5
 
 [role="no_copy"]
 ----
-# TYPE application_inventorySizeGauge gauge
-# HELP application_inventorySizeGauge Number of systems in the inventory
-application_inventorySizeGauge 1
+# HELP inventorySizeGauge Number of systems in the inventory
+# TYPE inventorySizeGauge gauge
+inventorySizeGauge{mp_scope="application",} 1.0
 ----
 
 [role="no_copy"]
