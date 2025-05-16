@@ -1,3 +1,4 @@
+./mvnw -version
 #!/bin/bash
 set -euxo pipefail
 
@@ -14,7 +15,7 @@ set -euxo pipefail
 #       liberty:create            - Create a Liberty server.
 #       liberty:install-feature   - Install a feature packaged as a Subsystem Archive (esa) to the Liberty runtime.
 #       liberty:deploy            - Copy applications to the Liberty server's dropins or apps directory.
-mvn -ntp \
+./mvnw -ntp \
     -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
@@ -27,12 +28,12 @@ mvn -ntp \
 #       failsafe:integration-test - Runs the integration tests of an application.
 #       liberty:stop              - Stop a Liberty server.
 #       failsafe:verify           - Verifies that the integration tests of an application passed.
-mvn -ntp \
+./mvnw -ntp \
     liberty:start
-mvn -ntp \
+./mvnw -ntp \
     -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     failsafe:integration-test liberty:stop
-mvn -ntp \
+./mvnw -ntp \
     failsafe:verify
