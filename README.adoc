@@ -52,7 +52,7 @@ include::{common-includes}/gitclone.adoc[]
 // =================================================================================================
 
 [role='command']
-include::{common-includes}/twyb-intro.adoc[]
+include::{common-includes}/twyb-intro-mvnw.adoc[]
 
 // static guide instructions:
 ifndef::cloud-hosted[]
@@ -197,7 +197,7 @@ servlet_request_total{mp_scope="vendor",servlet="guide_microprofile_metrics_io_o
 servlet_request_total{mp_scope="vendor",servlet="io_openliberty_microprofile_metrics_5_0_private_internal_PrivateMetricsRESTProxyServlet",} 3.0
 ----
 
-include::{common-includes}/twyb-end.adoc[]
+include::{common-includes}/twyb-end-mvnw.adoc[]
 
 // =================================================================================================
 // Adding MicroProfile Metrics to the inventory service
@@ -207,10 +207,31 @@ include::{common-includes}/twyb-end.adoc[]
 
 pom.xml
 [source, xml, linenums, role='code_column']
-----
-include::finish/pom.xml[]
-----
+include::{common-includes}/os-tabs.adoc[]
 
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mvnw.cmd -f finish\pom.xml
+```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw -f finish/pom.xml
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+./mvnw -f finish/pom.xml 
+```
+--
 // static guide instructions:
 ifndef::cloud-hosted[]
 Navigate to the `start` directory to begin.
@@ -224,7 +245,7 @@ cd /home/project/guide-microprofile-metrics/start
 ```
 endif::[]
 
-include::{common-includes}/devmode-lmp33-start.adoc[]
+include::{common-includes}/devmode-mvnw-start.adoc[]
 
 The MicroProfile Metrics API is included in the MicroProfile dependency specified by your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=microprofile file=0]`microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Metrics API in your code to provide metrics from your microservices.
 
