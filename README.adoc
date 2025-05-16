@@ -207,31 +207,10 @@ include::{common-includes}/twyb-end-mvnw.adoc[]
 
 pom.xml
 [source, xml, linenums, role='code_column']
-include::{common-includes}/os-tabs.adoc[]
+----
+include::finish/pom.xml[]
+----
 
-[.tab_content.windows_section]
---
-[role='command']
-```
-mvnw.cmd -f finish\pom.xml
-```
---
-
-[.tab_content.mac_section]
---
-[role='command']
-```
-./mvnw -f finish/pom.xml
-```
---
-
-[.tab_content.linux_section]
---
-[role='command']
-```
-./mvnw -f finish/pom.xml 
-```
---
 // static guide instructions:
 ifndef::cloud-hosted[]
 Navigate to the `start` directory to begin.
