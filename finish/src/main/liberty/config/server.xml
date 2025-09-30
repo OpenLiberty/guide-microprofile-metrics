@@ -8,7 +8,9 @@
     <feature>jsonb</feature>
     <feature>cdi</feature>
     <feature>mpConfig</feature>
-   <feature>mpMetrics</feature>
+    <!-- tag::mpMetrics[] -->
+    <feature>mpMetrics</feature>
+    <!-- end::mpMetrics[] -->
    <feature>mpRestClient</feature>
  </featureManager>
 
