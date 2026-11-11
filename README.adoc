@@ -1,4 +1,4 @@
-// Copyright (c) 2018, 2025 IBM Corporation and others.
+// Copyright (c) 2018, 2026 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -292,7 +292,7 @@ Apply the [hotspot=gaugeForGetTotal]`@Gauge` annotation to the [hotspot=getTotal
 |===
 
 Additional information about these annotations, relevant metadata fields, and more are available at
-the https://openliberty.io/docs/latest/reference/javadoc/microprofile-6.1-javadoc.html?class=org/eclipse/microprofile/metrics/annotation/package-summary.html&package=allclasses-frame.html&path=microprofile-6.1-javadoc/org/eclipse/microprofile/metrics/annotation/package-summary.html[MicroProfile Metrics Annotation Javadoc^].
+the https://openliberty.io/docs/latest/reference/javadoc/microprofile-7.0-javadoc.html?class=org/eclipse/microprofile/metrics/annotation/package-summary.html&package=allclasses-frame.html&path=microprofile-7.0-javadoc/org/eclipse/microprofile/metrics/annotation/package-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
 
 == Enabling vendor metrics for the microservices
